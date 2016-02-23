@@ -1,0 +1,22 @@
+{
+  "name": "symfony-testing",
+  "description": "geekhub-php",
+  "authors": [
+    "Pavel and Alexandr"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/Wolframcheg/symfotest",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "font-awesome": "fontawesome#~4.5.0",
+    "bootstrap": "~3.3.6",
+    "AdminLTE": "admin-lte#^2.3.2"
+  }
+}

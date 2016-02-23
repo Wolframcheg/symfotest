@@ -1,0 +1,15 @@
+{% extends '::base.html.twig' %}
+
+{% block content %}
+    <div class="col-md-12">
+        <div class="col-md-8 col-lg-offset-2">
+            <br/><br/><br/>
+            <div class="btn-group btn-group-justified">
+                <a href="{{ path('login_route') }}" class="btn btn-primary btn-lg">Login</a>
+                <a href="{{ path('user_registration') }}" class="btn btn-primary btn-lg">Register</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+

@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <service id="app.admin.creator" class="AppBundle\Services\AdminCreator">
+            <argument type="service" id="doctrine" />
+            <argument type="service" id="security.password_encoder" />
+        </service>
+
+        <service id="app.registration.user" class="AppBundle\Services\Registration">
+            <argument type="service" id="doctrine"/>
+            <argument type="service" id="form.factory"/>
+            <argument type="service" id="router"/>
+            <argument type="service" id="validator"/>
+            <argument type="service" id="security.password_encoder" />
+        </service>
+
+    </services>
+</container>
