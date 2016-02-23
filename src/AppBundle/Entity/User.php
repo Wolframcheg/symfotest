@@ -5,7 +5,6 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -15,13 +14,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  * @UniqueEntity(fields="email", message="Email already taken")
- * @UniqueEntity(fields="username", message="Username already taken")
  */
 class User implements AdvancedUserInterface
 {
     const ROLE_ADMIN = 'ROLE_ADMIN';
-    const ROLE_TEACHER = 'ROLE_TEACHER';
-    const ROLE_STUDENT = 'ROLE_STUDENT';
+    const ROLE_USER = 'ROLE_USER';
 
     /**
      * @ORM\Id
@@ -33,15 +30,21 @@ class User implements AdvancedUserInterface
     /**
      * @ORM\Column(type="string", unique=true)
      * @Assert\NotBlank()
-     */
-    private $username;
-
-    /**
-     * @ORM\Column(type="string", unique=true)
-     * @Assert\NotBlank()
      * @Assert\Email()
      */
     private $email;
+
+    /**
+     * @ORM\Column(type="string", length=40)
+     * @Assert\Length(min="1", minMessage="This field can not be less than 1 character")
+     */
+    private $firstName;
+
+    /**
+     * @ORM\Column(type="string", length=40)
+     * @Assert\Length(min="1", minMessage="This field can not be less than 1 character")
+     */
+    private $lastName;
 
     /**
      * @ORM\Column(type="string", length=64)
@@ -63,12 +66,51 @@ class User implements AdvancedUserInterface
      */
     private $isActive;
 
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ModuleUser", mappedBy="user")
+     */
+    private $modulesUser;
 
+
+    /**
+     *
+     */
     public function __construct()
     {
         $this->isActive = true;
+        $this->modulesUser = new ArrayCollection();
     }
 
+    /**
+     * @return mixed
+     */
+    public function getModulesUser()
+    {
+        return $this->modulesUser;
+    }
+
+    /**
+     * @param ModuleUser $moduleUser
+     * @return $this
+     */
+    public function addModuleUser(ModuleUser $moduleUser)
+    {
+        $this->modulesUser->add($moduleUser);
+
+        return $this;
+    }
+
+    /**
+     * @param ModuleUser $moduleUser
+     */
+    public function removeModuleUser(ModuleUser $moduleUser)
+    {
+        $this->modulesUser->removeElement($moduleUser);
+    }
+
+    /**
+     * @return mixed
+     */
     public function getId()
     {
         return $this->id;
@@ -79,22 +121,55 @@ class User implements AdvancedUserInterface
      */
     public function getUsername()
     {
-        return $this->username;
+        return $this->getEmail();
     }
 
-    public function setUsername($username)
-    {
-        $this->username = $username;
-    }
-
+    /**
+     * @return mixed
+     */
     public function getEmail()
     {
         return $this->email;
     }
 
+    /**
+     * @param $email
+     */
     public function setEmail($email)
     {
         $this->email = $email;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFirstName()
+    {
+        return $this->firstName;
+    }
+
+    /**
+     * @param mixed $firstName
+     */
+    public function setFirstName($firstName)
+    {
+        $this->firstName = $firstName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastName()
+    {
+        return $this->lastName;
+    }
+
+    /**
+     * @param mixed $lastName
+     */
+    public function setLastName($lastName)
+    {
+        $this->lastName = $lastName;
     }
 
     /**
@@ -105,18 +180,29 @@ class User implements AdvancedUserInterface
         return $this->password;
     }
 
+    /**
+     * @param $password
+     */
     public function setPassword($password)
     {
         $this->password = $password;
     }
 
 
+    /**
+     * @param $role
+     * @return $this
+     */
     public function setRole($role)
     {
         $this->role = $role;
+
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
     public function getRole()
     {
         return $this->role;
@@ -131,11 +217,17 @@ class User implements AdvancedUserInterface
 
     }
 
+    /**
+     * @return mixed
+     */
     public function getPlainPassword()
     {
         return $this->plainPassword;
     }
 
+    /**
+     * @param $password
+     */
     public function setPlainPassword($password)
     {
         $this->plainPassword = $password;
@@ -162,31 +254,50 @@ class User implements AdvancedUserInterface
         // $this->plainPassword = null;
     }
 
+    /**
+     * @return bool
+     */
     public function isAccountNonExpired()
     {
         return true;
     }
 
+    /**
+     * @return bool
+     */
     public function isAccountNonLocked()
     {
         return true;
     }
 
+    /**
+     * @return bool
+     */
     public function isCredentialsNonExpired()
     {
         return true;
     }
 
+    /**
+     * @return bool
+     */
     public function isEnabled()
     {
         return $this->isActive;
     }
 
+    /**
+     * @return bool
+     */
     public function getIsActive()
     {
         return $this->isActive;
     }
 
+    /**
+     * @param $active
+     * @return mixed
+     */
     public function setIsActive($active)
     {
         return $this->isActive = $active;

@@ -1,0 +1,47 @@
+{% extends '::base.html.twig' %}
+
+{% block content %}
+    <div class="col-md-12">
+        <br/>
+        <div class="col-md-6 col-md-offset-3 well" style="background-color: white">
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            {{ form_rest(form) }}
+            <br/>
+            <input type="submit" VALUE="Register" class="btn btn-large btn-primary" id="submit">
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+
+            $('#app_bundle_user_type_email').blur(function(){
+                $('#app_bundle_user_type_email').css('background', 'white');
+                var enterData = $('#app_bundle_user_type_email').val();
+                var count = enterData.length;
+                if (count > 1) {
+                    $.ajax({
+                        type: "POST",
+                        data: {
+                            email: enterData
+                        },
+                        url: "{{ path('register_check_email') }}"
+                    })
+                            .success(function (response) {
+                                if (response == 'Yes') {
+                                    $('#submit').attr('disabled', false);
+                                } else {
+                                    $('#app_bundle_user_type_email').css('background', 'red');
+                                    $('#submit').attr('disabled', true);
+                                }
+                            });
+                }
+            });
+        });
+
+    </script>
+{% endblock %}

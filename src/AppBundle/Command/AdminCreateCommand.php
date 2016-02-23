@@ -7,6 +7,10 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * Class AdminCreateCommand
+ * @package AppBundle\Command
+ */
 class AdminCreateCommand extends ContainerAwareCommand
 {
     /**
@@ -18,9 +22,10 @@ class AdminCreateCommand extends ContainerAwareCommand
             ->setName('app:admin_create')
             ->setDescription('Create admin user')
             ->setDefinition(array(
-                new InputArgument('username', InputArgument::REQUIRED, 'The username'),
                 new InputArgument('email', InputArgument::REQUIRED, 'The email'),
                 new InputArgument('password', InputArgument::REQUIRED, 'The password'),
+                new InputArgument('firstName', InputArgument::REQUIRED, 'The first name'),
+                new InputArgument('lastName', InputArgument::REQUIRED, 'The last name')
             ));
 
     }
@@ -30,13 +35,14 @@ class AdminCreateCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $username   = $input->getArgument('username');
         $email      = $input->getArgument('email');
         $password   = $input->getArgument('password');
+        $firstName  = $input->getArgument('firstName');
+        $lastName   = $input->getArgument('lastName');
 
         $this->getContainer()->get('app.admin.creator')
-             ->create($username, $email, $password);
+             ->create($email, $password, $firstName, $lastName);
 
-        $output->writeln(sprintf('User <comment>%s</comment> was created/updated', $username));
+        $output->writeln(sprintf('User <comment>%s</comment> was created/updated', $firstName.' '.$lastName));
     }
 }

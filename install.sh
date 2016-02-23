@@ -17,7 +17,7 @@ case "$Keypress" in
     ./node_modules/.bin/gulp
     php app/console doctrine:database:create
     php app/console doctrine:schema:update --force
-    app/console app:admin_create admin admin@admin.net admin
+    app/console app:admin_create admin@admin.net admin Admin Admin
 ;;
 2) echo "update start..."
     npm install
@@ -34,6 +34,7 @@ case "$Keypress" in
     php app/console doctrine:database:create
     php app/console doctrine:schema:update --force
     php app/console doctrine:fixtures:load -n
+    app/console app:admin_create admin@admin.net admin Admin Admin
 ;;
 4) exit 0
 ;;

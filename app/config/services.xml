@@ -11,5 +11,13 @@
             <argument type="service" id="security.password_encoder" />
         </service>
 
+        <service id="app.registration.user" class="AppBundle\Services\Registration">
+            <argument type="service" id="doctrine"/>
+            <argument type="service" id="form.factory"/>
+            <argument type="service" id="router"/>
+            <argument type="service" id="validator"/>
+            <argument type="service" id="security.password_encoder" />
+        </service>
+
     </services>
 </container>
