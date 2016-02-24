@@ -52,6 +52,11 @@ class User implements AdvancedUserInterface
     private $password;
 
     /**
+     * @ORM\Column(name="course", type="string")
+     */
+    private $course;
+
+    /**
      * @Assert\Length(max=4096)
      */
     private $plainPassword;
@@ -188,6 +193,21 @@ class User implements AdvancedUserInterface
         $this->password = $password;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getCourse()
+    {
+        return $this->course;
+    }
+
+    /**
+     * @param mixed $course
+     */
+    public function setCourse($course)
+    {
+        $this->course = $course;
+    }
 
     /**
      * @param $role

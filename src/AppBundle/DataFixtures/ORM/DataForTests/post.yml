@@ -1,0 +1,45 @@
+AppBundle\Entity\User:
+    user_1:
+        username: "admin"
+        password: "$2a$10$77RsIOPvT9ZxVdfcsRCCZet6Zg6krq3smbpCrkIX6El8QuFJMLL0G" # user
+        email: test@test.com
+        isActive: true
+        roles: "ROLE_ADMIN"
+        firstName: "Alex"
+        lastName: "Gonchar"
+        posts: 1x @post*
+        comments: 1x @comment*
+
+AppBundle\Entity\Category:
+    category_1:
+        categoryName: "Ammet"
+        posts: 1x @post*
+
+AppBundle\Entity\Tag:
+    tag_1:
+        tagName: "Culpa"
+        posts: 1x @post*
+
+AppBundle\Entity\Post:
+    post_1:
+        titlePost: "Facerenam"
+        textPost: "Architecto fugit repellendus illo veritatis qui. Esse veritatis voluptate vel possimus omnis. Incidunt sunt cumque asperiores incidunt."
+        rating: 4
+        comments: 1x @comment*
+        tags: 1x @tag*
+        category: "@category*"
+        author: "@user*"
+
+AppBundle\Entity\Comment:
+    comment_1:
+        textComment: "Test"
+        rating: 4
+        post: "@post*"
+        author: "@user*"
+
+
+
+
+
+
+

@@ -5,69 +5,71 @@ namespace AppBundle\Form;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class UserType extends AbstractType
+class ModuleType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('email', EmailType::class, [
+            ->add('title', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'enter email'
+                    'placeholder' => 'enter title'
                 ]
             ])
-            ->add('firstName', TextType::class, [
+            ->add('rating', TextType::class,[
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'enter first name'
+                    'placeholder' => 'enter rating'
                 ]
             ])
-            ->add('lastName', TextType::class, [
+            ->add('persentSuccess', TextType::class,[
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'enter last name'
+                    'placeholder' => 'enter persent'
                 ]
             ])
-            ->add('course', EntityType::class, [
+            ->add('time', TextType::class,[
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'enter time'
+                ]
+            ])
+            ->add('attempts', TextType::class,[
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'enter attempts'
+                ]
+            ])
+            ->add('category', EntityType::class, [
                 'class' => 'AppBundle\Entity\Category',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('c')
                         ->orderBy('c.title', 'ASC');
                 },
-                'label' => 'Course',
+                'label' => 'Category',
                 'property' => 'title',
                 'attr' => ['class' => 'form-control'],
                 'required'  => true
             ])
-            ->add('plain_password', RepeatedType::class, [
-                    'type' => PasswordType::class,
-                    'invalid_message' => 'The password fields must match.',
-                    'options' => [
-                        'attr' => [
-                            'class' => 'form-control',
-                            'placeholder' => 'enter password'
-                        ]
-                    ]
-                ]
-            );
+            ->add('module_image', FileType::class, [
+                'required' => false
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\User'
+            'data_class' => 'AppBundle\Entity\Module'
         ));
     }
 
-    public function getBlockPrefix()
+    public function getName()
     {
-        return 'app_bundle_user_type';
+        return 'app_bundle_module_type';
     }
 }

@@ -326,7 +326,7 @@ class Module
     /**
      * @param UploadedFile $uploadedFile
      */
-    public function setModuleImage(UploadedFile $uploadedFile)
+    public function setModuleImage(UploadedFile $uploadedFile = null)
     {
         $this->moduleImage = $uploadedFile;
     }

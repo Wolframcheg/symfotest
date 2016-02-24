@@ -19,5 +19,12 @@
             <argument type="service" id="security.password_encoder" />
         </service>
 
+        <service id="app.image.manager" class="AppBundle\Services\ImageManagerServices"/>
+
+        <service id="app.image.subscriber" class="AppBundle\EventListener\ModuleSubscriber">
+            <argument type="service" id="app.image.manager"/>
+            <tag name="doctrine.event_subscriber" connection="default" />
+        </service>
+
     </services>
 </container>
