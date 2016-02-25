@@ -45,43 +45,43 @@ class Question
     private $module;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\QuestionAnswer", mappedBy="question")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Answer", mappedBy="question", cascade={"persist", "remove"})
      */
-    private $questionAnswers;
+    private $answers;
 
     /**
      *
      */
     public function __construct()
     {
-        $this->questionAnswers = new ArrayCollection();
+        $this->answers = new ArrayCollection();
     }
 
     /**
      * @return mixed
      */
-    public function getQuestionAnswers()
+    public function getAnswers()
     {
-        return $this->questionAnswers;
+        return $this->answers;
     }
 
     /**
-     * @param QuestionAnswer $questionAnswer
+     * @param Answer $answer
      * @return $this
      */
-    public function addQuestionAnswer(QuestionAnswer $questionAnswer)
+    public function addAnswer(Answer $answer)
     {
-        $this->questionAnswers->add($questionAnswer);
+        $this->answers->add($answer);
 
         return $this;
     }
 
     /**
-     * @param QuestionAnswer $questionAnswer
+     * @param Answer $answer
      */
-    public function removeQuestionAnswer(QuestionAnswer $questionAnswer)
+    public function removeAnswer(Answer $answer)
     {
-        $this->questionAnswers->removeElement($questionAnswer);
+        $this->answers->removeElement($answer);
     }
 
     /**
@@ -135,7 +135,7 @@ class Question
     /**
      * @param mixed $module
      */
-    public function setModule(ModuleUser $module = null)
+    public function setModule(Module $module = null)
     {
         $this->module = $module;
     }

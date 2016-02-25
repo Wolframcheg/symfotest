@@ -14,7 +14,7 @@ class ModuleController extends Controller
 {
     /**
      * @Route("/admin/module/new", name="create_module")
-     * @Template("@App/admin/category/createCategory.html.twig")
+     * @Template("@App/admin/module/createModule.html.twig")
      */
     public function createModuleAction(Request $request)
     {
@@ -29,7 +29,7 @@ class ModuleController extends Controller
             $em->persist($module);
             $em->flush();
 
-            return $this->redirectToRoute('create_question', array('module' => $module));
+            return $this->redirectToRoute('create_question', array('idModule' => $module->getId()));
         }
 
         return ['form' => $form->createView()];
@@ -37,7 +37,7 @@ class ModuleController extends Controller
 
     /**
      * @Route("/admin/module/edit/{id}", name="edit_module")
-     * @Template("@App/admin/category/createCategory.html.twig")
+     * @Template("@App/admin/module/createModule.html.twig")
      */
     public function editModuleAction(Request $request, $id)
     {
@@ -55,7 +55,9 @@ class ModuleController extends Controller
             return $this->redirectToRoute('show_module');
         }
 
-        return ['form' => $form->createView()];
+        return ['module' => $module,
+                'form' => $form->createView()
+            ];
     }
 
     /**

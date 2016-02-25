@@ -1,0 +1,30 @@
+{% extends '::adminbase.html.twig' %}
+
+{% block content %}
+    <section class="content-header">
+        <ol class="breadcrumb">
+            {#<li><a href="{{ url('admin_index') }}"><i class="fa fa-dashboard"></i> Home admin</a></li>#}
+            {#<li><a href="{{ url('admin_comment_index') }}">Comment list</a></li>#}
+            {#<li class="active">Edit Comment</li>#}
+        </ol>
+    </section>
+
+    <section class="content">
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        {{ form_rest(form) }}
+        <br/>
+        <ul class="tags" data-prototype="{{ form_widget(form.answers.vars.prototype)|e }}">
+            {% for answer in form.answers %}
+                <li>{{ form_row(answer.textAnswer) }}</li>
+                <li>{{ form_row(answer.correctly) }}</li>
+            {% endfor %}
+        </ul>
+        {#<a href="#" class="add_tag_link">Add answer</a>#}
+        <br/>
+        <input type="submit" VALUE="Save" class="btn btn-large btn-primary pull-left" id="submit">
+        {{ form_end(form) }}
+        <a href="{{ path('show_module') }}" class="btn btn-large btn-primary pull-right">DONE</a>
+    </section>
+
+{% endblock %}

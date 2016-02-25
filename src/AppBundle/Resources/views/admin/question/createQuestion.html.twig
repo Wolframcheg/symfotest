@@ -1,0 +1,119 @@
+{% extends '::adminbase.html.twig' %}
+
+{% block content %}
+    <section class="content-header">
+        <ol class="breadcrumb">
+            {#<li><a href="{{ url('admin_index') }}"><i class="fa fa-dashboard"></i> Home admin</a></li>#}
+            {#<li><a href="{{ url('admin_comment_index') }}">Comment list</a></li>#}
+            {#<li class="active">Edit Comment</li>#}
+        </ol>
+    </section>
+
+    <section class="content">
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        {{ form_rest(form) }}
+        <br/>
+        {#<ul class="tags" data-prototype="{{ form_widget(form.answers.vars.prototype)|e }}">
+            {% for answer in form.answers %}
+                <li>{{ form_widget(answer) }}</li>
+            {% endfor %}
+        </ul>#}
+        {#<a href="#" class="add_tag_link">Add answer</a>#}
+        <div>
+            <input type="submit" value="Add answer" class="jslink">
+        </div>
+        <br/>
+        <input type="submit" VALUE="Save" class="btn btn-large btn-primary pull-left" id="submit">
+        {{ form_end(form) }}
+        <a href="{{ path('show_module') }}" class="btn btn-large btn-primary pull-right">DONE</a>
+    </section>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+       /* var $collectionHolder;
+
+        // setup an "add a tag" link
+        var $addTagLink = $('<a href="#" class="add_tag_link">Add answer</a>');
+        var $newLinkLi = $('<li></li>').append($addTagLink);
+
+        jQuery(document).ready(function() {
+            // Get the ul that holds the collection of tags
+            $collectionHolder = $('ul.tags');
+
+            $collectionHolder.find('li').each(function() {
+                addTagFormDeleteLink($(this));
+            });
+            // add the "add a tag" anchor and li to the tags ul
+            $collectionHolder.append($newLinkLi);
+
+            // count the current form inputs we have (e.g. 2), use that as the new
+            // index when inserting a new item (e.g. 2)
+            $collectionHolder.data('index', $collectionHolder.find(':input').length);
+
+            $addTagLink.on('click', function(e) {
+                // prevent the link from creating a "#" on the URL
+                e.preventDefault();
+
+                // add a new tag form (see next code block)
+                addTagForm($collectionHolder, $newLinkLi);
+            });
+        });
+
+        function addTagForm($collectionHolder, $newLinkLi) {
+            // Get the data-prototype explained earlier
+            var prototype = $collectionHolder.data('prototype');
+
+            // get the new index
+            var index = $collectionHolder.data('index');
+
+            // Replace '__name__' in the prototype's HTML to
+            // instead be a number based on how many items we have
+            var newForm = prototype.replace(/__name__/g, index);
+
+            // increase the index with one for the next item
+            $collectionHolder.data('index', index + 1);
+
+            // Display the form in the page in an li, before the "Add a tag" link li
+            var $newFormLi = $('<li></li>').append(newForm);
+            $newLinkLi.before($newFormLi);
+
+            addTagFormDeleteLink($newFormLi);
+        }
+
+        function addTagFormDeleteLink($tagFormLi) {
+            var $removeFormA = $('<a href="#">delete this answer</a>');
+            $tagFormLi.append($removeFormA);
+
+            $removeFormA.on('click', function(e) {
+                // prevent the link from creating a "#" on the URL
+                e.preventDefault();
+
+                // remove the li for the tag form
+                $tagFormLi.remove();
+            });
+        }*/
+
+
+       function add() {
+           var collectionHolder = $('#app_bundle_question_type_answers');
+           var prototype = collectionHolder.attr('data-prototype');
+           // Sustituye __name__ con el número de hijos que tiene el div #nencargo_attachments, es decir, la cantidad de archivos adjuntos que hay.
+           var form = prototype.replace(/__name__/g, collectionHolder.children().length);
+           $(form).filter('div').parent().html($(form).html() + '<a class="delete_link" href="#">Remove</a>');
+           collectionHolder.append(form);
+
+       }
+       $('input.jslink').click(function (event) {
+           event.preventDefault();
+           add();
+       });
+       $(document).on('click', 'a.delete_link', function (event) {
+           $(event.currentTarget).parent().remove();
+       });
+    </script>
+{% endblock %}
