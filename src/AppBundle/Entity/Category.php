@@ -98,4 +98,9 @@ class Category
         $this->modules->removeElement($module);
     }
 
+    public function __toString()
+    {
+        return $this->getTitle();
+    }
+
 }

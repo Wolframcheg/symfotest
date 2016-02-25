@@ -2,6 +2,8 @@
 
 namespace AppBundle\Form;
 
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -32,6 +34,17 @@ class UserType extends AbstractType
                     'class' => 'form-control',
                     'placeholder' => 'enter last name'
                 ]
+            ])
+            ->add('course', EntityType::class, [
+                'class' => 'AppBundle\Entity\Category',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('c')
+                        ->orderBy('c.title', 'ASC');
+                },
+                'label' => 'Course',
+                'property' => 'title',
+                'attr' => ['class' => 'form-control'],
+                'required'  => true
             ])
             ->add('plain_password', RepeatedType::class, [
                     'type' => PasswordType::class,

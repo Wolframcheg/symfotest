@@ -51,6 +51,7 @@ class AdminCreator
         $user->setFirstName($firstName);
         $user->setLastName($lastName);
         $user->setPassword($pass);
+        $user->setCourse('-');
         $user->setRole($role);
         $user->setIsActive(true);
         $em->persist($user);

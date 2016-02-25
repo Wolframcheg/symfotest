@@ -1,0 +1,46 @@
+{% extends '::adminbase.html.twig' %}
+
+{% block content %}
+    <section class="content-header">
+        <ol class="breadcrumb">
+            {#<li><a href="{{ url('admin_index') }}"><i class="fa fa-dashboard"></i> Home admin</a></li>#}
+            {#<li><a href="{{ url('admin_comment_index') }}">Comment list</a></li>#}
+            {#<li class="active">Edit Comment</li>#}
+        </ol>
+    </section>
+
+    <section class="content">
+        <table class="table table-border table-hover">
+            <th>Title</th>
+            <th>Category</th>
+            <th>Rating</th>
+            <th>Persent</th>
+            <th>Time</th>
+            <th>Attempts</th>
+            <th>Created</th>
+            <th>Updated</th>
+            <th>Edit</th>
+            <th>Remove</th>
+            <caption>
+                <a href="{{ path('create_module') }}">Create module</a>
+            </caption>
+            {% for module in modules %}
+                <tr>
+                    <td>{{ module.title }}</td>
+                    <td>{{ module.category.title }}</td>
+                    <td>{{ module.rating }}</td>
+                    <td>{{ module.persentSuccess }}</td>
+                    <td>{{ module.time }}</td>
+                    <td>{{ module.attempts }}</td>
+                    <td>{{ module.createdAt | date("d/m/Y") }}</td>
+                    <td>{{ module.updatedAt | date("d/m/Y") }}</td>
+                    <td>{{ form(form_edit[module.id]) }}</td>
+                    <td>{{ form(form_remove[module.id]) }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+
+    </section>
+
+
+{% endblock %}
