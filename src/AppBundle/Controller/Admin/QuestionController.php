@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace AppBundle\Controller\Admin;
 
 use AppBundle\Entity\Answer;
 use AppBundle\Entity\Module;
@@ -19,7 +19,7 @@ class QuestionController extends Controller
      * @Route("/admin/question/new/{module}", name="create_question")
      * @Template("@App/admin/question/createQuestion.html.twig")
      */
-    public function createModuleAction(Request $request, Module $module)
+    public function createQuestionAction(Request $request, Module $module)
     {
         $em = $this->getDoctrine()->getManager();
 

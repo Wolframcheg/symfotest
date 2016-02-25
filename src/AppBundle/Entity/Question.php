@@ -135,7 +135,7 @@ class Question
     /**
      * @param mixed $module
      */
-    public function setModule(ModuleUser $module = null)
+    public function setModule(Module $module = null)
     {
         $this->module = $module;
     }

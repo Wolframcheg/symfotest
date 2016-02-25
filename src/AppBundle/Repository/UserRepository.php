@@ -10,5 +10,13 @@ namespace AppBundle\Repository;
  */
 class UserRepository extends \Doctrine\ORM\EntityRepository
 {
-
+    public function findUsersWithoutRole($role)
+    {
+        return $this->createQueryBuilder('user')
+            ->andWhere('user.role <> :role')
+            ->setParameter('role', $role)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }
