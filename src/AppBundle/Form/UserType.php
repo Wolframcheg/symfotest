@@ -35,17 +35,6 @@ class UserType extends AbstractType
                     'placeholder' => 'enter last name'
                 ]
             ])
-            ->add('course', EntityType::class, [
-                'class' => 'AppBundle\Entity\Category',
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('c')
-                        ->orderBy('c.title', 'ASC');
-                },
-                'label' => 'Course',
-                'property' => 'title',
-                'attr' => ['class' => 'form-control'],
-                'required'  => true
-            ])
             ->add('plain_password', RepeatedType::class, [
                     'type' => PasswordType::class,
                     'invalid_message' => 'The password fields must match.',
