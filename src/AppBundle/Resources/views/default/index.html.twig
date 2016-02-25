@@ -1,38 +1,15 @@
-{% extends '::adminbase.html.twig' %}
+{% extends '::base.html.twig' %}
 
 {% block content %}
-    <section class="content-header">
-        <h1>{% block title %}Title{% endblock %}</h1>
-        <ol class="breadcrumb">
-            {#<li><a href="{{ url('admin_index') }}"><i class="fa fa-dashboard"></i> Home admin</a></li>#}
-            {#<li><a href="{{ url('admin_comment_index') }}">Comment list</a></li>#}
-            {#<li class="active">Edit Comment</li>#}
-        </ol>
-    </section>
-    <section class="content">
-        <div id="status">
-            <p>
-
-
-                Your application is ready to start working on it at:
-                <code>{{ base_dir }}/</code>
-            </p>
+    <div class="col-md-12">
+        <div class="col-md-8 col-lg-offset-2">
+            <br/><br/><br/>
+            <div class="btn-group btn-group-justified">
+                <a href="{{ path('login_route') }}" class="btn btn-primary btn-lg">Login</a>
+                <a href="{{ path('user_registration') }}" class="btn btn-primary btn-lg">Register</a>
+            </div>
         </div>
-
-        <div id="next">
-            <h2>What's next?</h2>
-
-            <p>
-
-
-                Read Symfony documentation to learn
-                <a href="http://symfony.com/doc/{{ constant('Symfony\\Component\\HttpKernel\\Kernel::VERSION')[:3] }}/book/page_creation.html">
-                    How to create your first page in Symfony
-                </a>
-            </p>
-        </div>
-
-    </section>
+    </div>
 {% endblock %}
 
 

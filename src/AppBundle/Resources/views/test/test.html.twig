@@ -1,0 +1,35 @@
+{% extends '::base.html.twig' %}
+
+{% block content %}
+    <section class="content-header">
+        <h1>{% block title %}Test page{% endblock %}</h1>
+        <ol class="breadcrumb">
+            {#<li><a href="{{ url('admin_index') }}"><i class="fa fa-dashboard"></i> Home admin</a></li>#}
+            {#<li><a href="{{ url('admin_comment_index') }}">Comment list</a></li>#}
+            {#<li class="active">Edit Comment</li>#}
+        </ol>
+    </section>
+    <section class="content">
+        <div id="status">
+            <p>
+
+
+                TEST PAGE
+            </p>
+        </div>
+
+        <div id="next">
+            <h2>What's next?</h2>
+
+            <p>
+
+            <a href="{{ path('admin') }}" class="btn btn-primary btn-lg">ADMIN</a>
+            <a href="{{ path('logout') }}" class="btn btn-primary btn-lg">LOGOUT</a>
+
+            </p>
+        </div>
+
+    </section>
+{% endblock %}
+
+

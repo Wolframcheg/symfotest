@@ -3,19 +3,21 @@
 namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Class DefaultController
+ * @package AppBundle\Controller
+ */
 class DefaultController extends Controller
 {
     /**
      * @Route("/", name="homepage")
+     * @Template("@App/default/index.html.twig")
      */
-    public function indexAction(Request $request)
+    public function indexAction()
     {
-        // replace this example code with whatever you need
-        return $this->render('AppBundle:default:index.html.twig', array(
-            'base_dir' => realpath($this->getParameter('kernel.root_dir') . '/..'),
-        ));
+        return [];
     }
 }
