@@ -2,32 +2,32 @@
 
 {% block content %}
     <section class="content-header">
-        <h1>{% block title %}Category List{% endblock %}</h1>
+        <h1>{% block title %}User List{% endblock %}</h1>
         <ol class="breadcrumb">
             <li><a href="{{ url('admin') }}"><i class="fa fa-dashboard"></i> Home admin</a></li>
-            <li class="active">Category list</li>
+            <li class="active">User list</li>
         </ol>
     </section>
 
     <section class="content">
-        <p>
-            <a class="btn btn-success" href="{{ path('create_category') }}">Create a new Category</a>
-        </p>
         <div class="box">
         <table class="table table-border table-hover">
-            <th>Title</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Active</th>
             <th width="70px">Edit</th>
             <th width="70px">Remove</th>
-            {% for category in categories %}
+            {% for user in users %}
                 <tr>
-                    <td>{{ category.title }}</td>
+                    <td>{{ user.firstName }}</td>
+                    <td>{{ user.lastName }}</td>
+                    <td>{% if user.isEnabled %}YES{% else %}NO{% endif %}</td>
                     <td><a style="margin-left: 7px;" class="glyphicon glyphicon-pencil"
-                           href="{{ path('edit_category', { 'id': category.id }) }}"></a></td>
-                    <td>{{ form(form_remove[category.id]) }}</td>
+                           href="{{ path('edit_user', { 'id': user.id }) }}"></a></td>
+                    <td>{{ form(form_remove[user.id]) }}</td>
                 </tr>
             {% endfor %}
-        </table>
-        </div>
+        </table></div>
 
     </section>
 

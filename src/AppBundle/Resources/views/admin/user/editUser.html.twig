@@ -1,0 +1,40 @@
+{% extends '::adminbase.html.twig' %}
+
+{% block content %}
+    <section class="content-header">
+        <h1>{% block title %}Edit Module{% endblock %}</h1>
+        <ol class="breadcrumb">
+            <li><a href="{{ url('admin') }}"><i class="fa fa-dashboard"></i> Home admin</a></li>
+            <li><a href="{{ url('show_module') }}">Module list</a></li>
+            <li class="active">Edit Module</li>
+        </ol>
+    </section>
+
+    <section class="content">
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        {{ form_rest(form) }}
+        <br/>
+        <input type="submit" VALUE="Save" class="btn btn-large btn-primary" id="submit">
+        {{ form_end(form) }}
+    </section>
+
+{% endblock %}
+
+
+{% form_theme form _self %}
+
+{% block file_widget %}
+    {{ block('form_widget') }}
+    <br>
+    {% if form.parent.vars.data.pathImage %}
+
+        {% if form.parent.vars.data.pathImage starts with 'http' %}
+            {% set urlImage = form.parent.vars.data.pathImage %}
+        {% else %}
+            {% set urlImage = form.parent.vars.data.pathImage %}
+        {% endif %}
+
+        <img src="{{ asset(urlImage)}}" width="100px"/>
+    {% endif %}
+{% endblock %}
