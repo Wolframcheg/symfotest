@@ -29,7 +29,7 @@ class ModuleController extends Controller
             $em->persist($module);
             $em->flush();
 
-            return $this->redirectToRoute('create_question', array('idModule' => $module->getId()));
+            return $this->redirectToRoute('create_question', array('module' => $module->getId()));
         }
 
         return ['form' => $form->createView()];
@@ -37,7 +37,7 @@ class ModuleController extends Controller
 
     /**
      * @Route("/admin/module/edit/{id}", name="edit_module")
-     * @Template("@App/admin/module/createModule.html.twig")
+     * @Template("@App/admin/module/editModule.html.twig")
      */
     public function editModuleAction(Request $request, $id)
     {
@@ -56,14 +56,13 @@ class ModuleController extends Controller
         }
 
         return ['module' => $module,
-                'form' => $form->createView()
-            ];
+                'form' => $form->createView()];
     }
 
     /**
      * @Route("/admin/module/remove/{id}", name="remove_module")
      */
-    public function removeModuleAction($id)
+    public function removeCategoryAction($id)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -78,7 +77,7 @@ class ModuleController extends Controller
     }
 
     /**
-     * @Route("/admin/module/show", name="show_module")
+     * @Route("/admin/module", name="show_module")
      * @Template("@App/admin/module/showmodule.html.twig")
      */
     public function showModuleAction()
@@ -88,37 +87,17 @@ class ModuleController extends Controller
         $module = $em->getRepository('AppBundle:Module')
             ->findBy([],['createdAt' => 'DESC']);
 
-        $form_edit = [];
         $form_delete = [];
 
         foreach ($module as $item) {
-            $form_edit[$item->getId()] = $this->createFormEdit($item->getId())->createView();
             $form_delete[$item->getId()] = $this->createFormDelete($item->getId())->createView();
         }
 
         return [
             'modules' => $module,
-            'form_edit' => $form_edit,
             'form_remove' => $form_delete
         ];
 
-    }
-
-    /**
-     * @return \Symfony\Component\Form\Form
-     */
-    private function createFormEdit($id)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('edit_module', ['id' => $id]))
-            ->setMethod('PUT')
-            ->add('submit', SubmitType::class, [
-                'label' => ' ',
-                'attr' => [
-                    'class' => 'glyphicon glyphicon-pencil btn-link'
-                ]
-            ])
-            ->getForm();
     }
 
     /**
