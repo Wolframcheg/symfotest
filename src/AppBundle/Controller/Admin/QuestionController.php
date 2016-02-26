@@ -25,7 +25,7 @@ class QuestionController extends Controller
         $em = $this->getDoctrine()->getManager();
         $module = $em->getRepository('AppBundle:Module')->find($idModule);
         $question = new Question();
-        $answer = new Answer();
+        //$answer = new Answer();
 
         $form = $this->createForm(QuestionType::class, $question);
 
@@ -33,7 +33,7 @@ class QuestionController extends Controller
 
         if ($form->isValid()) {
             $question->setModule($module);
-            $answer->setQuestion($question);
+          //  $answer->setQuestion($question);
             $em->persist($question);
             $em->flush();
 
