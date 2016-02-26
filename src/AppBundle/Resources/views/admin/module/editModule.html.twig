@@ -15,8 +15,13 @@
         {{ form_widget(form) }}
         {{ form_rest(form) }}
         <br/>
-        <input type="submit" VALUE="Save" class="btn btn-large btn-primary" id="submit">
+
+        <input type="submit" VALUE="Save" class="btn btn-large btn-primary pull-left" id="submit">
         {{ form_end(form) }}
+        {% if module is defined %}
+            <a href="{{ path('show_question', {'idModule': module.id}) }}" class="btn btn-large btn-primary pull-right">Edit Question</a>
+        {% endif %}
+
     </section>
 
 {% endblock %}

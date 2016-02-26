@@ -106,7 +106,7 @@ class Module
     private $category;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Question", mappedBy="module")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Question", mappedBy="module", cascade={"persist", "remove"})
      */
     private $questions;
 

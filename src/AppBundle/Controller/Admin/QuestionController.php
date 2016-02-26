@@ -5,25 +5,25 @@ namespace AppBundle\Controller\Admin;
 use AppBundle\Entity\Answer;
 use AppBundle\Entity\Module;
 use AppBundle\Entity\Question;
-use AppBundle\Entity\QuestionAnswer;
 use AppBundle\Form\QuestionType;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 
 
 class QuestionController extends Controller
 {
     /**
-     * @Route("/admin/question/new/{module}", name="create_question")
+     * @Route("/admin/question/new/{idModule}", name="create_question")
      * @Template("@App/admin/question/createQuestion.html.twig")
      */
-    public function createQuestionAction(Request $request, Module $module)
+    public function createQuestionAction(Request $request, $idModule)
     {
         $em = $this->getDoctrine()->getManager();
-
-        $questionAnswer = new QuestionAnswer();
+        $module = $em->getRepository('AppBundle:Module')->find($idModule);
         $question = new Question();
         $answer = new Answer();
 
@@ -33,13 +33,113 @@ class QuestionController extends Controller
 
         if ($form->isValid()) {
             $question->setModule($module);
-            $em->persist($module);
+            $answer->setQuestion($question);
+            $em->persist($question);
             $em->flush();
 
-            return $this->redirectToRoute('show_module');
+            return $this->redirectToRoute('create_question', array('idModule' => $idModule));
         }
 
         return ['form' => $form->createView()];
+    }
+
+    /**
+     * @Route("/admin/question/edit/{id}/{idModule}", name="edit_question")
+     * @Template("@App/admin/question/editQuestion.html.twig")
+     */
+    public function editQuestionAction(Request $request, $id, $idModule)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $question = $em->getRepository('AppBundle:Question')
+            ->find($id);
+
+        $originalAnswers = new ArrayCollection();
+
+        // Create an ArrayCollection of the current Tag objects in the database
+        foreach ($question->getAnswers() as $answer) {
+            $originalAnswers->add($answer);
+        }
+
+        $form = $this->createForm(QuestionType::class, $question);
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            // remove the relationship between the tag and the Task
+            foreach ($originalAnswers as $answer) {
+                if (false === $question->getAnswers()->contains($answer)) {
+                    $em->remove($answer);
+                }
+            }
+
+            $em->flush();
+
+            return $this->redirectToRoute('show_question', array('idModule' => $idModule));
+        }
+
+        return ['form' => $form->createView()];
+    }
+
+    /**
+     * @Route("/admin/question/remove/{id}/{idModule}", name="remove_question")
+     */
+    public function removeQuestionAction($id, $idModule)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $question = $em->getRepository('AppBundle:Question')
+            ->find($id);
+
+        $em->remove($question);
+        $em->flush();
+
+        return $this->redirectToRoute('show_question', array('idModule' => $idModule));
+
+    }
+
+    /**
+     * @Route("/admin/question/show/{idModule}", name="show_question")
+     * @Template("@App/admin/question/showQuestion.html.twig")
+     */
+    public function showQuestionAction($idModule)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $module = $em->getRepository('AppBundle:Module')->find($idModule);
+        $question = $em->getRepository('AppBundle:Question')
+            ->findBy(array('module' => $module));
+
+        $form_delete = [];
+
+        foreach ($question as $item) {
+            $form_delete[$item->getId()] = $this->createFormDelete($item->getId(), $idModule)->createView();
+        }
+
+        return [
+            'idModule' => $idModule,
+            'questions' => $question,
+            'form_remove' => $form_delete
+        ];
+
+    }
+
+    /**
+     * @return \Symfony\Component\Form\Form
+     */
+    private function createFormDelete($id, $idModule)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('remove_question', ['id' => $id, 'idModule' => $idModule]))
+            ->setMethod('DELETE')
+            ->add('submit', SubmitType::class, [
+                'label' => ' ',
+                'attr' => [
+                    'class' => 'glyphicon glyphicon-remove btn-link',
+                    'onclick' => 'return confirm("Are you sure?")'
+                ]
+            ])
+            ->getForm();
     }
 
 }

@@ -12,11 +12,10 @@
     <section class="content">
         {{ form_start(form) }}
         {{ form_widget(form) }}
-        {{ form_rest(form) }}
+
         <br/>
-        {#<div>#}
-            {#&#123;&#35;<input type="submit" value="Add answer" class="jslink">&#35;&#125;#}
-        {#</div>#}
+        {{ form_rest(form) }}
+        {#<a href="#" class="add_tag_link">Add answer</a>#}
         <br/>
         <input type="submit" VALUE="Save" class="btn btn-large btn-primary pull-left" id="submit">
         {{ form_end(form) }}
@@ -24,6 +23,7 @@
     </section>
 
 {% endblock %}
+
 
 {% block javascripts %}
     {{ parent() }}
@@ -43,7 +43,7 @@
                 var prototype = collection.data('prototype').replace(/__name__label__/g, count);
                 prototype = $(prototype).wrap('<li>').parent();
 
-                    prototype.append(deleteLink.clone().click(deleteLinkClick));
+                prototype.append(deleteLink.clone().click(deleteLinkClick));
 
 
                 $(this).parent().before(prototype);
@@ -54,7 +54,7 @@
                 $(this).parent().remove();
             }
 
-            $('form .collection-allow-delete').each(function(){
+            $('form #app_bundle_question_type_answers').each(function(){
                 $(this).children().append(deleteLink.clone().click(deleteLinkClick));
             });
 
