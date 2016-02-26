@@ -19,7 +19,7 @@
                 <tr>
                     <td>{{ question.textQuestion }}</td>
                     <td>{{ question.sort }}</td>
-                    <td><a href="{{ path('edit_question', {'id' : question.id,'idModule': idModule}) }}">
+                    <td><a href="{{ path('edit_question', {'id' : question.id,'idModule': question.module.id}) }}">
                             <i class="glyphicon glyphicon-pencil btn-link"></i></a></td>
                     <td>{{ form(form_remove[question.id]) }}</td>
                 </tr>

@@ -14,12 +14,6 @@
         {{ form_widget(form) }}
 
         <br/>
-{#
-            {% for answer in form.answers %}
-                <li>{{ form_row(answer.textAnswer) }}</li>
-                <li>{{ form_row(answer.correctly) }}</li>
-            {% endfor %}#}
-
         {{ form_rest(form) }}
         {#<a href="#" class="add_tag_link">Add answer</a>#}
         <br/>
