@@ -29,7 +29,7 @@ class ModuleController extends Controller
             $em->persist($module);
             $em->flush();
 
-            return $this->redirectToRoute('create_question', array('module' => $module->getId()));
+            return $this->redirectToRoute('create_question', array('idModule' => $module->getId()));
         }
 
         return ['form' => $form->createView()];

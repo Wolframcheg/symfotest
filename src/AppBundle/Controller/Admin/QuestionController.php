@@ -67,9 +67,9 @@ class QuestionController extends Controller
     }
 
     /**
-     * @Route("/admin/question/remove/{id}", name="remove_question")
+     * @Route("/admin/question/remove/{id}/{idModule}", name="remove_question")
      */
-    public function removeQuestionAction($id)
+    public function removeQuestionAction($id, $idModule)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -79,7 +79,7 @@ class QuestionController extends Controller
         $em->remove($question);
         $em->flush();
 
-        return $this->redirectToRoute('show_question');
+        return $this->redirectToRoute('show_question', array('idModule' => $idModule));
 
     }
 
@@ -98,7 +98,7 @@ class QuestionController extends Controller
         $form_delete = [];
 
         foreach ($question as $item) {
-            $form_delete[$item->getId()] = $this->createFormDelete($item->getId())->createView();
+            $form_delete[$item->getId()] = $this->createFormDelete($item->getId(), $idModule)->createView();
         }
 
         return [
@@ -112,10 +112,10 @@ class QuestionController extends Controller
     /**
      * @return \Symfony\Component\Form\Form
      */
-    private function createFormDelete($id)
+    private function createFormDelete($id, $idModule)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('remove_question', ['id' => $id]))
+            ->setAction($this->generateUrl('remove_question', ['id' => $id, 'idModule' => $idModule]))
             ->setMethod('DELETE')
             ->add('submit', SubmitType::class, [
                 'label' => ' ',
