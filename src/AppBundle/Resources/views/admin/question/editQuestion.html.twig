@@ -40,7 +40,7 @@
                 var collection = $(this).closest('#app_bundle_question_type_answers');
                 var count = collection.children().length - 1;
 
-                var prototype = collection.data('prototype').replace(/__name__label__/g, count);
+                var prototype = collection.data('prototype').replace(/__name__/g, count);
                 prototype = $(prototype).wrap('<li>').parent();
 
                 prototype.append(deleteLink.clone().click(deleteLinkClick));
