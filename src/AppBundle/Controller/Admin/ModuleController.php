@@ -63,7 +63,7 @@ class ModuleController extends Controller
     /**
      * @Route("/admin/module/remove/{id}", name="remove_module")
      */
-    public function removeCategoryAction($id)
+    public function removeModuleAction($id)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -81,7 +81,7 @@ class ModuleController extends Controller
      * @Route("/admin/module/show", name="show_module")
      * @Template("@App/admin/module/showmodule.html.twig")
      */
-    public function showCategoryAction()
+    public function showModuleAction()
     {
         $em = $this->getDoctrine()->getManager();
 

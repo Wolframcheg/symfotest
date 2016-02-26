@@ -15,6 +15,8 @@ class QuestionType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+
+
         $builder
             ->add('textQuestion', TextType::class, [
                 'attr' => [
@@ -36,7 +38,7 @@ class QuestionType extends AbstractType
                 'allow_delete' => true,
                 'by_reference' => false,
             ])
-            ->addEventListener(FormEvents::POST_SUBMIT, function(FormEvent $event) {
+            ->addEventListener(FormEvents::POST_SUBMIT, function(FormEvent $event)  {
                 $data = $event->getData();
 
                 foreach ($data->getAnswers() as $item) {
