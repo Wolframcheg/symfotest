@@ -6,6 +6,7 @@ use AppBundle\Entity\Answer;
 use AppBundle\Entity\Module;
 use AppBundle\Entity\Question;
 use AppBundle\Form\QuestionType;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -53,11 +54,25 @@ class QuestionController extends Controller
         $question = $em->getRepository('AppBundle:Question')
             ->find($id);
 
+        $originalAnswers = new ArrayCollection();
+
+        // Create an ArrayCollection of the current Tag objects in the database
+        foreach ($question->getAnswers() as $answer) {
+            $originalAnswers->add($answer);
+        }
+
         $form = $this->createForm(QuestionType::class, $question);
 
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            // remove the relationship between the tag and the Task
+            foreach ($originalAnswers as $answer) {
+                if (false === $question->getAnswers()->contains($answer)) {
+                    $em->remove($answer);
+                }
+            }
+
             $em->flush();
 
             return $this->redirectToRoute('show_question', array('idModule' => $idModule));

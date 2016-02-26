@@ -23,3 +23,47 @@
     </section>
 
 {% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+
+        $(function(){
+            // setup an "add a tag" link
+            var addLink = $('<a class="btn btn-primary add">Add Answer</a>');
+            var deleteLink = $('<a class="btn btn-danger remove"><i class="fa fa-trash"></i></a>');
+
+            function addLinkClick(e) {
+                e.preventDefault();
+                var collection = $(this).closest('#app_bundle_question_type_answers');
+                var count = collection.children().length - 1;
+
+                var prototype = collection.data('prototype').replace(/__name__label__/g, count);
+                prototype = $(prototype).wrap('<li>').parent();
+
+                prototype.append(deleteLink.clone().click(deleteLinkClick));
+
+
+                $(this).parent().before(prototype);
+            }
+
+            function deleteLinkClick(e) {
+                e.preventDefault();
+                $(this).parent().remove();
+            }
+
+            $('form #app_bundle_question_type_answers').each(function(){
+                $(this).children().append(deleteLink.clone().click(deleteLinkClick));
+            });
+
+            $('form #app_bundle_question_type_answers').each(function(){
+                if (!$(this).data('prototype').length) return;
+
+                var li = $('<li/>').append(addLink.click(addLinkClick));
+                $(this).append(li);
+            });
+        });
+    </script>
+{% endblock %}
