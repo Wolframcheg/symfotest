@@ -3,6 +3,7 @@
 namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -31,6 +32,10 @@ class QuestionType extends AbstractType
                     'class' => 'form-control',
                     'placeholder' => 'enter sort'
                 ]
+            ])
+            ->add('allIncorrect', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Choose it if the question has no correct answers '
             ])
             ->add('answers', CollectionType::class, [
                 'entry_type' => AnswerType::class,

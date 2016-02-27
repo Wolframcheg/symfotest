@@ -10,6 +10,12 @@
     </section>
 
     <section class="content">
+        {% for flash_message in app.session.flashbag.get('notice') %}
+            <div class="alert alert-warning alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <strong>{{ flash_message }}</strong>
+            </div>
+        {% endfor %}
         {{ form_start(form) }}
         {{ form_widget(form) }}
         {{ form_rest(form) }}
@@ -37,6 +43,7 @@
 
             function addLinkClick(e) {
                 e.preventDefault();
+
                 var collection = $(this).closest('#app_bundle_question_type_answers');
                 var count = collection.children().length - 1;
 
@@ -45,8 +52,8 @@
 
                     prototype.append(deleteLink.clone().click(deleteLinkClick));
 
-
                 $(this).parent().before(prototype);
+
             }
 
             function deleteLinkClick(e) {
@@ -64,6 +71,18 @@
                 var li = $('<li/>').append(addLink.click(addLinkClick));
                 $(this).append(li);
             });
+
+            var incorrectCheck = $('#app_bundle_question_type_allIncorrect');
+            incorrectCheck.click(function() {
+                if (this.checked) {
+                    $("#app_bundle_question_type_answers" + " input:checkbox").attr('disabled', true).val(false);
+                } else {
+                    $("#app_bundle_question_type_answers" + " input:checkbox").attr('disabled', false);
+                }
+            });
+
+
+
         });
     </script>
 {% endblock %}

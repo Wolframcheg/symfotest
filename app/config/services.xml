@@ -26,9 +26,13 @@
             <tag name="doctrine.event_subscriber" connection="default" />
         </service>
 
-        <service id="app.form.type.task" class="AppBundle\Form\DataTransformer\MetadataTransformer">
-            <tag name="form.type" />
+        <service id="app.incorrect.question" class="AppBundle\Services\IncorrectQuestion">
+            <argument type="service" id="doctrine" />
         </service>
 
+        <service id="app.checkCount.answer" class="AppBundle\Services\CheckCountAnswers">
+            <argument type="service" id="router" />
+            <argument type="service" id="session" />
+        </service>
     </services>
 </container>
