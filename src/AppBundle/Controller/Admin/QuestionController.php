@@ -25,7 +25,6 @@ class QuestionController extends Controller
         $em = $this->getDoctrine()->getManager();
         $module = $em->getRepository('AppBundle:Module')->find($idModule);
         $question = new Question();
-        //$answer = new Answer();
 
         $form = $this->createForm(QuestionType::class, $question);
 
@@ -33,7 +32,10 @@ class QuestionController extends Controller
 
         if ($form->isValid()) {
             $question->setModule($module);
-          //  $answer->setQuestion($question);
+            if ($question->getAllIncorrect() == true) {
+                $this->get('app.incorrect.question')->insertIncorrect($question);
+            }
+            $this->get('app.checkCount.answer')->checkCountInsert($question, $idModule);
             $em->persist($question);
             $em->flush();
 
@@ -66,6 +68,11 @@ class QuestionController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            if ($question->getAllIncorrect() == true) {
+                $this->get('app.incorrect.question')->insertIncorrect($question);
+            }
+            $this->get('app.checkCount.answer')->checkCountEdit($question, $id, $idModule);
+
             // remove the relationship between the tag and the Task
             foreach ($originalAnswers as $answer) {
                 if (false === $question->getAnswers()->contains($answer)) {

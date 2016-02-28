@@ -40,6 +40,10 @@ class Question
     private $textQuestion;
 
     /**
+     * @ORM\Column(name="all_incorrect", type="boolean", nullable=true)
+     */
+    private $allIncorrect;
+    /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Module", inversedBy="questions")
      */
     private $module;
@@ -140,6 +144,20 @@ class Question
         $this->module = $module;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getAllIncorrect()
+    {
+        return $this->allIncorrect;
+    }
 
+    /**
+     * @param mixed $allIncorrect
+     */
+    public function setAllIncorrect($allIncorrect)
+    {
+        $this->allIncorrect = $allIncorrect;
+    }
 
 }
