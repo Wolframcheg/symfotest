@@ -2,13 +2,13 @@
 
 {% block content %}
     <section class="content-header">
+        <h1>{% block title %}Update Question{% endblock %}</h1>
         <ol class="breadcrumb">
             {#<li><a href="{{ url('admin_index') }}"><i class="fa fa-dashboard"></i> Home admin</a></li>#}
             {#<li><a href="{{ url('admin_comment_index') }}">Comment list</a></li>#}
             {#<li class="active">Edit Comment</li>#}
         </ol>
     </section>
-
     <section class="content">
         {% for flash_message in app.session.flashbag.get('notice') %}
             <div class="alert alert-warning alert-dismissable">
@@ -18,68 +18,51 @@
         {% endfor %}
         {{ form_start(form) }}
         {{ form_widget(form) }}
-
-        <br/>
         {{ form_rest(form) }}
-        {#<a href="#" class="add_tag_link">Add answer</a>#}
+
         <br/>
         <input type="submit" VALUE="Save" class="btn btn-large btn-primary pull-left" id="submit">
         {{ form_end(form) }}
-        <a href="{{ path('show_module') }}" class="btn btn-large btn-primary pull-right">DONE</a>
+        <a href="{{ path('show_module') }}" class="btn btn-large btn-danger pull-right">DONE</a>
+        <a href="{{ path('show_question', {'idModule': idModule}) }}" class="btn btn-large btn-warning pull-right q-list">Question list</a>
     </section>
 
 {% endblock %}
-
-
 {% block javascripts %}
     {{ parent() }}
+    {% include '@App/admin/question/commonJs.html.twig' %}
+{% endblock %}
 
-    <script>
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+    #app_bundle_question_type_answers > div > div {
+        display: inline-block;
+        vertical-align: middle;
 
-        $(function(){
-            // setup an "add a tag" link
-            var addLink = $('<a class="btn btn-primary add">Add Answer</a>');
-            var deleteLink = $('<a class="btn btn-danger remove"><i class="fa fa-trash"></i></a>');
+    }
 
-            function addLinkClick(e) {
-                e.preventDefault();
-                var collection = $(this).closest('#app_bundle_question_type_answers');
-                var count = collection.children().length - 1;
+    #app_bundle_question_type_answers > div > label {
+        display: none;
+    }
 
-                var prototype = collection.data('prototype').replace(/__name__/g, count);
-                prototype = $(prototype).wrap('<li>').parent();
+    #app_bundle_question_type_answers .btn-danger {
+        display: inline-block;
+        vertical-align: middle;
+        margin-left: 10px;
+    }
+    #app_bundle_question_type_answers > div {
+        border-bottom: 2px solid #6B6B6B;
+        padding: 10px;
+        margin-bottom: 10px
+    }
+    #app_bundle_question_type_answers {
+        padding-left: 20px;
+        border-left: 10px solid #3C8DBC;
+     }
+    .q-list {
+        margin-right: 50px;
+    }
 
-                prototype.append(deleteLink.clone().click(deleteLinkClick));
-
-
-                $(this).parent().before(prototype);
-            }
-
-            function deleteLinkClick(e) {
-                e.preventDefault();
-                $(this).parent().remove();
-            }
-
-            $('form #app_bundle_question_type_answers').each(function(){
-                $(this).children().append(deleteLink.clone().click(deleteLinkClick));
-            });
-
-            $('form #app_bundle_question_type_answers').each(function(){
-                if (!$(this).data('prototype').length) return;
-
-                var li = $('<li/>').append(addLink.click(addLinkClick));
-                $(this).append(li);
-            });
-
-
-            var incorrectCheck = $('#app_bundle_question_type_allIncorrect');
-            incorrectCheck.click(function() {
-                if (this.checked) {
-                    $("#app_bundle_question_type_answers" + " input:checkbox").attr('disabled', true).val(false);
-                } else {
-                    $("#app_bundle_question_type_answers" + " input:checkbox").attr('disabled', false);
-                }
-            });
-        });
-    </script>
+    </style>
 {% endblock %}

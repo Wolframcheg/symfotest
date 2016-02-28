@@ -16,7 +16,8 @@ class AnswerType extends AbstractType
             ->add('textAnswer', TextType::class,[
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'enter answer'
+                    'placeholder' => 'enter answer',
+                    'style' => 'width:400px;'
                 ]
             ])
             ->add('correctly', CheckboxType::class,[

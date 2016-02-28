@@ -42,6 +42,9 @@ class QuestionType extends AbstractType
                 'allow_add'    => true,
                 'allow_delete' => true,
                 'by_reference' => false,
+                'attr' => [
+                    'class' => ''
+                ],
 
             ])
             ->addEventListener(FormEvents::POST_SUBMIT, function(FormEvent $event)  {

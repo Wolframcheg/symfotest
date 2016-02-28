@@ -362,4 +362,10 @@ class Module
     {
         $this->pathImage = $pathImage;
     }
+
+    public function getCountQuestions()
+    {
+        return count($this->questions);
+    }
+
 }

@@ -32,17 +32,16 @@ class QuestionController extends Controller
 
         if ($form->isValid()) {
             $question->setModule($module);
-            if ($question->getAllIncorrect() == true) {
-                $this->get('app.incorrect.question')->insertIncorrect($question);
-            }
-            $this->get('app.checkCount.answer')->checkCountInsert($question, $idModule);
+           // $this->get('app.checkCount.answer')->checkCountInsert($question, $idModule);
             $em->persist($question);
             $em->flush();
 
             return $this->redirectToRoute('create_question', array('idModule' => $idModule));
         }
 
-        return ['form' => $form->createView()];
+        return ['form' => $form->createView(),
+                'idModule' => $idModule
+        ];
     }
 
     /**
@@ -68,12 +67,8 @@ class QuestionController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            if ($question->getAllIncorrect() == true) {
-                $this->get('app.incorrect.question')->insertIncorrect($question);
-            }
-            $this->get('app.checkCount.answer')->checkCountEdit($question, $id, $idModule);
+            //$this->get('app.checkCount.answer')->checkCountEdit($question, $id, $idModule);
 
-            // remove the relationship between the tag and the Task
             foreach ($originalAnswers as $answer) {
                 if (false === $question->getAnswers()->contains($answer)) {
                     $em->remove($answer);
@@ -85,7 +80,9 @@ class QuestionController extends Controller
             return $this->redirectToRoute('show_question', array('idModule' => $idModule));
         }
 
-        return ['form' => $form->createView()];
+        return ['form' => $form->createView(),
+                'idModule' => $idModule
+        ];
     }
 
     /**
@@ -114,8 +111,9 @@ class QuestionController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $module = $em->getRepository('AppBundle:Module')->find($idModule);
+
         $question = $em->getRepository('AppBundle:Question')
-            ->findBy(array('module' => $module));
+            ->findByModuleWithSorting($idModule);
 
         $form_delete = [];
 

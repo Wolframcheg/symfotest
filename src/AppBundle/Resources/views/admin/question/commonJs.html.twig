@@ -1,0 +1,52 @@
+<script>
+
+    $(function () {
+        // setup an "add a tag" link
+        var addLink = $('<a class="btn btn-success add">Add Answer</a>');
+        var deleteLink = $('<a class="btn btn-danger remove"><i class="fa fa-trash"></i></a>');
+
+        function addLinkClick(e) {
+            e.preventDefault();
+            var collection = $('#app_bundle_question_type_answers > div');
+            var count = collection.length;
+
+            var prototype = $('#app_bundle_question_type_answers').data('prototype').replace(/__name__/g, count);
+            //var prototype = prototype.replace(/label__/g, '');
+            prototype = $(prototype);
+
+            prototype.append(deleteLink.clone().click(deleteLinkClick));
+
+            $('#app_bundle_question_type_answers').append(prototype);
+            changeChecks();
+        }
+
+        function deleteLinkClick(e) {
+            e.preventDefault();
+            $(this).parent().remove();
+        }
+
+        $('form #app_bundle_question_type_answers').each(function () {
+            $(this).children().append(deleteLink.clone().click(deleteLinkClick));
+        });
+
+        var link = addLink.click(addLinkClick);
+        $('#app_bundle_question_type_answers').after(link);
+
+
+        var incorrectCheck = $('#app_bundle_question_type_allIncorrect');
+
+        function changeChecks() {
+            if (incorrectCheck.prop('checked')) {
+                $("#app_bundle_question_type_answers input:checkbox").attr('disabled', true).attr('checked', false);
+            } else {
+                $("#app_bundle_question_type_answers input:checkbox").attr('disabled', false);
+            }
+        }
+
+        changeChecks();
+
+        incorrectCheck.click(function () {
+            changeChecks();
+        });
+    });
+</script>

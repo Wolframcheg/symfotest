@@ -50,6 +50,10 @@ class Question
 
     /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Answer", mappedBy="question", cascade={"persist", "remove"})
+     * @Assert\Count(
+     *      min = "2",
+     *      minMessage = "You must specify at least two answers"
+     * )
      */
     private $answers;
 
@@ -158,6 +162,11 @@ class Question
     public function setAllIncorrect($allIncorrect)
     {
         $this->allIncorrect = $allIncorrect;
+    }
+
+    public function getCountAnswers()
+    {
+        return count($this->answers);
     }
 
 }
