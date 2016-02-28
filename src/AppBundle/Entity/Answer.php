@@ -103,5 +103,4 @@ class Answer
     {
         $this->correctly = $correctly;
     }
-
 }
