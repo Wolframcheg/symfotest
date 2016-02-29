@@ -12,17 +12,24 @@ class ModuleUserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $user = $options['user'];
+
         $builder
             ->add('module', EntityType::class, [
                 'class' => 'AppBundle\Entity\Module',
-                'query_builder' => function (EntityRepository $er) {
+                'query_builder' => function (EntityRepository $er) use ($user) {
                     return $er->createQueryBuilder('m')
+                   //     ->leftJoin('m.modulesUser', 'mu')
+                   //     ->where('mu.user = :users')
+                   //     ->orWhere('mu.user IS NOT NULL')
+                   //     ->leftJoin('mu.user', 'u')
+                   //     ->andWhere('mu.module IS NULL')
+                   //     ->setParameter('users', $user)
                         ->orderBy('m.title', 'ASC');
                 },
-                'label' => 'Choose one or several modules',
+                'label' => 'Choose module',
                 'property' => 'title',
-                'attr' => ['class' => 'form-control'],
-                'multiple' => true,
+                'attr' => ['class' => 'chosen-select'],
                 'required'  => true
             ]);
     }
@@ -30,7 +37,8 @@ class ModuleUserType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\ModuleUser'
+            'data_class' => 'AppBundle\Entity\ModuleUser',
+            'user' => ''
         ));
     }
 

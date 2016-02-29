@@ -11,6 +11,16 @@
     </section>
 
     <section class="content">
+        <ul>
+            <h4>The modules chosen for the user</h4>
+            {% for item in modulesUser %}
+                <li>{{ item.module.title }}
+                    <a href="{{ path('remove_moduleUser', {'idModule': item.module.id, 'idUser': item.user.id }) }}">
+                        <i class="fa fa-trash"></i>
+                    </a></li>
+            {% endfor %}
+        </ul>
+
         {{ form_start(form) }}
         {{ form_widget(form) }}
         {{ form_rest(form) }}
@@ -19,4 +29,18 @@
         {{ form_end(form) }}
     </section>
 
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+    <script>
+        $(function () {
+            $(".chosen-select").chosen({
+                no_results_text: "Oops, nothing found!",
+                placeholder_text_single: "There are no available modules for the choice",
+                width: "100%"
+            });
+
+        })
+    </script>
 {% endblock %}

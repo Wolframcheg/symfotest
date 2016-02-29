@@ -77,7 +77,7 @@ class User implements AdvancedUserInterface
      */
     public function __construct()
     {
-        $this->isActive = true;
+        $this->isActive = false;
         $this->modulesUser = new ArrayCollection();
     }
 

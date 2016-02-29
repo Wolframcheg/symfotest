@@ -7,14 +7,27 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 
+/**
+ * Class TestController
+ * @package AppBundle\Controller\Test
+ */
 class TestController extends Controller
 {
     /**
-     * @Route("/test", name="test")
+     * @Route("/test", name="show_test")
      * @Template("@App/test/test.html.twig")
      */
-    public function adminAction()
+    public function showTestAction()
     {
-        return [];
+        $user = $this->getUser();
+
+        $em = $this->getDoctrine()->getManager();
+
+        $modules = $em->getRepository('AppBundle:ModuleUser')
+            ->findBy(['user' => $user]);
+
+        return [
+            'modules' => $modules
+        ];
     }
 }
