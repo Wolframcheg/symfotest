@@ -6,6 +6,7 @@ use AppBundle\Entity\ModuleUser;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Form\ModuleUserType;
 
@@ -43,8 +44,15 @@ class ModuleUserController extends Controller
             return $this->redirectToRoute('user_show');
         }
 
+        $form_delete = [];
+
+        foreach ($modulesUser as $item) {
+            $form_delete[$item->getModule()->getId()] = $this->createFormDelete($idUser, $item->getModule()->getId())->createView();
+        }
+
         return [
                 'modulesUser' => $modulesUser,
+                'form_remove' => $form_delete,
                 'form' => $form->createView()
         ];
     }
@@ -66,5 +74,23 @@ class ModuleUserController extends Controller
         $em->flush();
 
         return $this->redirectToRoute('create_moduleUser', ['idUser' => $idUser]);
+    }
+
+    /**
+     * @return \Symfony\Component\Form\Form
+     */
+    private function createFormDelete($idUser, $idModule)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('remove_moduleUser', ['idUser' => $idUser, 'idModule' => $idModule]))
+            ->setMethod('DELETE')
+            ->add('submit', SubmitType::class, [
+                'label' => ' ',
+                'attr' => [
+                    'class' => 'glyphicon glyphicon-remove btn-link',
+                    'onclick' => 'return confirm("Are you sure?")'
+                ]
+            ])
+            ->getForm();
     }
 }

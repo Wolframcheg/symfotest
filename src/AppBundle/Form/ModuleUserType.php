@@ -19,12 +19,10 @@ class ModuleUserType extends AbstractType
                 'class' => 'AppBundle\Entity\Module',
                 'query_builder' => function (EntityRepository $er) use ($user) {
                     return $er->createQueryBuilder('m')
-                   //     ->leftJoin('m.modulesUser', 'mu')
-                   //     ->where('mu.user = :users')
-                   //     ->orWhere('mu.user IS NOT NULL')
-                   //     ->leftJoin('mu.user', 'u')
-                   //     ->andWhere('mu.module IS NULL')
-                   //     ->setParameter('users', $user)
+                  /*      ->leftJoin('m.modulesUser', 'mu')
+                        ->andWhere('mu.module IS NULL')
+                        ->orWhere('mu.user <> :users')
+                        ->setParameter('users', $user)*/
                         ->orderBy('m.title', 'ASC');
                 },
                 'label' => 'Choose module',

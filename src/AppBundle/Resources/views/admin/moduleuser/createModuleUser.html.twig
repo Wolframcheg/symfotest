@@ -11,15 +11,16 @@
     </section>
 
     <section class="content">
-        <ul>
+        <table>
             <h4>The modules chosen for the user</h4>
             {% for item in modulesUser %}
-                <li>{{ item.module.title }}
-                    <a href="{{ path('remove_moduleUser', {'idModule': item.module.id, 'idUser': item.user.id }) }}">
-                        <i class="fa fa-trash"></i>
-                    </a></li>
+                <tr>
+                    <td width="20px">{{ loop.index }}</td>
+                    <td width="100px">{{ item.module.title }}</td>
+                    <td width="10px">{{ form(form_remove[item.module.id]) }}</td>
+                </tr>
             {% endfor %}
-        </ul>
+        </table>
 
         {{ form_start(form) }}
         {{ form_widget(form) }}
