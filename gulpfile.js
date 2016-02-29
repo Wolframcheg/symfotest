@@ -20,7 +20,8 @@ gulp.task('admin-js', function() {
     return gulp.src([
             'bower_components/jquery/dist/jquery.js',
             'bower_components/bootstrap/dist/js/bootstrap.js',
-            'bower_components/AdminLTE/dist/js/app.js'
+            'bower_components/AdminLTE/dist/js/app.js',
+            'bower_components/chosen/chosen.jquery.js'
         ])
         .pipe(concatJs('app.js'))
         .pipe(minifyJs())

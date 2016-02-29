@@ -10,24 +10,43 @@
         </ol>
     </section>
     <section class="content">
-        <div id="status">
-            <p>
-
-
-                TEST PAGE
-            </p>
-        </div>
-
-        <div id="next">
-            <h2>What's next?</h2>
-
-            <p>
-
+        {{ app.user.email }}
+        <p>
             <a href="{{ path('admin') }}" class="btn btn-primary btn-lg">ADMIN</a>
             <a href="{{ path('logout') }}" class="btn btn-primary btn-lg">LOGOUT</a>
+        </p>
 
-            </p>
-        </div>
+        {% for item in modules %}
+            <div class="col-md-6">
+                <hr/>
+                <h4>{{ item.module.title }}</h4>
+                <hr/>
+                <table class="table-hover">
+                    <tr>
+                        <td width="150px">Count Questions</td>
+                        <td>{{ item.module.CountQuestions }}</td>
+                    </tr>
+                    <tr>
+                        <td width="150px">Max Rating</td>
+                        <td>{{ item.module.rating }}</td>
+                    </tr>
+                    <tr>
+                        <td width="150px">Min persent</td>
+                        <td>{{ item.module.persentSuccess }}</td>
+                    </tr>
+                    <tr>
+                        <td width="150px">Time</td>
+                        <td>{{ item.module.time }}</td>
+                    </tr>
+                    <tr>
+                        <td width="150px">Attempts</td>
+                        <td>{{ item.module.attempts }}</td>
+                    </tr>
+                </table>
+                <a href="" class="btn btn-primary btn-md">Start test</a>
+            </div>
+        {% endfor %}
+
 
     </section>
 {% endblock %}

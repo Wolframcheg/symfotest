@@ -1,0 +1,15 @@
+AppBundle\Entity\Module:
+    module{1..10}:
+        category: @category*
+        title(unique): <word()>
+        rating: 100
+        persentSuccess: 90
+        time: 40
+        attempts: 3
+
+
+
+
+
+
+

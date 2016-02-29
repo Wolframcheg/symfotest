@@ -140,6 +140,8 @@ class ModuleUser
     public function setUser(User $user = null)
     {
         $this->user = $user;
+
+        return $this;
     }
 
     /**
@@ -156,6 +158,8 @@ class ModuleUser
     public function setModule(Module $module = null)
     {
         $this->module = $module;
+
+        return $this;
     }
 
 }

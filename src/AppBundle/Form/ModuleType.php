@@ -77,7 +77,7 @@ class ModuleType extends AbstractType
         ));
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'app_bundle_module_type';
     }

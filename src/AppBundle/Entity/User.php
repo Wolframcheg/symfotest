@@ -77,7 +77,7 @@ class User implements AdvancedUserInterface
      */
     public function __construct()
     {
-        $this->isActive = true;
+        $this->isActive = false;
         $this->modulesUser = new ArrayCollection();
     }
 
@@ -300,6 +300,11 @@ class User implements AdvancedUserInterface
     public function setIsActive($active)
     {
         return $this->isActive = $active;
+    }
+
+    public function getCountModules()
+    {
+        return count($this->modulesUser);
     }
 
 }

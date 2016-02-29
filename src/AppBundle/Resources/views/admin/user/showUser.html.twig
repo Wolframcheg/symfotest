@@ -15,16 +15,19 @@
             <th>First Name</th>
             <th>Last Name</th>
             <th>Active</th>
-            <th width="70px">Edit</th>
+            <th width="70px">Modules</th>
+            <th width="50px">Edit</th>
             <th width="70px">Remove</th>
             {% for user in users %}
                 <tr>
                     <td>{{ user.firstName }}</td>
                     <td>{{ user.lastName }}</td>
                     <td>{% if user.isEnabled %}YES{% else %}NO{% endif %}</td>
+                    <td class="text-center"><a href="{{ path('create_moduleUser', {'idUser': user.id }) }}">
+                            <i class="fa fa-mortar-board"></i></a> ({{ user.countModules }})</td>
                     <td><a style="margin-left: 7px;" class="glyphicon glyphicon-pencil"
                            href="{{ path('edit_user', { 'id': user.id }) }}"></a></td>
-                    <td>{{ form(form_remove[user.id]) }}</td>
+                    <td class="text-center">{{ form(form_remove[user.id]) }}</td>
                 </tr>
             {% endfor %}
         </table></div>
