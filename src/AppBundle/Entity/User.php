@@ -302,5 +302,10 @@ class User implements AdvancedUserInterface
         return $this->isActive = $active;
     }
 
+    public function getCountModules()
+    {
+        return count($this->modulesUser);
+    }
+
 }
 

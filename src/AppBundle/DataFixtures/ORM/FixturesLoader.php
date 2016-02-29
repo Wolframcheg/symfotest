@@ -2,6 +2,7 @@
 namespace AppBundle\DataFixtures\ORM;
 
 use Hautelook\AliceBundle\Alice\DataFixtureLoader;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Class FixturesLoader
@@ -23,7 +24,19 @@ class FixturesLoader extends DataFixtureLoader
             ];
         }
         return [
-            __DIR__ . '/Data/post.yml',
+            __DIR__ . '/Data/categories.yml',
+            __DIR__ . '/Data/users.yml',
+            __DIR__ . '/Data/modules.yml',
         ];
     }
+
+
+    public function encodePassword(UserInterface $user, $plainPassword)
+    {
+        $pass = $this->container->get('security.password_encoder')
+                ->encodePassword($user, $plainPassword);
+        return $pass;
+    }
+
+
 }

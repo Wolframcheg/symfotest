@@ -13,17 +13,12 @@ class ModuleUserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $user = $options['user'];
-
+        //var_dump($user);exit();
         $builder
             ->add('module', EntityType::class, [
                 'class' => 'AppBundle\Entity\Module',
                 'query_builder' => function (EntityRepository $er) use ($user) {
-                    return $er->createQueryBuilder('m')
-                  /*      ->leftJoin('m.modulesUser', 'mu')
-                        ->andWhere('mu.module IS NULL')
-                        ->orWhere('mu.user <> :users')
-                        ->setParameter('users', $user)*/
-                        ->orderBy('m.title', 'ASC');
+                    return $er->getFreeModulesForUserQuery($user);
                 },
                 'label' => 'Choose module',
                 'property' => 'title',
