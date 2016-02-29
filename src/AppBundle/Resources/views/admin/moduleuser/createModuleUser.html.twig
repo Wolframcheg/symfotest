@@ -1,0 +1,22 @@
+{% extends '::adminbase.html.twig' %}
+
+{% block content %}
+    <section class="content-header">
+        <h1>{% block title %}Create Module User{% endblock %}</h1>
+        <ol class="breadcrumb">
+            <li><a href="{{ url('admin') }}"><i class="fa fa-dashboard"></i> Home admin</a></li>
+            <li><a href="{{ url('user_show') }}">Users list</a></li>
+            <li class="active">Create Module User</li>
+        </ol>
+    </section>
+
+    <section class="content">
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        {{ form_rest(form) }}
+        <br/>
+        <input type="submit" VALUE="Save" class="btn btn-large btn-primary" id="submit">
+        {{ form_end(form) }}
+    </section>
+
+{% endblock %}
