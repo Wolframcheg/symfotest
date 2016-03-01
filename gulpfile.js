@@ -34,6 +34,12 @@ gulp.task('admin-fonts', function () {
         .pipe(gulp.dest('web/admin/fonts/'))
 });
 
+gulp.task('admin-img', function () {
+    return gulp.src(['bower_components/chosen/chosen-sprite.png',
+        'bower_components/chosen/chosen-sprite@2x.png'])
+        .pipe(gulp.dest('web/admin/css/'))
+});
+
 gulp.task('front-less', function() {
     return gulp.src(['web-src/front/less/*.less'])
         .pipe(less({compress: true}))
@@ -60,7 +66,7 @@ gulp.task('front-fonts', function () {
 });
 
 gulp.task('default', ['clean'], function () {
-    var tasks = ['admin-less','admin-js', 'admin-fonts'];
+    var tasks = ['admin-less','admin-js', 'admin-fonts', 'admin-img'];
     tasks.forEach(function (val) {
         gulp.start(val);
     });

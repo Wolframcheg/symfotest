@@ -13,7 +13,7 @@ class ModuleUserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $user = $options['user'];
-        //var_dump($user);exit();
+
         $builder
             ->add('module', EntityType::class, [
                 'class' => 'AppBundle\Entity\Module',
