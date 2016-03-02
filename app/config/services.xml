@@ -35,5 +35,12 @@
             <argument type="service" id="session" />
         </service>
 
+        <service id="app.pass_manager"
+                 class="AppBundle\Services\PassManager">
+            <argument key="doctrine" type="service" id="doctrine"/>
+            <argument key="formFactory" type="service" id="form.factory"/>
+            <argument key="tokenStorage" type="service" id="security.token_storage"/>
+        </service>
+
     </services>
 </container>
