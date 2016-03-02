@@ -9,6 +9,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -25,11 +26,6 @@ class ModuleUser
      * @ORM\Column(type="integer")
      */
     private $id;
-
-    /**
-     * @ORM\Column(name="attempts", type="integer")
-     */
-    private $attempts;
 
     /**
      * @ORM\Column(name="is_active", type="boolean")
@@ -99,15 +95,8 @@ class ModuleUser
      */
     public function getAttempts()
     {
-        return $this->attempts;
-    }
-
-    /**
-     * @param mixed $attempts
-     */
-    public function setAttempts($attempts)
-    {
-        $this->attempts = $attempts;
+      //  return $this->attempts;
+        return count($this->getInactivePassModules());
     }
 
     /**
@@ -136,6 +125,7 @@ class ModuleUser
 
     /**
      * @param mixed $user
+     * @return $this
      */
     public function setUser(User $user = null)
     {
@@ -154,6 +144,7 @@ class ModuleUser
 
     /**
      * @param mixed $module
+     * @return $this
      */
     public function setModule(Module $module = null)
     {
@@ -161,5 +152,18 @@ class ModuleUser
 
         return $this;
     }
+
+    public function getCountPassModules()
+    {
+        return count($this->passModules);
+    }
+
+    private function getInactivePassModules(){
+        $criteria = Criteria::create();
+        $criteria->where(Criteria::expr()->eq('isActive', false));
+
+        return $this->passModules->matching($criteria);
+    }
+
 
 }

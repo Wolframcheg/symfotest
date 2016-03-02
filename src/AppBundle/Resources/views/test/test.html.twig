@@ -44,7 +44,7 @@
                         <td>{{ item.module.attempts }}</td>
                     </tr>
                 </table>
-                <a href="" class="btn btn-primary btn-md">Start test</a>
+                <a href="{{ path('ident_pass',{ 'idModule' : item.module.id }) }}" class="btn btn-primary btn-md">Start test</a>
             </div>
         {% endfor %}
 

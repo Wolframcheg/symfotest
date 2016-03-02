@@ -9,7 +9,9 @@
 namespace AppBundle\Entity;
 
 
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * PassModule
@@ -33,11 +35,12 @@ class PassModule
 
     /**
      * @ORM\Column(name="time_start", type="datetime")
+     * @Gedmo\Timestampable(on="create")
      */
     private $timeStart;
 
     /**
-     * @ORM\Column(name="time_finish", type="datetime")
+     * @ORM\Column(name="time_finish", type="datetime", nullable=true)
      */
     private $timeFinish;
 
@@ -55,6 +58,14 @@ class PassModule
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ModuleUser", inversedBy="passModules")
      */
     private $moduleUser;
+
+
+    public function __construct()
+    {
+        $this->isActive = true;
+        $this->rating = 0;
+    }
+
 
     /**
      * @return mixed
@@ -159,5 +170,6 @@ class PassModule
     {
         $this->moduleUser = $moduleUser;
     }
+
 
 }
