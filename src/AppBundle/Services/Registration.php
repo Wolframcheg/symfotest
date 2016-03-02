@@ -12,6 +12,7 @@ namespace AppBundle\Services;
 use AppBundle\Entity\User;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use AppBundle\Form\UserType;
+use AppBundle\Form\UpdateUserSocialNetType;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -46,6 +47,8 @@ class Registration
      */
     protected $passwordEncoder;
 
+    protected $template;
+
     /**
      * @param RegistryInterface $doctrine
      * @param FormFactoryInterface $formFactory
@@ -75,7 +78,7 @@ class Registration
     {
         $em = $this->doctrine->getManager();
 
-        $role = User::ROLE_USER;
+     //   $role = User::ROLE_USER;
         $user = new User();
         $form = $this->formFactory->create(UserType::class, $user);
 
@@ -86,9 +89,32 @@ class Registration
             $password = $this->passwordEncoder
                 ->encodePassword($user, $user->getPlainPassword());
             $user->setPassword($password);
-            $user->setRole($role);
+        //    $user->setRole($role);
+            $user->setIsReg(true);
 
             $em->persist($user);
+            $em->flush();
+
+            return new RedirectResponse($this->router->generate('homepage'));
+        }
+
+        return ['form' => $form->createView()];
+    }
+
+    public function updateRegistrationUser(Request $request, User $user)
+    {
+        $em = $this->doctrine->getManager();
+        $form = $this->formFactory->create(UpdateUserSocialNetType::class, $user);
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $password = $this->passwordEncoder
+                ->encodePassword($user, $user->getPlainPassword());
+            $user->setPassword($password);
+            $user->setIsActive(false);
+            $user->setIsReg(true);
+
             $em->flush();
 
             return new RedirectResponse($this->router->generate('homepage'));

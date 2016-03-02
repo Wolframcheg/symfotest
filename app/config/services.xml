@@ -17,6 +17,7 @@
             <argument type="service" id="router"/>
             <argument type="service" id="validator"/>
             <argument type="service" id="security.password_encoder" />
+            <argument type="service" id="templating.engine.twig" />
         </service>
 
         <service id="app.image.manager" class="AppBundle\Services\ImageManagerServices"/>
@@ -40,6 +41,10 @@
             <argument key="doctrine" type="service" id="doctrine"/>
             <argument key="formFactory" type="service" id="form.factory"/>
             <argument key="tokenStorage" type="service" id="security.token_storage"/>
+        </service>
+
+        <service id="oauth_test_provider" class="AppBundle\OAuthProvider\LoginUserProvider">
+            <argument type="service" id="doctrine.orm.entity_manager" />
         </service>
 
     </services>

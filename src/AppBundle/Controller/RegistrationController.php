@@ -26,6 +26,26 @@ class RegistrationController extends Controller
     }
 
     /**
+     * @Route("/registrationNet", name="net_registration")
+     * @Template("@App/registration/updateRegistration.html.twig")
+     */
+    public function registerSocialNetAction(Request $request)
+    {
+        $user = $this->getUser();
+
+        if ($user) {
+            if ($user->getIsReg() === false) {
+                return $this->get('app.registration.user')
+                    ->updateRegistrationUser($request, $user);
+            }
+
+            return $this->redirectToRoute('show_test');
+        }
+
+        return $this->redirectToRoute('homepage');
+    }
+
+    /**
      * @Route("/register/check_useremail", name="register_check_email")
      */
     public function checkUserEmail(Request $request)

@@ -10,7 +10,7 @@
                     {{ error.message }}
                 </div>
             {% endif %}
-            <form class="form col-md-12 center-block" method="post" action="{{ path('login_check') }}">
+            <form class="form col-md-12 center-block" method="post" action="{{ path('formLogin_check') }}">
                 <div class="form-group">
                     <input type="text" class="form-control input-lg" placeholder="Email" name="_username" value="{{ last_username }}">
                 </div>

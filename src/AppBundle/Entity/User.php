@@ -47,7 +47,7 @@ class User implements AdvancedUserInterface
     private $lastName;
 
     /**
-     * @ORM\Column(type="string", length=64)
+     * @ORM\Column(type="string", length=64, nullable=true)
      */
     private $password;
 
@@ -67,6 +67,42 @@ class User implements AdvancedUserInterface
     private $isActive;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="fb_token", type="string", nullable=true)
+     */
+    protected $facebookToken;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="fb_id", type="string", nullable=true)
+     */
+    protected $facebookId;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="g_token", type="string", nullable=true)
+     */
+    protected $googleToken;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="g_id", type="string", nullable=true)
+     */
+    protected $googleId;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="type", type="string", nullable=true)
+     */
+    protected $type;
+
+    /**
+     * @ORM\Column(name="is_reg", type="boolean")
+     */
+    protected $isReg;
+
+    /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\ModuleUser", mappedBy="user")
      */
     private $modulesUser;
@@ -78,7 +114,9 @@ class User implements AdvancedUserInterface
     public function __construct()
     {
         $this->isActive = false;
+        $this->isReg = false;
         $this->modulesUser = new ArrayCollection();
+        $this->role = self::ROLE_USER;
     }
 
     /**
@@ -138,6 +176,8 @@ class User implements AdvancedUserInterface
     public function setEmail($email)
     {
         $this->email = $email;
+
+        return $this;
     }
 
     /**
@@ -154,6 +194,8 @@ class User implements AdvancedUserInterface
     public function setFirstName($firstName)
     {
         $this->firstName = $firstName;
+
+        return $this;
     }
 
     /**
@@ -170,6 +212,8 @@ class User implements AdvancedUserInterface
     public function setLastName($lastName)
     {
         $this->lastName = $lastName;
+
+        return $this;
     }
 
     /**
@@ -300,6 +344,120 @@ class User implements AdvancedUserInterface
     public function setIsActive($active)
     {
         return $this->isActive = $active;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFacebookToken()
+    {
+        return $this->facebookToken;
+    }
+
+    /**
+     * @param string $facebookToken
+     */
+    public function setFacebookToken($facebookToken)
+    {
+        $this->facebookToken = $facebookToken;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFacebookId()
+    {
+        return $this->facebookId;
+    }
+
+    /**
+     * @param string $facebookId
+     */
+    public function setFacebookId($facebookId)
+    {
+        $this->facebookId = $facebookId;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGoogleToken()
+    {
+        return $this->googleToken;
+    }
+
+    /**
+     * @param string $googleToken
+     */
+    public function setGoogleToken($googleToken)
+    {
+        $this->googleToken = $googleToken;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGoogleId()
+    {
+        return $this->googleId;
+    }
+
+    /**
+     * @param string $googleId
+     */
+    public function setGoogleId($googleId)
+    {
+        $this->googleId = $googleId;
+
+        return $this;
+    }
+
+
+    /**
+     * Set type
+     *
+     * @param string $type
+     * @return User
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIsReg()
+    {
+        return $this->isReg;
+    }
+
+    /**
+     * @param mixed $isReg
+     */
+    public function setIsReg($isReg)
+    {
+        $this->isReg = $isReg;
+
+        return $this;
     }
 
     public function getCountModules()
