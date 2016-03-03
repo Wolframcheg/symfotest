@@ -58,6 +58,11 @@ class Question
     private $answers;
 
     /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\PassModule", mappedBy="currentQuestion")
+     */
+    private $passModules;
+
+    /**
      *
      */
     public function __construct()
