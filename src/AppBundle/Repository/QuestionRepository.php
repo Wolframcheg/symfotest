@@ -23,4 +23,19 @@ class QuestionRepository extends EntityRepository
             ->getResult()
             ;
     }
+
+    public function getFirstQuestionForPass($idPassModule)
+    {
+        return $this->createQueryBuilder('question')
+            ->leftJoin('question.module', 'module')
+            ->leftJoin('module.modulesUser', 'module_user')
+            ->leftJoin('module_user.passModules', 'pass_module')
+            ->andWhere('pass_module.id = :idPassModule')
+            ->setParameter('idPassModule', $idPassModule)
+            ->orderBy('question.sort')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
 }

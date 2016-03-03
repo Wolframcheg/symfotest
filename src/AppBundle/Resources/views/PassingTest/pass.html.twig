@@ -1,0 +1,10 @@
+{% extends '::base.html.twig' %}
+
+{% block content %}
+    <section class="content">
+        <h1>
+            {{ data.question.textQuestion }}
+        </h1>
+        {{ form(data.form) }}
+    </section>
+{% endblock %}

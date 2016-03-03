@@ -59,6 +59,11 @@ class PassModule
      */
     private $moduleUser;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Question", inversedBy="passModules")
+     */
+    private $currentQuestion;
+
 
     public function __construct()
     {
@@ -169,6 +174,22 @@ class PassModule
     public function setModuleUser(ModuleUser $moduleUser = null)
     {
         $this->moduleUser = $moduleUser;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCurrentQuestion()
+    {
+        return $this->currentQuestion;
+    }
+
+    /**
+     * @param mixed $question
+     */
+    public function setCurrentQuestion(Question $question = null)
+    {
+        $this->currentQuestion = $question;
     }
 
 

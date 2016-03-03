@@ -4,6 +4,7 @@ namespace AppBundle\Services;
 use AppBundle\Entity\Comment;
 use AppBundle\Entity\ModuleUser;
 use AppBundle\Entity\PassModule;
+use AppBundle\Form\AnswerForPassType;
 use AppBundle\Form\CommentType;
 use Faker\Provider\cs_CZ\DateTime;
 use Knp\Component\Pager\PaginatorInterface;
@@ -56,7 +57,7 @@ class PassManager
         $lastPass = $moduleUser->getPassModules()->last();
 
         if (0 == $moduleUser->getCountPassModules() || !$lastPass->getIsActive()) {
-            $newPassModule = $this->createModule($moduleUser);
+            $newPassModule = $this->createPassModule($moduleUser);
             return $this->generateOutput('redirect_to_pass', 301, $newPassModule->getId());
         }
 
@@ -73,9 +74,9 @@ class PassManager
         return $this->generateOutput('redirect_to_pass', 301, $lastPass->getId());
     }
 
-    private function createModule(ModuleUser $moduleUser)
+    private function createPassModule(ModuleUser $moduleUser)
     {
-        $passModule = $this->createModuleInstance();
+        $passModule = $this->createPassModuleInstance();
         $passModule->setModuleUser($moduleUser);
         $passModule->setTimePeriod($moduleUser->getModule()->getTime());
 
@@ -84,7 +85,7 @@ class PassManager
         return $passModule;
     }
 
-    private function createModuleInstance()
+    private function createPassModuleInstance()
     {
         return new PassModule();
     }
@@ -111,6 +112,47 @@ class PassManager
         }
 
         return $user;
+    }
+
+    public function passModule($idPassModule)
+    {
+        $user = $this->getUser();
+
+        $passModule = $this->doctrine->getRepository('AppBundle:PassModule')
+                    ->getModuleByIdAndUser($idPassModule, $user->getId());
+
+        if (null === $passModule) {
+            return $this->generateOutput('error', 403, 'You do not have access to this pass');
+        }
+
+        if (null === $passModule->getCurrentQuestion()) {
+            $firstQuestionForPass = $this->doctrine->getRepository('AppBundle:Question')
+                ->getFirstQuestionForPass($passModule->getId());
+
+            if(null === $firstQuestionForPass)
+                return $this->generateOutput('error', 500, 'This module does not have any questions ;(');
+
+            $passModule->setCurrentQuestion($firstQuestionForPass);
+            $this->doctrine->getEntityManager()->flush();
+            $this->passModule($idPassModule);
+        }
+
+        if(!($passModule->getIsActive())){
+            return $this->generateOutput('error', 403, 'This pass is overdue ;(');
+        }
+
+        $currentQuestion = $passModule->getCurrentQuestion();
+        $form = $this->formFactory->create(AnswerForPassType::class, null, [
+            'method' => Request::METHOD_POST,
+            'idQuestion' => $currentQuestion->getId(),
+            'idPassModule' => $idPassModule,
+            'answers' => $currentQuestion->getAnswers()->toArray()
+        ]);
+
+        return $this->generateOutput('ok', 200, [
+            'form' => $form->createView(),
+            'question' => $currentQuestion
+        ]);
     }
 
 
