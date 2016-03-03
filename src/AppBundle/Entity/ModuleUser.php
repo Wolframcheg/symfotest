@@ -33,7 +33,7 @@ class ModuleUser
     private $isActive;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\PassModule", mappedBy="moduleUser")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\PassModule", mappedBy="moduleUser", cascade={"remove"})
      */
     private $passModules;
 

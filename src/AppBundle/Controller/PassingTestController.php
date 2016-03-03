@@ -24,11 +24,8 @@ class PassingTestController extends Controller
         var_dump($result);exit();
     }
 
-    /**
-     * @Route("/account", name="account")
-     */
     public function passAction($passId)
     {
-        
+
     }
 }

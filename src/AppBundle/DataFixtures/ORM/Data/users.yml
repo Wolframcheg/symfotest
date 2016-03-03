@@ -5,15 +5,18 @@ AppBundle\Entity\User:
         email(unique): user1@mail.ru
         password: <encodePassword(@user1, "userpass")>
         role: ROLE_USER
+        isReg: true
     user2:
         firstName: <name()>
         lastName: <lastName()>
         email(unique): user2@mail.ru
         password: <encodePassword(@user2, "userpass")>
         role: ROLE_USER
+        isReg: true
     user3:
         firstName: <name()>
         lastName: <lastName()>
         email(unique): user3@mail.ru
         password: <encodePassword(@user3, "userpass")>
         role: ROLE_USER
+        isReg: true
