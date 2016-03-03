@@ -27,6 +27,8 @@ class FixturesLoader extends DataFixtureLoader
             __DIR__ . '/Data/categories.yml',
             __DIR__ . '/Data/users.yml',
             __DIR__ . '/Data/modules.yml',
+            __DIR__ . '/Data/questions.yml',
+            __DIR__ . '/Data/answers.yml',
         ];
     }
 
