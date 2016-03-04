@@ -33,7 +33,7 @@ class AnswerForPassType extends AbstractType
             ]);
         }
 
-        $builder->add('all_incorrect', CheckboxType::class,[
+        $builder->add('answer_all_incorrect', CheckboxType::class,[
             'label'=>'Question has no correct answers',
             'required' => false
         ]);

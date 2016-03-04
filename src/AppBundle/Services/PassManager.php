@@ -148,10 +148,12 @@ class PassManager
             'idPassModule' => $idPassModule,
             'answers' => $currentQuestion->getAnswers()->toArray()
         ]);
+        $form->add('submit', SubmitType::class, ['label' => 'Save', 'attr' => [ 'class' => 'btn btn-primary' ]]);
+
 
         return $this->generateOutput('ok', 200, [
-            'form' => $form->createView(),
-            'question' => $currentQuestion
+            $form,
+            $currentQuestion
         ]);
     }
 

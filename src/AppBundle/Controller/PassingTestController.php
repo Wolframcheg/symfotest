@@ -38,17 +38,32 @@ class PassingTestController extends Controller
      * @Route("/pass-module/{idPass}", name="pass_module")
      * @Template()
      */
-    public function passAction($idPass)
+    public function passAction(Request $request, $idPass)
     {
         $passManager = $this->container->get('app.pass_manager');
         $result = $passManager->passModule($idPass);
+
+        if($result['status'] == 'ok'){
+            list($form, $question) = $result['content'];
+
+            if($request->isMethod('POST')){
+                $form->bind($request);
+                $data = $form->getData();
+                /* todo */
+            };
+
+        }
+
 
         switch ($result['status']) {
             case 'error':
                 throw new HttpException($result['code'], $result['content']);
             case 'ok':
                 return [
-                    'data' => $result['content']
+                    'data' => [
+                        'form' => $form->createView(),
+                        'question' => $question
+                    ]
                 ];
             default:
                 throw new HttpException(500, 'Ooops something wrong');
