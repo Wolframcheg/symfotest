@@ -1,0 +1,53 @@
+AppBundle\Entity\Question:
+    question1:
+        textQuestion: 'Result: 2+2 ='
+        sort: 1
+        allIncorrect: false
+        module: "@module1"
+#        answers: [@answer1, @answer2, @answer3]
+    question2:
+        textQuestion: 'Result: 2*2 ='
+        sort: 2
+        allIncorrect: false
+        module: "@module1"
+#		answers: [@answer4, @answer5]
+    question3:
+        textQuestion: 'Result: 2/2 ='
+        sort: 3
+        allIncorrect: true
+        module: "@module1"
+#		answers: [@answer6, @answer7]
+    question4:
+        textQuestion: 'Result: (1+5)*10 ='
+        sort: 4
+        allIncorrect: false
+        module: "@module1"
+#		answers: [@answer8, @answer9, @answer10, @answer11]
+    question5:
+        textQuestion: 'Result: 1+2*10 ='
+        sort: 5
+        allIncorrect: true
+        module: "@module1"
+#		answers: [@answer12, @answer13, @answer14]
+    question6:
+        textQuestion: 'Result: 5*10/2-1 ='
+        sort: 6
+        allIncorrect: false
+        module: "@module1"
+#		answers: [@answer15, @answer16]
+    question7:
+        textQuestion: 'Result: 100*5% ='
+        sort: 7
+        allIncorrect: true
+        module: "@module1"
+#		answers: [@answer17, @answer18, @answer19]
+    question8:
+        textQuestion: 'Result: 10/4 ='
+        sort: 8
+        allIncorrect: false
+        module: "@module1"
+#		answers: [@answer20, @answer21, @answer22, @answer23, @answer24, @answer25]
+
+
+
+

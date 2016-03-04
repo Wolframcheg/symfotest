@@ -1,11 +1,12 @@
 AppBundle\Entity\Module:
-    module{1..10}:
-        category: @category*
-        title(unique): <word()>
+    module1:
+        category: "@category1"
+        title: 'Test mathematics'
         rating: 100
-        persentSuccess: 90
-        time: 40
-        attempts: 3
+        persentSuccess: 65
+        time: 10
+        attempts: 2
+#	    questions: [@question1, @question2, @question3, @question4, @question5, @question6, @question7, @question8]
 
 
 

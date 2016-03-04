@@ -1,0 +1,106 @@
+AppBundle\Entity\Answer:
+    answer1:
+        textAnswer: '2'
+        correctly: false
+        question: "@question1"
+    answer2:
+        textAnswer: '3'
+        correctly: false
+        question: "@question1"
+    answer3:
+        textAnswer: '4'
+        correctly: true
+        question: "@question1"
+    answer4:
+        textAnswer: '4'
+        correctly: true
+        question: "@question2"
+    answer5:
+        textAnswer: '5'
+        correctly: false
+        question: "@question2"
+    answer6:
+        textAnswer: '0'
+        correctly: false
+        question: "@question3"
+    answer7:
+        textAnswer: '2'
+        correctly: false
+        question: "@question3"
+    answer8:
+        textAnswer: '6'
+        correctly: false
+        question: "@question4"
+    answer9:
+        textAnswer: '12'
+        correctly: false
+        question: "@question4"
+    answer10:
+        textAnswer: '60'
+        correctly: true
+        question: "@question4"
+    answer11:
+        textAnswer: '22'
+        correctly: false
+        question: "@question4"
+    answer12:
+        textAnswer: '30'
+        correctly: false
+        question: "@question5"
+    answer13:
+        textAnswer: '32'
+        correctly: false
+        question: "@question5"
+    answer14:
+        textAnswer: '2'
+        correctly: false
+        question: "@question5"
+    answer15:
+        textAnswer: '24'
+        correctly: true
+        question: "@question6"
+    answer16:
+        textAnswer: '50'
+        correctly: false
+        question: "@question6"
+    answer17:
+        textAnswer: '50'
+        correctly: false
+        question: "@question7"
+    answer18:
+        textAnswer: '0.5'
+        correctly: false
+        question: "@question7"
+    answer19:
+        textAnswer: '5.5'
+        correctly: false
+        question: "@question7"
+    answer20:
+        textAnswer: '2'
+        correctly: false
+        question: "@question8"
+    answer21:
+        textAnswer: '3.5'
+        correctly: false
+        question: "@question8"
+    answer22:
+        textAnswer: '5.5'
+        correctly: false
+        question: "@question8"
+    answer23:
+        textAnswer: '2.5'
+        correctly: true
+        question: "@question8"
+    answer24:
+        textAnswer: '5'
+        correctly: false
+        question: "@question8"
+    answer25:
+        textAnswer: '1.5'
+        correctly: false
+        question: "@question8"
+
+
+
+
+

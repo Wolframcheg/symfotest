@@ -1,6 +1,7 @@
 AppBundle\Entity\Category:
-    category{1..10}:
-        title(unique): <word()>
+    category1:
+        title: 'Mathematics'
+#        modules: 1x @module1
 
 
 
