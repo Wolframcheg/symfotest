@@ -42,12 +42,17 @@ AppBundle\Entity\Question:
         module: "@module1"
 #		answers: [@answer17, @answer18, @answer19]
     question8:
-        textQuestion: 'Result: 10/4 ='
+        textQuestion: 'Result: 5>X<10 :'
         sort: 8
         allIncorrect: false
         module: "@module1"
 #		answers: [@answer20, @answer21, @answer22, @answer23, @answer24, @answer25]
-
+    question9:
+            textQuestion: 'Result: 1>X<5 :'
+            sort: 8
+            allIncorrect: false
+            module: "@module1"
+#   		answers: [@answer26, @answer27, @answer28, @answer29, @answer30]
 
 
 
