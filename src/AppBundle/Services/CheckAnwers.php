@@ -40,9 +40,14 @@ class CheckAnwers
             }
         }
         //first type question
-        if ($question->getAllIncorrect() === true && $question->getAllIncorrect() === $data['answer_all_incorrect'] &&
-            $sumAllCorrect == $countOriginalAnswers)
-            return 1;
+        if ($question->getAllIncorrect() || $data['answer_all_incorrect']) {
+            if ($question->getAllIncorrect() === $data['answer_all_incorrect'] && $question->getAllIncorrect() === true &&
+                $sumAllCorrect == $countOriginalAnswers
+            )
+                return $result = 1;
+
+            return $result = 0;
+        }
 
         // second type question
         if ($sumAllCorrect && $sumCorrectChecks) {

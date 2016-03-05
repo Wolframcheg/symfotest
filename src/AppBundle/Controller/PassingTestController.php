@@ -50,6 +50,7 @@ class PassingTestController extends Controller
                 $form->bind($request);
                 $data = $form->getData();
                 $res = $this->get('app.check.answers')->checkAnswers($data);
+                var_dump($res);exit();
             };
 
         }
