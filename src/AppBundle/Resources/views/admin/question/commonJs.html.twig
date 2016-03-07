@@ -48,5 +48,20 @@
         incorrectCheck.click(function () {
             changeChecks();
         });
+
+        function checkTrue() {
+            var len = $('#app_bundle_question_type_answers input:checkbox:checked').length;
+
+            if (len == 3)
+                $('#app_bundle_question_type_answers input:checkbox:not(:checked)').attr('disabled','disabled');
+            else
+                $('#app_bundle_question_type_answers input:checkbox:not(:checked)').removeAttr('disabled');
+        }
+
+        checkTrue();
+
+        $('#app_bundle_question_type_answers').click(function() {
+            checkTrue();
+        });
     });
 </script>

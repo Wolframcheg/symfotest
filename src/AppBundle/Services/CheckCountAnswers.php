@@ -10,7 +10,6 @@ namespace AppBundle\Services;
 
 
 use AppBundle\Entity\Question;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\RouterInterface;
 
@@ -24,29 +23,23 @@ class CheckCountAnswers
         $this->route = $routerInterface;
         $this->session = $session;
     }
-    public function checkCountInsert(Question $question, $idModule)
+    public function checkCount(Question $question)
     {
         $answers = $question->getAnswers();
+        $countTrueAnswers = 0;
 
-        if (count($answers) < 2) {
-            $this->session->getFlashBag()->add('notice', 'You have to add not less than 2 answers');
+        foreach ($answers as $item) {
+            $item->getCorrectly() ? $countTrueAnswers++ : null;
+        }
 
-            return new Response($this->route->generate('create_question', array('idModule' => $idModule)));
+        if ($countTrueAnswers > 3) {
+            $this->session->getFlashBag()->add('notice',
+                'You have to add not more than 3 true answers for question '.$question->getTextQuestion());
+
+            return false;
         }
 
         return true;
     }
 
-    public function checkCountEdit(Question $question, $id, $idModule)
-    {
-        $answers = $question->getAnswers();
-
-        if (count($answers) < 2) {
-            $this->session->getFlashBag()->add('notice', 'You have to add not less than 2 answers');
-
-            return new Response($this->route->generate('edit_question', array('id' => $id, 'idModule' => $idModule)));
-        }
-
-        return true;
-    }
 }
