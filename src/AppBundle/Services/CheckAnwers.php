@@ -31,13 +31,28 @@ class CheckAnwers
 
         $sumAllCorrect = 0;
         $sumCorrectChecks = 0;
+        $sumFalseAnswers = 0;
+        $countAllTrueAnswers = 0;
+        $countAllChecks = 0;
 
         foreach ($originalAnswers as $item) {
+            $item->getCorrectly() ? $countAllTrueAnswers++ : null;
+            $data["answer_{$item->getId()}"] ? $countAllChecks++ : null;
             if ($item->getCorrectly() === $data["answer_{$item->getId()}"]) {
                 $sumAllCorrect++;
                 if ($item->getCorrectly())
                     $sumCorrectChecks++;
+            } else {
+                if ($item->getCorrectly() === false) {
+                    $sumFalseAnswers++;
+                }
             }
+        }
+
+        if ($countAllTrueAnswers == 1) {
+            $maxCountAnswers = 2;
+        } else {
+            $maxCountAnswers = $countAllTrueAnswers;
         }
         //first type question
         if ($question->getAllIncorrect() || $data['answer_all_incorrect']) {
@@ -49,9 +64,16 @@ class CheckAnwers
             return $result = 0;
         }
 
-        // second type question
-        if ($sumAllCorrect && $sumCorrectChecks) {
-            $result = (1 / $countOriginalAnswers) * $sumAllCorrect;
+
+        if ($sumAllCorrect && $sumCorrectChecks && $countAllChecks <= $maxCountAnswers) {
+            // second type question
+            if ($countAllTrueAnswers == 1) {
+                $result = (1 / $maxCountAnswers) * ($sumCorrectChecks + ($sumFalseAnswers > 0 ? 0: 1));
+            }
+            // third type question
+            elseif ($countAllTrueAnswers > 1) {
+                $result = (1 / $maxCountAnswers) * $sumCorrectChecks;
+            }
         } else {
             $result = 0;
         }

@@ -99,26 +99,6 @@ AppBundle\Entity\Answer:
         textAnswer: '9.5'
         correctly: true
         question: "@question8"
-    answer26:
-        textAnswer: '2'
-        correctly: true
-        question: "@question9"
-    answer27:
-        textAnswer: '3'
-        correctly: true
-        question: "@question9"
-    answer28:
-        textAnswer: '6'
-        correctly: false
-        question: "@question9"
-    answer29:
-        textAnswer: '6'
-        correctly: false
-        question: "@question9"
-    answer30:
-        textAnswer: '10'
-        correctly: false
-        question: "@question9"
 
 
 
