@@ -35,9 +35,8 @@ class QuestionController extends Controller
                 $question->setModule($module);
                 $em->persist($question);
                 $em->flush();
+                return $this->redirectToRoute('create_question', array('idModule' => $idModule));
             }
-
-            return $this->redirectToRoute('create_question', array('idModule' => $idModule));
         }
 
         return ['form' => $form->createView(),
