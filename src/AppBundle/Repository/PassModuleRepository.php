@@ -26,4 +26,21 @@ class PassModuleRepository extends EntityRepository
             ->getOneOrNullResult()
             ;
     }
+
+    public function getDonePassModuleByIdAndUser($idPassModule, $idUser)
+    {
+        return $this->createQueryBuilder('pass_module')
+            ->leftJoin('pass_module.moduleUser', 'module_user')
+            ->leftJoin('module_user.user', 'user')
+            ->andWhere('pass_module.id = :idPassModule')
+            ->andWhere('user.id = :idUser')
+            ->andWhere('pass_module.isActive = :isActive')
+            ->setParameter('idPassModule', $idPassModule)
+            ->setParameter('idUser', $idUser)
+            ->setParameter('isActive', false)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
+
 }

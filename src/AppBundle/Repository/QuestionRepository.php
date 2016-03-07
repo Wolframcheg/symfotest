@@ -9,6 +9,8 @@
 namespace AppBundle\Repository;
 
 
+use AppBundle\Entity\PassModule;
+use AppBundle\Entity\Question;
 use Doctrine\ORM\EntityRepository;
 
 class QuestionRepository extends EntityRepository
@@ -38,4 +40,26 @@ class QuestionRepository extends EntityRepository
             ->getOneOrNullResult()
             ;
     }
+
+    public function getNextQuestionForPass(PassModule $passModule, Question $currentQuestion)
+    {
+        return $this->createQueryBuilder('question')
+
+            ->leftJoin('question.module', 'module')
+            ->leftJoin('module.modulesUser', 'module_user')
+            ->leftJoin('module_user.passModules', 'pass_module')
+            ->orderBy('question.sort')
+            ->andWhere('pass_module.id = :idPassModule')
+            ->andWhere('question.sort >= :sortCurrentQuestion')
+            ->andWhere('question.id <> :idCurrentQuestion')
+            ->setParameter('idPassModule', $passModule->getId())
+            ->setParameter('sortCurrentQuestion', $currentQuestion->getSort())
+            ->setParameter('idCurrentQuestion', $currentQuestion->getId())
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
+
+
 }

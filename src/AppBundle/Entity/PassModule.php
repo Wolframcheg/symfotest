@@ -97,6 +97,14 @@ class PassModule
     }
 
     /**
+     * @param mixed $rating
+     */
+    public function addRating($rating)
+    {
+        $this->rating += $rating;
+    }
+
+    /**
      * @return mixed
      */
     public function getTimeStart()

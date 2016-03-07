@@ -51,5 +51,10 @@
             <argument type="service" id="doctrine" />
         </service>
 
+        <service id="app.pass_control" class="AppBundle\Services\PassControl">
+            <argument type="service" id="doctrine" />
+            <argument type="service" id="app.check.answers" />
+        </service>
+
     </services>
 </container>
