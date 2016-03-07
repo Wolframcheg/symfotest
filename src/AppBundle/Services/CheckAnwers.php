@@ -27,30 +27,33 @@ class CheckAnwers
             ->find($data['idQuestion']);
 
         $originalAnswers = $question->getAnswers();
-        $countOriginalAnswers = count($originalAnswers);
+        $countOriginalAnswers = $question->getCountAnswers();
 
         $sumAllCorrect = 0;
+        $sumCorrectChecks = 0;
 
         foreach ($originalAnswers as $item) {
             if ($item->getCorrectly() === $data["answer_{$item->getId()}"]) {
                 $sumAllCorrect++;
+                if ($item->getCorrectly())
+                    $sumCorrectChecks++;
             }
         }
         //first type question
         if ($question->getAllIncorrect() || $data['answer_all_incorrect']) {
-            if ($question->getAllIncorrect() === $data['answer_all_incorrect'] && $question->getAllIncorrect() === true && $sumAllCorrect == $countOriginalAnswers) {
-
+            if ($question->getAllIncorrect() === $data['answer_all_incorrect'] && $question->getAllIncorrect() === true &&
+                $sumAllCorrect == $countOriginalAnswers
+            )
                 return $result = 1;
-            }
 
             return $result = 0;
         }
 
         // second type question
-        if ($sumAllCorrect) {
+        if ($sumAllCorrect && $sumCorrectChecks) {
             $result = (1 / $countOriginalAnswers) * $sumAllCorrect;
         } else {
-            $result =  0;
+            $result = 0;
         }
 
         return $result;
