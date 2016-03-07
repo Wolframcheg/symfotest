@@ -55,7 +55,6 @@ class CheckAnwers
             $maxCountAnswers = $countAllTrueAnswers;
         }
 
-        //first type question
         if ($question->getAllIncorrect() || $data['answer_all_incorrect']) {
             if ($question->getAllIncorrect() === $data['answer_all_incorrect'] && $question->getAllIncorrect() === true &&
                 $sumAllCorrect == $countOriginalAnswers

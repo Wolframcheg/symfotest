@@ -49,7 +49,7 @@ class PassingTestController extends Controller
             if($request->isMethod('POST')){
                 $form->bind($request);
                 $data = $form->getData();
-                /* todo */
+                $res = $this->get('app.check.answers')->checkAnswers($data);
             };
 
         }

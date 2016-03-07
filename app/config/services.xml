@@ -47,5 +47,9 @@
             <argument type="service" id="doctrine.orm.entity_manager" />
         </service>
 
+        <service id="app.check.answers" class="AppBundle\Services\CheckAnwers">
+            <argument type="service" id="doctrine" />
+        </service>
+
     </services>
 </container>
