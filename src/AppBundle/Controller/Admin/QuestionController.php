@@ -31,12 +31,12 @@ class QuestionController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $question->setModule($module);
-           // $this->get('app.checkCount.answer')->checkCountInsert($question, $idModule);
-            $em->persist($question);
-            $em->flush();
-
-            return $this->redirectToRoute('create_question', array('idModule' => $idModule));
+            if ($this->get('app.checkCount.answer')->checkCount($question)) {
+                $question->setModule($module);
+                $em->persist($question);
+                $em->flush();
+                return $this->redirectToRoute('create_question', array('idModule' => $idModule));
+            }
         }
 
         return ['form' => $form->createView(),
@@ -67,17 +67,16 @@ class QuestionController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            //$this->get('app.checkCount.answer')->checkCountEdit($question, $id, $idModule);
-
-            foreach ($originalAnswers as $answer) {
-                if (false === $question->getAnswers()->contains($answer)) {
-                    $em->remove($answer);
+            if ($this->get('app.checkCount.answer')->checkCount($question)) {
+                foreach ($originalAnswers as $answer) {
+                    if (false === $question->getAnswers()->contains($answer)) {
+                        $em->remove($answer);
+                    }
                 }
+                $em->flush();
             }
 
-            $em->flush();
-
-            return $this->redirectToRoute('show_question', array('idModule' => $idModule));
+            return $this->redirectToRoute('edit_question', array('id' => $id, 'idModule' => $idModule));
         }
 
         return ['form' => $form->createView(),
