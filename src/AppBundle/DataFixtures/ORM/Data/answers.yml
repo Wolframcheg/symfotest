@@ -80,15 +80,15 @@ AppBundle\Entity\Answer:
         correctly: false
         question: "@question8"
     answer21:
-        textAnswer: '3.5'
-        correctly: false
+        textAnswer: '6'
+        correctly: true
         question: "@question8"
     answer22:
-        textAnswer: '5.5'
+        textAnswer: '4.5'
         correctly: false
         question: "@question8"
     answer23:
-        textAnswer: '2.5'
+        textAnswer: '8'
         correctly: true
         question: "@question8"
     answer24:
@@ -96,11 +96,9 @@ AppBundle\Entity\Answer:
         correctly: false
         question: "@question8"
     answer25:
-        textAnswer: '1.5'
-        correctly: false
+        textAnswer: '9.5'
+        correctly: true
         question: "@question8"
-
-
 
 
 

@@ -55,7 +55,7 @@ class ModuleType extends AbstractType
                 },
                 'label' => 'Category',
                 'property' => 'title',
-                'attr' => ['class' => 'form-control'],
+                'attr' => ['class' => 'chosen-select'],
                 'required'  => true
             ])
             ->add('module_image', FileType::class, [
