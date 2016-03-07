@@ -6,6 +6,7 @@ use AppBundle\Entity\ModuleUser;
 use AppBundle\Entity\PassModule;
 use AppBundle\Form\AnswerForPassType;
 use AppBundle\Form\CommentType;
+use AppBundle\Traits\GenerateOutput;
 use Faker\Provider\cs_CZ\DateTime;
 use Knp\Component\Pager\PaginatorInterface;
 use Proxies\__CG__\AppBundle\Entity\Module;
@@ -21,6 +22,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 
 class PassManager
 {
+    use GenerateOutput;
 
     protected $doctrine;
     protected $formFactory;
@@ -61,17 +63,30 @@ class PassManager
             return $this->generateOutput('redirect_to_pass', 301, $newPassModule->getId());
         }
 
-        $nowDate = new \DateTime();
-        $dateEstimate = $lastPass->getTimeStart()
-            ->modify("+{$lastPass->getTimePeriod()} minutes");
+        $time_residue = $this->checkDatePass($lastPass);
 
-        if ($nowDate > $dateEstimate) {
-            $lastPass->setIsActive(false);
-            $this->doctrine->getEntityManager()->flush();
+        if (!$time_residue)
             $this->identPass($idModule);
-        }
 
         return $this->generateOutput('redirect_to_pass', 301, $lastPass->getId());
+    }
+
+
+    public function checkDatePass(PassModule $pass)
+    {
+        $nowDate = new \DateTime();
+        $dateEstimate = $pass->getTimeStart()
+            ->modify("+{$pass->getTimePeriod()} minutes");
+
+        if($nowDate > $dateEstimate){
+            $pass->setIsActive(false);
+            //$pass->setTimeFinish($dateEstimate);
+            $this->doctrine->getEntityManager()->flush();
+            return false;
+        }
+
+        $interval = date_diff($nowDate, $dateEstimate);
+        return $interval->format('%I:%S');
     }
 
     private function createPassModule(ModuleUser $moduleUser)
@@ -89,16 +104,6 @@ class PassManager
     {
         return new PassModule();
     }
-
-    private function generateOutput($status, $code, $message)
-    {
-        return [
-            'status' => $status,
-            'code' => $code,
-            'content' => $message
-        ];
-    }
-
 
     protected function getUser()
     {
@@ -141,6 +146,12 @@ class PassManager
             return $this->generateOutput('error', 403, 'This pass is overdue ;(');
         }
 
+        $time_residue = $this->checkDatePass($passModule);
+
+        if (!$time_residue)
+            return $this->generateOutput('error', 403, 'This pass is overdue ;(');
+
+
         $currentQuestion = $passModule->getCurrentQuestion();
         $form = $this->formFactory->create(AnswerForPassType::class, null, [
             'method' => Request::METHOD_POST,
@@ -150,10 +161,14 @@ class PassManager
         ]);
         $form->add('submit', SubmitType::class, ['label' => 'Save', 'attr' => [ 'class' => 'btn btn-primary' ]]);
 
+//        $numberQuestion = $this->doctrine->getRepository('AppBundle:Question')
+//            ->getNumberCurrentQuestionWithSort($passModule);
 
         return $this->generateOutput('ok', 200, [
             $form,
-            $currentQuestion
+            $currentQuestion,
+            $time_residue,
+            $passModule->getModuleUser()->getModule()->getCountQuestions()
         ]);
     }
 

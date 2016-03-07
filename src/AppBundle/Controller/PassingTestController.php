@@ -24,14 +24,7 @@ class PassingTestController extends Controller
         $passManager = $this->container->get('app.pass_manager');
         $result = $passManager->identPass($idModule);
 
-        switch ($result['status']) {
-            case 'redirect_to_pass':
-                return $this->redirectToRoute('pass_module',['idPass' => $result['content']], $result['code']);
-            case 'error':
-                throw new HttpException($result['code'], $result['content']);
-            default:
-                throw new HttpException(500, 'Ooops something wrong');
-        }
+        return $this->processResult($result);
     }
 
     /**
@@ -43,30 +36,54 @@ class PassingTestController extends Controller
         $passManager = $this->container->get('app.pass_manager');
         $result = $passManager->passModule($idPass);
 
-        if($result['status'] == 'ok'){
-            list($form, $question) = $result['content'];
-
-            if($request->isMethod('POST')){
+        if($result['status'] == 'ok' && $request->isMethod('POST')){
+                $form = $result['content'][0];
                 $form->bind($request);
                 $data = $form->getData();
-                $res = $this->get('app.check.answers')->checkAnswers($data);
-            };
-
+                $result = $this->get('app.pass_control')->process($data);
         }
 
+        return $this->processResult($result);
+    }
 
+    /**
+     * @Route("/pass-result/{idPass}", name="pass_result")
+     * @Template()
+     */
+    public function passResultAction(Request $request, $idPass)
+    {
+        $passModule = $this->getDoctrine()->getRepository('AppBundle:PassModule')
+                        ->getDonePassModuleByIdAndUser($idPass,$this->getUser()->getId())
+                        ;
+
+        if($passModule === null)
+            throw new HttpException(403, 'You don\'t have permission for look this data');
+
+        var_dump($passModule->getRating());exit();
+    }
+
+    private function processResult($result){
         switch ($result['status']) {
+            case 'redirect_to_pass':
+                return $this->redirectToRoute('pass_module',['idPass' => $result['content']], $result['code']);
+            case 'redirect_to_result':
+                return $this->redirectToRoute('pass_result',['idPass' => $result['content']], $result['code']);
             case 'error':
                 throw new HttpException($result['code'], $result['content']);
             case 'ok':
+                list($form, $question, $time_residue, $countQuestions) = $result['content'];
                 return [
                     'data' => [
                         'form' => $form->createView(),
-                        'question' => $question
+                        'question' => $question,
+                        'time_residue' => $time_residue,
+                        'count_questions' => $countQuestions
                     ]
                 ];
             default:
                 throw new HttpException(500, 'Ooops something wrong');
         }
     }
+
+
 }

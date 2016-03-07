@@ -5,6 +5,14 @@
         <h1>
             {{ data.question.textQuestion }}
         </h1>
+        <div class="questions">
+            {% for i in 1..data.count_questions %}
+                <span>{{ i }}</span>
+            {% endfor %}
+        </div>
         {{ form(data.form) }}
+        <div class="time_residue">
+            Time residue: <span>{{ data.time_residue }}</span>
+        </div>
     </section>
 {% endblock %}
