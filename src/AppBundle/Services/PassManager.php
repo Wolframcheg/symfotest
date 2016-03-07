@@ -63,9 +63,9 @@ class PassManager
             return $this->generateOutput('redirect_to_pass', 301, $newPassModule->getId());
         }
 
-        $timecheck = $this->checkDatePass($lastPass);
+        $time_residue = $this->checkDatePass($lastPass);
 
-        if ($timecheck)
+        if (!$time_residue)
             $this->identPass($idModule);
 
         return $this->generateOutput('redirect_to_pass', 301, $lastPass->getId());
@@ -80,11 +80,13 @@ class PassManager
 
         if($nowDate > $dateEstimate){
             $pass->setIsActive(false);
-            $pass->setTimeFinish($dateEstimate);
+            //$pass->setTimeFinish($dateEstimate);
             $this->doctrine->getEntityManager()->flush();
-            return true;
+            return false;
         }
-        return false;
+
+        $interval = date_diff($nowDate, $dateEstimate);
+        return $interval->format('%I:%S');
     }
 
     private function createPassModule(ModuleUser $moduleUser)
@@ -144,9 +146,9 @@ class PassManager
             return $this->generateOutput('error', 403, 'This pass is overdue ;(');
         }
 
-        $timecheck = $this->checkDatePass($passModule);
+        $time_residue = $this->checkDatePass($passModule);
 
-        if ($timecheck)
+        if (!$time_residue)
             return $this->generateOutput('error', 403, 'This pass is overdue ;(');
 
 
@@ -159,10 +161,14 @@ class PassManager
         ]);
         $form->add('submit', SubmitType::class, ['label' => 'Save', 'attr' => [ 'class' => 'btn btn-primary' ]]);
 
+//        $numberQuestion = $this->doctrine->getRepository('AppBundle:Question')
+//            ->getNumberCurrentQuestionWithSort($passModule);
 
         return $this->generateOutput('ok', 200, [
             $form,
-            $currentQuestion
+            $currentQuestion,
+            $time_residue,
+            $passModule->getModuleUser()->getModule()->getCountQuestions()
         ]);
     }
 

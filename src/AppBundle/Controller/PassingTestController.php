@@ -37,7 +37,7 @@ class PassingTestController extends Controller
         $result = $passManager->passModule($idPass);
 
         if($result['status'] == 'ok' && $request->isMethod('POST')){
-            list($form, $question) = $result['content'];
+                $form = $result['content'][0];
                 $form->bind($request);
                 $data = $form->getData();
                 $result = $this->get('app.pass_control')->process($data);
@@ -71,11 +71,13 @@ class PassingTestController extends Controller
             case 'error':
                 throw new HttpException($result['code'], $result['content']);
             case 'ok':
-                list($form, $question) = $result['content'];
+                list($form, $question, $time_residue, $countQuestions) = $result['content'];
                 return [
                     'data' => [
                         'form' => $form->createView(),
-                        'question' => $question
+                        'question' => $question,
+                        'time_residue' => $time_residue,
+                        'count_questions' => $countQuestions
                     ]
                 ];
             default:

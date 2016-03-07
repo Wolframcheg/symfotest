@@ -44,7 +44,6 @@ class QuestionRepository extends EntityRepository
     public function getNextQuestionForPass(PassModule $passModule, Question $currentQuestion)
     {
         return $this->createQueryBuilder('question')
-
             ->leftJoin('question.module', 'module')
             ->leftJoin('module.modulesUser', 'module_user')
             ->leftJoin('module_user.passModules', 'pass_module')
@@ -60,6 +59,5 @@ class QuestionRepository extends EntityRepository
             ->getOneOrNullResult()
             ;
     }
-
 
 }
