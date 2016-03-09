@@ -41,7 +41,7 @@ class QuestionRepository extends EntityRepository
             ;
     }
 
-    public function getNextQuestionForPass(PassModule $passModule, Question $currentQuestion)
+    public function getNextQuestionForPass(PassModule $passModule)
     {
         return $this->createQueryBuilder('question')
             ->leftJoin('question.module', 'module')
@@ -49,11 +49,9 @@ class QuestionRepository extends EntityRepository
             ->leftJoin('module_user.passModules', 'pass_module')
             ->orderBy('question.sort')
             ->andWhere('pass_module.id = :idPassModule')
-            ->andWhere('question.sort >= :sortCurrentQuestion')
-            ->andWhere('question.id <> :idCurrentQuestion')
+            ->andWhere("question.id NOT IN(:questionIds)")
             ->setParameter('idPassModule', $passModule->getId())
-            ->setParameter('sortCurrentQuestion', $currentQuestion->getSort())
-            ->setParameter('idCurrentQuestion', $currentQuestion->getId())
+            ->setParameter('questionIds', array_values($passModule->getAnsweredQuestionIds()))
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult()

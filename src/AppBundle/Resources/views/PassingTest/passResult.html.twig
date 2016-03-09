@@ -1,0 +1,13 @@
+{% extends '::base.html.twig' %}
+
+{% block content %}
+    <section class="content">
+        <h1>
+            Result for "{{ passModule.moduleUser.module.title }}"
+        </h1>
+
+        Your result is <strong>{{ passModule.absoluteResult | number_format(2) }}</strong> /
+                <strong>{{ passModule.moduleUser.module.rating  }}</strong> points<br>
+        Test is <strong>{{ passModule.stateResult }}</strong>
+    </section>
+{% endblock %}

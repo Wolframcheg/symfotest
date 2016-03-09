@@ -20,6 +20,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class ModuleUser
 {
+    const STATUS_ACTIVE = 'active';
+    const STATUS_SUCCESS = 'success';
+    const STATUS_FAILED = 'failed';
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -27,10 +31,11 @@ class ModuleUser
      */
     private $id;
 
+
     /**
-     * @ORM\Column(name="is_active", type="boolean")
+     * @ORM\Column(type="string")
      */
-    private $isActive;
+    private $status;
 
     /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\PassModule", mappedBy="moduleUser", cascade={"remove"})
@@ -48,11 +53,16 @@ class ModuleUser
     private $module;
 
     /**
-     *
+     * @ORM\Column(type="float")
      */
+    private $rating;
+
+
     public function __construct()
     {
         $this->passModules = new ArrayCollection();
+        $this->status = self::STATUS_ACTIVE;
+        $this->rating = 0;
     }
 
     /**
@@ -104,16 +114,9 @@ class ModuleUser
      */
     public function getIsActive()
     {
-        return $this->isActive;
+        return ($this->status == self::STATUS_ACTIVE);
     }
 
-    /**
-     * @param mixed $isActive
-     */
-    public function setIsActive($isActive)
-    {
-        $this->isActive = $isActive;
-    }
 
     /**
      * @return mixed
@@ -152,6 +155,25 @@ class ModuleUser
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getRating()
+    {
+        return $this->rating;
+    }
+
+    /**
+     * @param $rating
+     * @return $this
+     */
+    public function setAbsoluteRating($rating)
+    {
+        $this->rating = $rating;
+        return $this;
+    }
+
 
     public function getCountPassModules()
     {

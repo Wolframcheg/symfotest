@@ -21,6 +21,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class PassModule
 {
+    const STATE_PASSED = 'passed';
+    const STATE_FAILED = 'failed';
+    const STATE_EXPIRED = 'expired';
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -29,7 +32,7 @@ class PassModule
     private $id;
 
     /**
-     * @ORM\Column(name="rating", type="integer")
+     * @ORM\Column(name="rating", type="float")
      */
     private $rating;
 
@@ -64,11 +67,17 @@ class PassModule
      */
     private $currentQuestion;
 
+    /**
+     * @ORM\Column(type="array")
+     */
+    private $answeredQuestionIds;
+
 
     public function __construct()
     {
         $this->isActive = true;
         $this->rating = 0;
+        $this->answeredQuestionIds = [];
     }
 
 
@@ -200,5 +209,51 @@ class PassModule
         $this->currentQuestion = $question;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getAnsweredQuestionIds()
+    {
+        return $this->answeredQuestionIds;
+    }
+
+    /**
+     * @param $questionId
+     * @return $this
+     * @internal param Question $question
+     */
+    public function addAnsweredQuestionId($questionId)
+    {
+        $this->answeredQuestionIds[] = $questionId;
+
+        return $this;
+    }
+
+    public function getCountPassedQuestions()
+    {
+        return count($this->answeredQuestionIds);
+    }
+
+    public function getAbsoluteResult()
+    {
+        $countQuestions = $this->getModuleUser()->getModule()->getCountQuestions();
+        $maxResult = $this->getModuleUser()->getModule()->getRating();
+        return $this->rating * $maxResult / $countQuestions ;
+    }
+
+    public function getPercentResult()
+    {
+        $countQuestions = $this->getModuleUser()->getModule()->getCountQuestions();
+        return $this->rating * 100 / $countQuestions ;
+    }
+
+    public function getStateResult()
+    {
+        if($this->timeFinish === null)
+                return self::STATE_EXPIRED;
+
+        return $this->getPercentResult() >= $this->getModuleUser()->getModule()->getPersentSuccess() ?
+                self::STATE_PASSED : self::STATE_FAILED;
+    }
 
 }

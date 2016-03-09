@@ -50,9 +50,6 @@ gulp.task('front-js', function() {
     return gulp.src([
             'bower_components/jquery/dist/jquery.js',
             'bower_components/bootstrap/dist/js/bootstrap.js',
-            'web-src/front/js/mooz.scripts.min.js',
-            'bower_components/jQCloud/jqcloud/jqcloud-1.0.3.js',
-            'bower_components/infiniteajaxscroll/index.js'
         ])
         .pipe(concatJs('app.js'))
         .pipe(minifyJs())
@@ -66,7 +63,7 @@ gulp.task('front-fonts', function () {
 });
 
 gulp.task('default', ['clean'], function () {
-    var tasks = ['admin-less','admin-js', 'admin-fonts', 'admin-img'];
+    var tasks = ['admin-less','admin-js', 'admin-fonts', 'admin-img', 'front-less', 'front-js', 'front-fonts'];
     tasks.forEach(function (val) {
         gulp.start(val);
     });

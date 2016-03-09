@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\PassModule;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -59,8 +60,12 @@ class PassingTestController extends Controller
         if($passModule === null)
             throw new HttpException(403, 'You don\'t have permission for look this data');
 
-        var_dump($passModule->getRating());exit();
+        if($passModule->getStateResult() === PassModule::STATE_EXPIRED)
+            throw new HttpException(403, 'This pass expired.');
+
+        return ['passModule' => $passModule];
     }
+
 
     private function processResult($result){
         switch ($result['status']) {
@@ -71,13 +76,14 @@ class PassingTestController extends Controller
             case 'error':
                 throw new HttpException($result['code'], $result['content']);
             case 'ok':
-                list($form, $question, $time_residue, $countQuestions) = $result['content'];
+                list($form, $question, $time_residue, $countQuestions, $currentNumberQuestion) = $result['content'];
                 return [
                     'data' => [
                         'form' => $form->createView(),
                         'question' => $question,
                         'time_residue' => $time_residue,
-                        'count_questions' => $countQuestions
+                        'count_questions' => $countQuestions,
+                        'current_number_question' => $currentNumberQuestion
                     ]
                 ];
             default:
