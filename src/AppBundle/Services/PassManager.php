@@ -80,12 +80,12 @@ class PassManager
 
         if($nowDate > $dateEstimate){
             $pass->setIsActive(false);
-            //$pass->setTimeFinish($dateEstimate);
             $this->doctrine->getEntityManager()->flush();
+            /* todo serviceStates */
             return false;
         }
+        $interval = date_diff($nowDate, $dateEstimate, true);
 
-        $interval = date_diff($nowDate, $dateEstimate);
         return $interval->format('%I:%S');
     }
 
@@ -139,11 +139,10 @@ class PassManager
 
             $passModule->setCurrentQuestion($firstQuestionForPass);
             $this->doctrine->getEntityManager()->flush();
-            $this->passModule($idPassModule);
         }
 
         if(!($passModule->getIsActive())){
-            return $this->generateOutput('error', 403, 'This pass is overdue ;(');
+            return $this->generateOutput('error', 403, 'This pass is not active ;(');
         }
 
         $time_residue = $this->checkDatePass($passModule);
@@ -161,14 +160,14 @@ class PassManager
         ]);
         $form->add('submit', SubmitType::class, ['label' => 'Save', 'attr' => [ 'class' => 'btn btn-primary' ]]);
 
-//        $numberQuestion = $this->doctrine->getRepository('AppBundle:Question')
-//            ->getNumberCurrentQuestionWithSort($passModule);
+        $currentNumberQuestion = $passModule->getCountPassedQuestions()+1;
 
         return $this->generateOutput('ok', 200, [
             $form,
             $currentQuestion,
             $time_residue,
-            $passModule->getModuleUser()->getModule()->getCountQuestions()
+            $passModule->getModuleUser()->getModule()->getCountQuestions(),
+            $currentNumberQuestion
         ]);
     }
 

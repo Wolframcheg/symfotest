@@ -32,15 +32,19 @@ class PassControl
         $passModule = $this->doctrine->getRepository('AppBundle:PassModule')
             ->findOneById($data['idPassModule']);
 
+        $passModule->addAnsweredQuestionId($passModule->getCurrentQuestion()->getId());
+
         $nextQuestionForPass = $this->doctrine->getRepository('AppBundle:Question')
-            ->getNextQuestionForPass($passModule, $passModule->getCurrentQuestion());
+            ->getNextQuestionForPass($passModule);
 
         $passModule->addRating($rating);
+
 
         if($nextQuestionForPass === null) {
             $passModule->setIsActive(false);
             $passModule->setTimeFinish(new \DateTime());
             $this->doctrine->getEntityManager()->flush();
+            /* todo serviceStates */
             return $this->generateOutput('redirect_to_result', 301, $data['idPassModule']);
         }
 
