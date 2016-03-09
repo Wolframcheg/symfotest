@@ -53,7 +53,7 @@ class LoginUserProvider implements UserProviderInterface, OAuthAwareUserProvider
             $em->flush();
 
         }
-        /*if ($type === 'facebook') {
+        if ($type === 'facebook') {
 
             $user->setFacebookToken($response->getAccessToken())
                 ->setFacebookId($response->getUsername())
@@ -68,7 +68,7 @@ class LoginUserProvider implements UserProviderInterface, OAuthAwareUserProvider
                 ->setFacebookId(null)
                 ->setFacebookToken(null);
         }
-        $em->flush();*/
+        $em->flush();
 
         return $user;
     }

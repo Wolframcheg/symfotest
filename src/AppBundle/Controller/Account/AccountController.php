@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller\Account;
 
+use AppBundle\Entity\ModuleUser;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -21,10 +22,10 @@ class AccountController extends Controller
             ->findBy(['user' => $user]);
 
         $finishModule = $em->getRepository('AppBundle:ModuleUser')
-            ->findBy(['user' => $user, 'isActive' => false]);
+            ->findBy(['user' => $user, 'status' => ModuleUser::STATUS_SUCCESS]);
 
         $startModules = $em->getRepository('AppBundle:ModuleUser')
-            ->findBy(['user' => $user, 'isActive' => true]);
+            ->findBy(['user' => $user, 'status' => ModuleUser::STATUS_ACTIVE]);
 
         return [
             'modules' => $modules,
