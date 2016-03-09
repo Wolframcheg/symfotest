@@ -20,10 +20,13 @@ class PassControl
 
     private $checkAnswers;
 
-    public function __construct(RegistryInterface $registryInterface, $checkAnswers)
+    private $deactivation;
+
+    public function __construct(RegistryInterface $registryInterface, $checkAnswers, DeactivationPassModule $deactivationPassModule)
     {
         $this->doctrine = $registryInterface;
         $this->checkAnswers = $checkAnswers;
+        $this->deactivation = $deactivationPassModule;
     }
 
     public function process(array $data)
@@ -41,10 +44,11 @@ class PassControl
 
 
         if($nextQuestionForPass === null) {
-            $passModule->setIsActive(false);
-            $passModule->setTimeFinish(new \DateTime());
-            $this->doctrine->getEntityManager()->flush();
-            /* todo serviceStates */
+          //  $passModule->setIsActive(false);
+          //  $passModule->setTimeFinish(new \DateTime());
+         //   $this->doctrine->getEntityManager()->flush();
+            $timeFinish = new \DateTime();
+            $this->deactivation->deactivation($passModule, $timeFinish);
             return $this->generateOutput('redirect_to_result', 301, $data['idPassModule']);
         }
 

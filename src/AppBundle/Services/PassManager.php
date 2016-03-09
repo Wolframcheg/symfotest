@@ -28,15 +28,18 @@ class PassManager
     protected $formFactory;
     protected $router;
     protected $tokenStorage;
+    protected $deactivation;
 
     public function __construct(RegistryInterface $doctrine,
                                 FormFactoryInterface $formFactory,
-                                TokenStorageInterface $tokenStorage
+                                TokenStorageInterface $tokenStorage,
+                                DeactivationPassModule $deactivationPassModule
     )
     {
         $this->doctrine = $doctrine;
         $this->formFactory = $formFactory;
         $this->tokenStorage = $tokenStorage;
+        $this->deactivation = $deactivationPassModule;
     }
 
     public function identPass($idModule)
@@ -79,9 +82,9 @@ class PassManager
             ->modify("+{$pass->getTimePeriod()} minutes");
 
         if($nowDate > $dateEstimate){
-            $pass->setIsActive(false);
-            $this->doctrine->getEntityManager()->flush();
-            /* todo serviceStates */
+         //   $pass->setIsActive(false);
+        //    $this->doctrine->getEntityManager()->flush();
+            $this->deactivation->deactivation($pass);
             return false;
         }
         $interval = date_diff($nowDate, $dateEstimate, true);

@@ -180,11 +180,30 @@ class ModuleUser
         return count($this->passModules);
     }
 
-    private function getInactivePassModules(){
+    public function getInactivePassModules()
+    {
         $criteria = Criteria::create();
         $criteria->where(Criteria::expr()->eq('isActive', false));
 
         return $this->passModules->matching($criteria);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param mixed $status
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
     }
 
 
