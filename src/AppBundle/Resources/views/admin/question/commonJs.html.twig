@@ -17,8 +17,9 @@
             prototype.append(deleteLink.clone().click(deleteLinkClick));
 
             $('#app_bundle_question_type_answers').append(prototype);
-            changeChecks();
+
             checkTrue();
+            changeChecks();
         }
 
         function deleteLinkClick(e) {
@@ -61,7 +62,7 @@
 
         checkTrue();
 
-        $('#app_bundle_question_type_answers input[type=checkbox]').click(function() {
+        $('#app_bundle_question_type_answers').click(function() {
             checkTrue();
         });
     });
