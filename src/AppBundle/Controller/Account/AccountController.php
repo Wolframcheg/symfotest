@@ -27,6 +27,7 @@ class AccountController extends Controller
         $startModules = $em->getRepository('AppBundle:ModuleUser')
             ->findModuleUserStart($user);
 
+        $x = '';
         return [
             'modules' => $modules,
             'finishModules' => $finishModule,

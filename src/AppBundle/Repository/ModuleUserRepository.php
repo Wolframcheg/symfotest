@@ -24,6 +24,7 @@ class ModuleUserRepository extends EntityRepository
             ->andWhere('mu.status = :active')
             ->setParameter('user', $user)
             ->setParameter('active', ModuleUser::STATUS_ACTIVE)
+            ->orderBy('p.timeFinish', 'DESC')
             ->getQuery()
             ->getResult();
     }
@@ -35,11 +36,10 @@ class ModuleUserRepository extends EntityRepository
             ->join('mu.passModules', 'p')
             ->join('mu.module', 'm')
             ->where('mu.user = :user')
-            ->andWhere('mu.status = :failed')
-            ->orWhere('mu.status = :success')
+            ->andWhere('mu.status <> :active')
             ->setParameter('user', $user)
-            ->setParameter('failed', ModuleUser::STATUS_FAILED)
-            ->setParameter('success', ModuleUser::STATUS_SUCCESS)
+            ->setParameter('active', ModuleUser::STATUS_ACTIVE)
+            ->orderBy('p.timeFinish', 'DESC')
             ->getQuery()
             ->getResult();
     }
