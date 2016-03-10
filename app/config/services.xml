@@ -62,5 +62,10 @@
             <argument type="service" id="doctrine" />
         </service>
 
+        <service id="app.twig.extension" class="AppBundle\Twig\Extension\AppExtension">
+            <argument type="service" id="doctrine" />
+            <tag name="twig.extension" />
+        </service>
+
     </services>
 </container>

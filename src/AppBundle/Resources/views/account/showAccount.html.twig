@@ -52,36 +52,47 @@
                         <td>{{ item.module.title }}</td>
                     </tr>
                     <tr>
-                        <td width="150px">Max Rating</td>
-                        <td>{{ item.module.rating }}</td>
+                        <td width="150px">Time</td>
+                        <td>{{ item.module.time }}</td>
                     </tr>
                     <tr>
-                        <td width="150px">Your Rating</td>
-                        <td style="color: #0000ed"></td>
+                        <td width="150px">Max Rating</td>
+                        <td>{{ item.module.rating }}</td>
                     </tr>
                     <tr>
                         <td width="150px">Min persent</td>
                         <td>{{ item.module.persentSuccess }}</td>
                     </tr>
                     <tr>
-                        <td width="150px">Your persent</td>
-                        <td style="color: #0000ed"></td>
-                    </tr>
-                    <tr>
-                        <td width="150px">Time</td>
-                        <td>{{ item.module.time }}</td>
-                    </tr>
-                    <tr>
-                        <td width="150px">Your Time</td>
-                        <td style="color: #0000ed"></td>
-                    </tr>
-                    <tr>
-                        <td width="150px">Attempts</td>
+                        <td width="150px">Max attempts</td>
                         <td>{{ item.module.attempts }}</td>
                     </tr>
+                    {% for pass in item.passModules %}
+                        <tr>
+                            <td width="150px" style="border-bottom: 1px solid black"><strong>Your Attempt {{ loop.index }}</strong></td>
+                            <td style="border-bottom: 1px solid black">Start {{ pass.timeStart | date('d.m.Y H:i:s') }}</td>
+                        </tr>
+                        <tr>
+                            <td width="150px">Your Rating</td>
+                            <td>{{ showRating(pass) | round(2, 'floor') }}</td>
+                        </tr>
+                        <tr>
+                            <td width="150px">Your Persent</td>
+                            <td>{{ showPersent(pass) | round(2, 'floor') }}</td>
+                        </tr>
+                        <tr>
+                            <td width="150px">Your Time</td>
+                            <td>{{ showTime(pass) }}</td>
+                        </tr>
+                    {% endfor %}
                     <tr>
-                        <td width="150px">Your Attempts</td>
-                        <td style="color: #0000ed">{{ item.attempts }}</td>
+                        {% if item.status == 'failed' %}
+                            {% set color = 'background-color: red' %}
+                        {% else %}
+                            {% set color = 'background-color: green' %}
+                        {% endif %}
+                        <td width="150px" style="{{ color }}"><strong>Finish Status</strong></td>
+                        <td style="{{ color }}">{{ item.status }}</td>
                     </tr>
                 </table>
                 <br/>
@@ -96,37 +107,38 @@
                         <td>{{ item.module.title }}</td>
                     </tr>
                     <tr>
-                        <td width="150px">Max Rating</td>
-                        <td>{{ item.module.rating }}</td>
+                        <td width="150px">Time</td>
+                        <td>{{ item.module.time }}</td>
                     </tr>
                     <tr>
-                        <td width="150px">Your Rating</td>
-                        <td style="color: #0000ed"></td>
+                        <td width="150px">Max Rating</td>
+                        <td>{{ item.module.rating }}</td>
                     </tr>
                     <tr>
                         <td width="150px">Min persent</td>
                         <td>{{ item.module.persentSuccess }}</td>
                     </tr>
                     <tr>
-                        <td width="150px">Your persent</td>
-                        <td style="color: #0000ed"></td>
-                    </tr>
-                    <tr>
-                        <td width="150px">Time</td>
-                        <td>{{ item.module.time }}</td>
-                    </tr>
-                    <tr>
-                        <td width="150px">Your Time</td>
-                        <td style="color: #0000ed"></td>
-                    </tr>
-                    <tr>
-                        <td width="150px">Attempts</td>
+                        <td width="150px">Max attempts</td>
                         <td>{{ item.module.attempts }}</td>
                     </tr>
-                    <tr>
-                        <td width="150px">Your Attempts</td>
-                        <td style="color: #0000ed">{{ item.attempts }}</td>
-                    </tr>
+                    {% for pass in item.passModules %}
+                        <tr>
+                            <td width="150px"><strong>Your Attempt {{ loop.index }}</strong></td>
+                        </tr>
+                        <tr>
+                            <td width="150px">Your Rating</td>
+                            <td>{{ showRating(pass) | round(2, 'floor') }}</td>
+                        </tr>
+                        <tr>
+                            <td width="150px">Your Persent</td>
+                            <td>{{ showPersent(pass) | round(2, 'floor') }}</td>
+                        </tr>
+                        <tr>
+                            <td width="150px">Your Time</td>
+                            <td>{{ showTime(pass) }}</td>
+                        </tr>
+                    {% endfor %}
                 </table>
                 <br/>
             {% endfor %}

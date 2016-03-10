@@ -22,10 +22,10 @@ class AccountController extends Controller
             ->findBy(['user' => $user]);
 
         $finishModule = $em->getRepository('AppBundle:ModuleUser')
-            ->findBy(['user' => $user, 'status' => ModuleUser::STATUS_SUCCESS]);
+            ->findModuleUserFinish($user);
 
         $startModules = $em->getRepository('AppBundle:ModuleUser')
-            ->findBy(['user' => $user, 'status' => ModuleUser::STATUS_ACTIVE]);
+            ->findModuleUserStart($user);
 
         return [
             'modules' => $modules,
