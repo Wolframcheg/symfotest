@@ -41,6 +41,7 @@
             <argument key="doctrine" type="service" id="doctrine"/>
             <argument key="formFactory" type="service" id="form.factory"/>
             <argument key="tokenStorage" type="service" id="security.token_storage"/>
+            <argument type="service" id="app.deactivation.passModule" />
         </service>
 
         <service id="oauth_test_provider" class="AppBundle\OAuthProvider\LoginUserProvider">
@@ -54,6 +55,11 @@
         <service id="app.pass_control" class="AppBundle\Services\PassControl">
             <argument type="service" id="doctrine" />
             <argument type="service" id="app.check.answers" />
+            <argument type="service" id="app.deactivation.passModule" />
+        </service>
+
+        <service id="app.deactivation.passModule" class="AppBundle\Services\DeactivationPassModule">
+            <argument type="service" id="doctrine" />
         </service>
 
     </services>
