@@ -168,7 +168,7 @@ class ModuleUser
      * @param $rating
      * @return $this
      */
-    public function setAbsoluteRating($rating)
+    public function setRating($rating)
     {
         $this->rating = $rating;
         return $this;

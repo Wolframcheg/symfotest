@@ -38,13 +38,12 @@ class DeactivationPassModule
 
         if ($passModule->getPercentResult() >= $module->getPersentSuccess()) {
             $moduleUser->setStatus(ModuleUser::STATUS_SUCCESS);
-            $moduleUser->setAbsoluteRating($passModule->getRating());
-        } else {
-            if ($moduleUser->getCountPassModules() >= $module->getAttempts()) {
+            $moduleUser->setRating($passModule->getRating());
+        } else if ($moduleUser->getCountPassModules() >= $module->getAttempts()){
                 $moduleUser->setStatus(ModuleUser::STATUS_FAILED);
-                $moduleUser->setAbsoluteRating($passModule->getRating());
-            }
+                //$moduleUser->setRating($passModule->getRating());
         }
+
 
         $em->flush();
     }
