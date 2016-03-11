@@ -20,7 +20,9 @@
                     <tr>
                         <td><strong>{{ item.module.title }}</strong></td>
                         <td style="padding: 0 15px 0 15px">{{ item.getCountPassModules }} / {{ item.module.attempts }}</td>
-                        <td><a href="{{ path('ident_pass',{ 'idModule' : item.module.id }) }}" class="btn btn-primary btn-sm">Run test</a></td>
+                        {% if app.user == user %}
+                            <td><a href="{{ path('ident_pass',{ 'idModule' : item.module.id }) }}" class="btn btn-primary btn-sm">Run test</a></td>
+                        {% endif %}
                     </tr>
                 </table>
                 <br/>
