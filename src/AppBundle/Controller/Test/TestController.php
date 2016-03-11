@@ -25,7 +25,7 @@ class TestController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $modules = $em->getRepository('AppBundle:ModuleUser')
-            ->findModuleUser($user);
+            ->findModuleUserActive($user);
 
         return [
             'modules' => $modules

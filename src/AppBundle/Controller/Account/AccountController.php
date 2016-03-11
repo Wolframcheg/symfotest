@@ -3,6 +3,7 @@
 namespace AppBundle\Controller\Account;
 
 use AppBundle\Entity\ModuleUser;
+use AppBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -10,28 +11,28 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 class AccountController extends Controller
 {
     /**
-     * @Route("/account", name="account")
+     * @Route("/account/{id}", name="account")
      * @Template("@App/account/showAccount.html.twig")
      */
-    public function showAccountAction()
+    public function showAccountAction(User $id = null)
     {
-        $user = $this->getUser();
+        $id ? $user = $id : $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
 
-        $modules = $em->getRepository('AppBundle:ModuleUser')
-            ->findBy(['user' => $user]);
+        $modulesActive = $em->getRepository('AppBundle:ModuleUser')
+            ->findModuleUserActive($user);
 
-        $finishModule = $em->getRepository('AppBundle:ModuleUser')
-            ->findModuleUserFinish($user);
+        $modulesSuccess = $em->getRepository('AppBundle:ModuleUser')
+            ->findModuleUserSuccess($user);
 
-        $startModules = $em->getRepository('AppBundle:ModuleUser')
-            ->findModuleUserStart($user);
+        $modulesFailed = $em->getRepository('AppBundle:ModuleUser')
+            ->findModuleUserFailed($user);
 
-        $x = '';
         return [
-            'modules' => $modules,
-            'finishModules' => $finishModule,
-            'startModules' => $startModules
+            'user' => $user,
+            'modulesActive' => $modulesActive,
+            'modulesSuccess' => $modulesSuccess,
+            'modulesFailed' => $modulesFailed
         ];
     }
 }

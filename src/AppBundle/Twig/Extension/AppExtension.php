@@ -30,12 +30,6 @@ class AppExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            new \Twig_SimpleFunction('showRating',
-                array($this, 'getRating')
-            ),
-            new \Twig_SimpleFunction('showPersent',
-                array($this, 'getPersent')
-            ),
             new \Twig_SimpleFunction('showTime',
                 array($this, 'getTime')
             )
@@ -45,29 +39,9 @@ class AppExtension extends \Twig_Extension
     /**
      * @return string
      */
-    public function getRating(PassModule $passModule)
+    public function getTime($start, $finish)
     {
-        $rating = $passModule->getAbsoluteResult();
-
-        return $rating;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPersent(PassModule $passModule)
-    {
-        $percent = $passModule->getPercentResult();
-
-        return $percent;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTime(PassModule $passModule)
-    {
-        $diff = date_diff($passModule->getTimeFinish(), $passModule->getTimeStart(), true);
+        $diff = date_diff($finish, $start, true);
 
         return $diff->format('%I:%S');
     }
