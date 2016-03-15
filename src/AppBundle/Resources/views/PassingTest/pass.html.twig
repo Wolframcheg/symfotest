@@ -16,3 +16,24 @@
         </div>
     </section>
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(function() {
+            function checkTrue() {
+                var len = $('#app_bundle_module_user_type input:checkbox:checked').length;
+
+                if (len == 3)
+                    $('#app_bundle_module_user_type input:checkbox:not(:checked)').attr('disabled','disabled');
+                else
+                    $('#app_bundle_module_user_type input:checkbox:not(:checked)').removeAttr('disabled');
+            }
+            checkTrue();
+
+            $('#app_bundle_module_user_type').click(function() {
+                checkTrue();
+            });
+        })
+    </script>
+{% endblock %}

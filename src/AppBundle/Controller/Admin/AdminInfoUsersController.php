@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Controller\Account;
+namespace AppBundle\Controller\Admin;
 
 use AppBundle\Entity\ModuleUser;
 use AppBundle\Entity\User;
@@ -8,28 +8,27 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
-class AccountController extends Controller
+class AdminInfoUsersController extends Controller
 {
     /**
-     * @Route("/account", name="account")
+     * @Route("/admin/account/{id}", name="admin_account")
      * @Template("@App/account/showAccount.html.twig")
      */
-    public function showAccountAction()
+    public function showAccountAction(User $id = null)
     {
-        $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
 
         $modulesActive = $em->getRepository('AppBundle:ModuleUser')
-            ->findModuleUserActive($user);
+            ->findModuleUserActive($id);
 
         $modulesSuccess = $em->getRepository('AppBundle:ModuleUser')
-            ->findModuleUserSuccess($user);
+            ->findModuleUserSuccess($id);
 
         $modulesFailed = $em->getRepository('AppBundle:ModuleUser')
-            ->findModuleUserFailed($user);
+            ->findModuleUserFailed($id);
 
         return [
-            'user' => $user,
+            'user' => $id,
             'modulesActive' => $modulesActive,
             'modulesSuccess' => $modulesSuccess,
             'modulesFailed' => $modulesFailed

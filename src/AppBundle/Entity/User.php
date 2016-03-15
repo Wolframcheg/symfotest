@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  * @UniqueEntity(fields="email", message="Email already taken")
  */
-class User implements AdvancedUserInterface
+class User implements AdvancedUserInterface, \JsonSerializable
 {
     const ROLE_ADMIN = 'ROLE_ADMIN';
     const ROLE_USER = 'ROLE_USER';
@@ -106,6 +106,15 @@ class User implements AdvancedUserInterface
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\ModuleUser", mappedBy="user")
      */
     private $modulesUser;
+
+    function jsonSerialize()
+    {
+        return [
+            'firstName' => $this->getFirstName(),
+            'lastName' => $this->getLastName(),
+            'email' => $this->getEmail()
+        ];
+    }
 
 
     /**

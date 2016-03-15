@@ -18,7 +18,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="module_user")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ModuleUserRepository")
  */
-class ModuleUser
+class ModuleUser implements \JsonSerializable
 {
     const STATUS_ACTIVE = 'active';
     const STATUS_SUCCESS = 'success';
@@ -56,6 +56,15 @@ class ModuleUser
      * @ORM\Column(type="float")
      */
     private $rating;
+
+    function jsonSerialize()
+    {
+        return [
+            'user' => $this->getUser(),
+            'module' => $this->getModule(),
+            'passModule' => $this->getPassModules()->last()
+        ];
+    }
 
 
     public function __construct()

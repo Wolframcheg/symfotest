@@ -54,4 +54,20 @@ class ModuleUserRepository extends EntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findInfoPassModules($module)
+    {
+        return $this->createQueryBuilder('mu')
+            ->select('mu, m, u, p')
+            ->join('mu.module', 'm')
+            ->join('mu.user', 'u')
+            ->join('mu.passModules', 'p')
+            ->where('mu.status <> :active')
+            ->andWhere('mu.module = :module')
+            ->orderBy('mu.rating', 'DESC')
+            ->setParameter('active', ModuleUser::STATUS_ACTIVE)
+            ->setParameter('module', $module)
+            ->getQuery()
+            ->getResult();
+    }
 }

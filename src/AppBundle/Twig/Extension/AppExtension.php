@@ -41,6 +41,11 @@ class AppExtension extends \Twig_Extension
      */
     public function getTime($start, $finish)
     {
+        if ($finish === null) {
+
+            return 'The time is up';
+        }
+
         $diff = date_diff($finish, $start, true);
 
         return $diff->format('%I:%S');
