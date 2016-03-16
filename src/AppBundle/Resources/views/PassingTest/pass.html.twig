@@ -11,15 +11,24 @@
             {% endfor %}
         </ul>
         {{ form(data.form) }}
-        <div class="time_residue">
-            Time residue: <span>{{ data.time_residue }}</span>
+        <div class="time_residue" id="clock">
         </div>
     </section>
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
+    <script type="text/javascript" src="{{ asset('js/jquery.countdown.min.js') }}"></script>
     <script>
+        var time = '{{ data.time_residue }}'.split(':');
+        var date = new Date(new Date().valueOf() +(time[0]*60 + +time[1]) * 1000);
+        $('#clock').countdown(date, function(event) {
+            $(this).html(event.strftime('%H:%M:%S'));
+        })
+        .on('finish.countdown', function(event) {
+            $('form[name=app_bundle_module_user_type]').submit();
+        });
+
             function checkTrue() {
                 var len = $('#app_bundle_module_user_type input:checkbox:checked').length;
 

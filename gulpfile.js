@@ -56,6 +56,13 @@ gulp.task('front-js', function() {
         .pipe(gulp.dest('web/js/'));
 });
 
+gulp.task('front-plugins-js', function() {
+    return gulp.src([
+            'bower_components/jquery.countdown/dist/jquery.countdown.min.js'
+        ])
+        .pipe(gulp.dest('web/js/'))
+});
+
 gulp.task('front-fonts', function () {
     return gulp.src(['bower_components/font-awesome/fonts/*',
             'bower_components/bootstrap/fonts/*'])
@@ -63,7 +70,7 @@ gulp.task('front-fonts', function () {
 });
 
 gulp.task('default', ['clean'], function () {
-    var tasks = ['admin-less','admin-js', 'admin-fonts', 'admin-img', 'front-less', 'front-js', 'front-fonts'];
+    var tasks = ['admin-less','admin-js', 'admin-fonts', 'admin-img', 'front-less', 'front-js', 'front-fonts', 'front-plugins-js'];
     tasks.forEach(function (val) {
         gulp.start(val);
     });
