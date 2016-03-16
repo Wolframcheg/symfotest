@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  * @ORM\Table(name="module")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ModuleRepository")
  */
-class Module
+class Module implements \JsonSerializable
 {
     /**
      * @ORM\Id
@@ -114,6 +114,14 @@ class Module
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\ModuleUser", mappedBy="module")
      */
     private $modulesUser;
+
+    function jsonSerialize()
+    {
+        return [
+            'titleModule' => $this->getTitle()
+        ];
+    }
+
 
     /**
      *

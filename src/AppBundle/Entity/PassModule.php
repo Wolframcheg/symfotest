@@ -19,7 +19,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="pass_module")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PassModuleRepository")
  */
-class PassModule
+class PassModule implements \JsonSerializable
 {
     const STATE_PASSED = 'passed';
     const STATE_FAILED = 'failed';
@@ -71,6 +71,14 @@ class PassModule
      * @ORM\Column(type="array")
      */
     private $answeredQuestionIds;
+
+    function jsonSerialize()
+    {
+        return [
+            'result' => $this->getAbsoluteResult(),
+            'percent' => $this->getPercentResult()
+        ];
+    }
 
 
     public function __construct()

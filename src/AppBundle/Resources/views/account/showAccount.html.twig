@@ -3,130 +3,120 @@
 {% block content %}
     <div class="col-md-12">
         <p>
-            Your E-mail:<strong> {{ app.user.email }}</strong>
+            E-mail:<strong> {{ user.email }}</strong>
         </p>
         <p>
-            Your name:<em> {{ app.user.firstName | capitalize }} {{ app.user.lastName | capitalize }}</em>
+            Name:<em> {{ user.firstName | capitalize }} {{ user.lastName | capitalize }}</em>
         </p>
         <p>
             <a href="{{ path('admin') }}" class="btn btn-primary btn-lg">ADMIN</a>
-            <a href="{{ path('show_test') }}" class="btn btn-primary btn-lg">TEST</a>
             <a href="{{ path('logout') }}" class="btn btn-primary btn-lg">LOGOUT</a>
         </p>
         <div class="col-md-4">
-            <h4>All modules appointed to you</h4>
+            <h4>Available modules</h4>
             <br/>
-            {% for item in modules %}
+            {% for item in modulesActive %}
                 <table class="table-hover">
                     <tr>
-                        <td width="150px"><strong>Title Module</strong></td>
-                        <td>{{ item.module.title }}</td>
-                    </tr>
-                    <tr>
-                        <td width="150px">Max Rating</td>
-                        <td>{{ item.module.rating }}</td>
-                    </tr>
-                    <tr>
-                        <td width="150px">Min persent</td>
-                        <td>{{ item.module.persentSuccess }}</td>
-                    </tr>
-                    <tr>
-                        <td width="150px">Time</td>
-                        <td>{{ item.module.time }}</td>
-                    </tr>
-                    <tr>
-                        <td width="150px">Attempts</td>
-                        <td>{{ item.module.attempts }}</td>
+                        <td><strong>{{ item.module.title }}</strong></td>
+                        <td style="padding: 0 15px 0 15px">{{ item.getCountPassModules }} / {{ item.module.attempts }}</td>
+                        {% if app.user == user %}
+                            <td><a href="{{ path('ident_pass',{ 'idModule' : item.module.id }) }}" class="btn btn-primary btn-sm">Run test</a></td>
+                        {% endif %}
                     </tr>
                 </table>
                 <br/>
             {% endfor %}
         </div>
         <div class="col-md-4">
-            <h4>All modules finished by you</h4>
+            <h4>Success modules</h4>
             <br/>
-            {% for item in finishModules %}
+            {% for item in modulesSuccess %}
                 <table class="table-hover">
                     <tr>
                         <td width="150px"><strong>Title Module</strong></td>
                         <td>{{ item.module.title }}</td>
                     </tr>
                     <tr>
-                        <td width="150px">Max Rating</td>
-                        <td>{{ item.module.rating }}</td>
+                        <td width="150px">Time</td>
+                        <td>{{ item.module.time }}</td>
                     </tr>
                     <tr>
-                        <td width="150px">Your Rating</td>
-                        <td style="color: #0000ed"></td>
+                        <td width="150px">Max Rating</td>
+                        <td>{{ item.module.rating }}</td>
                     </tr>
                     <tr>
                         <td width="150px">Min persent</td>
                         <td>{{ item.module.persentSuccess }}</td>
                     </tr>
                     <tr>
-                        <td width="150px">Your persent</td>
-                        <td style="color: #0000ed"></td>
-                    </tr>
-                    <tr>
-                        <td width="150px">Time</td>
-                        <td>{{ item.module.time }}</td>
-                    </tr>
-                    <tr>
-                        <td width="150px">Your Time</td>
-                        <td style="color: #0000ed"></td>
-                    </tr>
-                    <tr>
-                        <td width="150px">Attempts</td>
+                        <td width="150px">Max attempts</td>
                         <td>{{ item.module.attempts }}</td>
                     </tr>
-                    <tr>
-                        <td width="150px">Your Attempts</td>
-                        <td style="color: #0000ed">{{ item.attempts }}</td>
-                    </tr>
+                    {% for pass in item.passModules %}
+                        <tr>
+                            <td width="150px" style="border-bottom: 1px solid black"><strong>Attempt #{{ loop.index }}</strong></td>
+                            <td style="border-bottom: 1px solid black">Start {{ pass.timeStart | date('d.m.Y H:i:s') }}</td>
+                        </tr>
+                        <tr>
+                            <td width="150px">Rating</td>
+                            <td>{{ pass.getAbsoluteResult | round(2, 'floor') }}</td>
+                        </tr>
+                        <tr>
+                            <td width="150px">Persent</td>
+                            <td>{{ pass.getPercentResult | round(2, 'floor') }}</td>
+                        </tr>
+                        <tr>
+                            <td width="150px">Time</td>
+                            <td>{{ showTime(pass.timeStart, pass.timeFinish) }}</td>
+                        </tr>
+                    {% endfor %}
                 </table>
                 <br/>
             {% endfor %}
         </div>
         <div class="col-md-4">
-            <h4>All modules begun by you, but yet not finished</h4>
-            {% for item in startModules %}
+            <h4>Failed modules</h4>
+            {% for item in modulesFailed %}
                 <table class="table-hover">
                     <tr>
                         <td width="150px"><strong>Title Module</strong></td>
                         <td>{{ item.module.title }}</td>
                     </tr>
                     <tr>
-                        <td width="150px">Max Rating</td>
-                        <td>{{ item.module.rating }}</td>
+                        <td width="150px">Time</td>
+                        <td>{{ item.module.time }}</td>
                     </tr>
                     <tr>
-                        <td width="150px">Your Rating</td>
-                        <td style="color: #0000ed"></td>
+                        <td width="150px">Max Rating</td>
+                        <td>{{ item.module.rating }}</td>
                     </tr>
                     <tr>
                         <td width="150px">Min persent</td>
                         <td>{{ item.module.persentSuccess }}</td>
                     </tr>
                     <tr>
-                        <td width="150px">Your persent</td>
-                        <td style="color: #0000ed"></td>
-                    </tr>
-                    <tr>
-                        <td width="150px">Time</td>
-                        <td>{{ item.module.time }}</td>
-                    </tr>
-                    <tr>
-                        <td width="150px">Your Time</td>
-                        <td style="color: #0000ed"></td>
-                    </tr>
-                    <tr>
-                        <td width="150px">Attempts</td>
+                        <td width="150px">Max attempts</td>
                         <td>{{ item.module.attempts }}</td>
                     </tr>
-                    <tr>
-                        <td width="150px">Your Attempts</td>
-                        <td style="color: #0000ed">{{ item.attempts }}</td>
-                    </tr>
+                    {% for pass in item.passModules %}
+                        <tr>
+                            <td width="150px" style="border-bottom: 1px solid black"><strong>Attempt #{{ loop.index }}</strong></td>
+                            <td style="border-bottom: 1px solid black">Start {{ pass.timeStart | date('d.m.Y H:i:s') }}</td>
+                        </tr>
+                        <tr>
+                            <td width="150px">Rating</td>
+                            <td>{{ pass.getAbsoluteResult | round(2, 'floor') }}</td>
+                        </tr>
+                        <tr>
+                            <td width="150px">Persent</td>
+                            <td>{{ pass.getPercentResult | round(2, 'floor') }}</td>
+                        </tr>
+                        <tr>
+                            <td width="150px">Time</td>
+                            <td>{{ showTime(pass.timeStart, pass.timeFinish) }}</td>
+                        </tr>
+                    {% endfor %}
                 </table>
                 <br/>
             {% endfor %}

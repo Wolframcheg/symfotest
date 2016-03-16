@@ -23,7 +23,7 @@ security:
                 provider: user_db_provider
                 check_path: /login_check
                 login_path: /login
-                default_target_path: /test
+                default_target_path: /account
                 username_parameter: _username
                 password_parameter: _password
             logout:

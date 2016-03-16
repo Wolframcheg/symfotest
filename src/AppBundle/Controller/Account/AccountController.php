@@ -3,6 +3,7 @@
 namespace AppBundle\Controller\Account;
 
 use AppBundle\Entity\ModuleUser;
+use AppBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -18,19 +19,20 @@ class AccountController extends Controller
         $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
 
-        $modules = $em->getRepository('AppBundle:ModuleUser')
-            ->findBy(['user' => $user]);
+        $modulesActive = $em->getRepository('AppBundle:ModuleUser')
+            ->findModuleUserActive($user);
 
-        $finishModule = $em->getRepository('AppBundle:ModuleUser')
-            ->findBy(['user' => $user, 'status' => ModuleUser::STATUS_SUCCESS]);
+        $modulesSuccess = $em->getRepository('AppBundle:ModuleUser')
+            ->findModuleUserSuccess($user);
 
-        $startModules = $em->getRepository('AppBundle:ModuleUser')
-            ->findBy(['user' => $user, 'status' => ModuleUser::STATUS_ACTIVE]);
+        $modulesFailed = $em->getRepository('AppBundle:ModuleUser')
+            ->findModuleUserFailed($user);
 
         return [
-            'modules' => $modules,
-            'finishModules' => $finishModule,
-            'startModules' => $startModules
+            'user' => $user,
+            'modulesActive' => $modulesActive,
+            'modulesSuccess' => $modulesSuccess,
+            'modulesFailed' => $modulesFailed
         ];
     }
 }

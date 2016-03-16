@@ -39,7 +39,7 @@ class RegistrationController extends Controller
                     ->updateRegistrationUser($request, $user);
             }
 
-            return $this->redirectToRoute('show_test');
+            return $this->redirectToRoute('account');
         }
 
         return $this->redirectToRoute('homepage');

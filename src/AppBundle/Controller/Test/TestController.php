@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller\Test;
 
+use AppBundle\Entity\ModuleUser;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -24,7 +25,7 @@ class TestController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $modules = $em->getRepository('AppBundle:ModuleUser')
-            ->findBy(['user' => $user]);
+            ->findModuleUserActive($user);
 
         return [
             'modules' => $modules
