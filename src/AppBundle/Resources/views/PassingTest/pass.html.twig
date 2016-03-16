@@ -20,7 +20,6 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
-        $(function() {
             function checkTrue() {
                 var len = $('#app_bundle_module_user_type input:checkbox:checked').length;
 
@@ -31,9 +30,8 @@
             }
             checkTrue();
 
-            $('#app_bundle_module_user_type').click(function() {
+            $('#app_bundle_module_user_type input').click(function() {
                 checkTrue();
             });
-        })
     </script>
 {% endblock %}
