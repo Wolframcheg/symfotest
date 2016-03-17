@@ -30,7 +30,7 @@
                     <td>{{ item.module.title }}</td>
                     <td>
                         {{ item.getCountPassModules }} / {{ item.module.attempts }}
-                        {% if item.status == 'active' %}
+                        {% if item.status == 'active' and user == app.user %}
                             <a href="{{ path('ident_pass',{ 'idModule' : item.module.id }) }}" style="border: 1px solid blue">Run test</a>
                         {% endif %}
                     </td>
