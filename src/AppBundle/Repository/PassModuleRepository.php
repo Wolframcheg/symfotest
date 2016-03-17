@@ -43,4 +43,14 @@ class PassModuleRepository extends EntityRepository
             ;
     }
 
+    public function findAjax($module)
+    {
+        return $this->createQueryBuilder('p')
+            ->select('p')
+            ->where('p.moduleUser = :module')
+            ->setParameter('module', $module)
+            ->getQuery()
+            ->getResult();
+    }
+
 }

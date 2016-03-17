@@ -7,6 +7,8 @@ use AppBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class AdminInfoUsersController extends Controller
 {
@@ -14,24 +16,25 @@ class AdminInfoUsersController extends Controller
      * @Route("/admin/account/{id}", name="admin_account")
      * @Template("@App/account/showAccount.html.twig")
      */
-    public function showAccountAction(User $id = null)
+    public function showAccountAction(Request $request, User $id = null)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $modulesActive = $em->getRepository('AppBundle:ModuleUser')
-            ->findModuleUserActive($id);
+        $request->get('module') ? $module = $request->get('module') : $module = null;
 
-        $modulesSuccess = $em->getRepository('AppBundle:ModuleUser')
-            ->findModuleUserSuccess($id);
+        if ($module) {
+            $moduleAjax = $em->getRepository('AppBundle:PassModule')
+                ->findAjax($module);
 
-        $modulesFailed = $em->getRepository('AppBundle:ModuleUser')
-            ->findModuleUserFailed($id);
+            return new Response(json_encode(['moduleAjax' => $moduleAjax]));
+        }
+
+        $modules = $em->getRepository('AppBundle:ModuleUser')
+            ->findModules($id);
 
         return [
             'user' => $id,
-            'modulesActive' => $modulesActive,
-            'modulesSuccess' => $modulesSuccess,
-            'modulesFailed' => $modulesFailed
+            'modules' => $modules
         ];
     }
 }

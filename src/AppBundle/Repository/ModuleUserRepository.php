@@ -70,4 +70,18 @@ class ModuleUserRepository extends EntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findModules($user)
+    {
+        return $this->createQueryBuilder('mu')
+            ->select('mu, m, p')
+            ->leftJoin('mu.passModules', 'p')
+            ->leftJoin('mu.module', 'm')
+            ->where('mu.user = :user')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult();
+    }
+
+
 }
