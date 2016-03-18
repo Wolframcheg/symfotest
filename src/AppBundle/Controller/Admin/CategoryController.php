@@ -4,6 +4,7 @@ namespace AppBundle\Controller\Admin;
 
 use AppBundle\Entity\Category;
 use AppBundle\Form\CategoryType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -64,6 +65,7 @@ class CategoryController extends Controller
 
     /**
      * @Route("/admin/category/remove/{id}", name="remove_category")
+     * @Method("DELETE")
      */
     public function removeCategoryAction($id)
     {

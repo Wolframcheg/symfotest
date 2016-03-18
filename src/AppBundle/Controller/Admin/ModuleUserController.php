@@ -3,6 +3,7 @@
 namespace AppBundle\Controller\Admin;
 
 use AppBundle\Entity\ModuleUser;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -57,6 +58,7 @@ class ModuleUserController extends Controller
 
     /**
      * @Route("/admin/moduleUser/remove/{idUser}/{idModule}", name="remove_moduleUser")
+     * @Method("DELETE")
      */
     public function removeModuleAction($idUser, $idModule)
     {
