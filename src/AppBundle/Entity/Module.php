@@ -115,7 +115,7 @@ class Module implements \JsonSerializable
      */
     private $modulesUser;
 
-    function jsonSerialize()
+    public function jsonSerialize()
     {
         return [
             'titleModule' => $this->getTitle()

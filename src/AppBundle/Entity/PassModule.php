@@ -72,11 +72,14 @@ class PassModule implements \JsonSerializable
      */
     private $answeredQuestionIds;
 
-    function jsonSerialize()
+    public function jsonSerialize()
     {
         return [
             'result' => $this->getAbsoluteResult(),
-            'percent' => $this->getPercentResult()
+            'percent' => $this->getPercentResult(),
+            'rating' => $this->getRating(),
+            'timeStart' => $this->getTimeStart(),
+            'timeFinish' => $this->getTimeFinish()
         ];
     }
 

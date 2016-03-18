@@ -57,7 +57,7 @@ class ModuleUser implements \JsonSerializable
      */
     private $rating;
 
-    function jsonSerialize()
+    public function jsonSerialize()
     {
         return [
             'user' => $this->getUser(),
@@ -215,5 +215,9 @@ class ModuleUser implements \JsonSerializable
         return $this;
     }
 
+    public function getLastModule()
+    {
+        return $this->passModules->last();
+    }
 
 }

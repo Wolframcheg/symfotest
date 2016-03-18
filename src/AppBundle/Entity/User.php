@@ -107,7 +107,7 @@ class User implements AdvancedUserInterface, \JsonSerializable
      */
     private $modulesUser;
 
-    function jsonSerialize()
+    public function jsonSerialize()
     {
         return [
             'firstName' => $this->getFirstName(),

@@ -49,7 +49,7 @@ gulp.task('front-less', function() {
 gulp.task('front-js', function() {
     return gulp.src([
             'bower_components/jquery/dist/jquery.js',
-            'bower_components/bootstrap/dist/js/bootstrap.js',
+            'bower_components/bootstrap/dist/js/bootstrap.js'
         ])
         .pipe(concatJs('app.js'))
         .pipe(minifyJs())
