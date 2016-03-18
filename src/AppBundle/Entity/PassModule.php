@@ -64,6 +64,7 @@ class PassModule implements \JsonSerializable
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Question", inversedBy="passModules")
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     private $currentQuestion;
 

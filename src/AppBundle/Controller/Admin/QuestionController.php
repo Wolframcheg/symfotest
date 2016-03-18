@@ -7,6 +7,7 @@ use AppBundle\Entity\Module;
 use AppBundle\Entity\Question;
 use AppBundle\Form\QuestionType;
 use Doctrine\Common\Collections\ArrayCollection;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -86,6 +87,7 @@ class QuestionController extends Controller
 
     /**
      * @Route("/admin/question/remove/{id}/{idModule}", name="remove_question")
+     * @Method("DELETE")
      */
     public function removeQuestionAction($id, $idModule)
     {

@@ -20,7 +20,7 @@ class FixturesLoader extends DataFixtureLoader
         $env = $this->container->get('kernel')->getEnvironment();
         if ($env == 'test') {
             return [
-                __DIR__ . '/DataForTests/post.yml',
+                __DIR__ . '/DataForTests/test.yml',
             ];
         }
         return [

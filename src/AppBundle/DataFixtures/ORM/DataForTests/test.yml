@@ -1,0 +1,93 @@
+AppBundle\Entity\User:
+    user1:
+        password: <encodePassword(@user1, "user")>
+        email: admin@test.com
+        isActive: true
+        isReg: true
+        role: "ROLE_ADMIN"
+        firstName: "Admin"
+        lastName: "Admin"
+    user2:
+        password: <encodePassword(@user2, "user")>
+        email: user@test.com
+        isActive: true
+        isReg: true
+        role: "ROLE_USER"
+        firstName: "User"
+        lastName: "User"
+
+AppBundle\Entity\Category:
+    category1:
+        title: 'Mathematics'
+
+AppBundle\Entity\Module:
+    module1:
+        category: "@category1"
+        title: 'Test mathematics'
+        rating: 100
+        persentSuccess: 65
+        time: 10
+        attempts: 2
+
+AppBundle\Entity\Question:
+    question1:
+        textQuestion: 'Result: 2+2 ='
+        sort: 1
+        allIncorrect: false
+        module: "@module1"
+    question2:
+        textQuestion: 'Result: 2*2 ='
+        sort: 2
+        allIncorrect: false
+        module: "@module1"
+    question3:
+        textQuestion: 'Result: 2/2 ='
+        sort: 3
+        allIncorrect: true
+        module: "@module1"
+
+AppBundle\Entity\Answer:
+    answer1:
+        textAnswer: '2'
+        correctly: false
+        question: "@question1"
+    answer2:
+        textAnswer: '3'
+        correctly: false
+        question: "@question1"
+    answer3:
+        textAnswer: '4'
+        correctly: true
+        question: "@question1"
+    answer4:
+        textAnswer: '4'
+        correctly: true
+        question: "@question2"
+    answer5:
+        textAnswer: '5'
+        correctly: false
+        question: "@question2"
+    answer6:
+        textAnswer: '0'
+        correctly: false
+        question: "@question3"
+    answer7:
+        textAnswer: '2'
+        correctly: false
+        question: "@question3"
+
+AppBundle\Entity\ModuleUser:
+    moduleUser1:
+        status: "active"
+        rating: 0
+        user: '@user2'
+        module: '@module1'
+
+AppBundle\Entity\PassModule:
+    passModule1:
+        rating: 0
+        timePeriod: 10
+        isActive: true
+        moduleUser: '@moduleUser1'
+        currentQuestion: '@question1'
+

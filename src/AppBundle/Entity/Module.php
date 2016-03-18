@@ -102,6 +102,7 @@ class Module implements \JsonSerializable
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Category", inversedBy="modules")
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     private $category;
 
@@ -111,7 +112,7 @@ class Module implements \JsonSerializable
     private $questions;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ModuleUser", mappedBy="module")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ModuleUser", mappedBy="module", cascade={"remove"})
      */
     private $modulesUser;
 
