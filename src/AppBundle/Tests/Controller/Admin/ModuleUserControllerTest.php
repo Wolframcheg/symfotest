@@ -29,7 +29,7 @@ class ModuleUserControllerTest extends TestBaseWeb
             'PHP_AUTH_USER' => 'admin@test.com',
             'PHP_AUTH_PW'   => 'user',
         ));
-        $crawler = $client->request('GET', '/admin/moduleUser/remove/2/1');
+        $crawler = $client->request('DELETE', '/admin/moduleUser/remove/2/1');
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
     }
 }

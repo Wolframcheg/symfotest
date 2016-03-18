@@ -1,6 +1,6 @@
 AppBundle\Entity\User:
     user1:
-        password: "$2a$10$77RsIOPvT9ZxVdfcsRCCZet6Zg6krq3smbpCrkIX6El8QuFJMLL0G" # user
+        password: <encodePassword(@user1, "user")>
         email: admin@test.com
         isActive: true
         isReg: true
@@ -8,7 +8,7 @@ AppBundle\Entity\User:
         firstName: "Admin"
         lastName: "Admin"
     user2:
-        password: "$2a$10$77RsIOPvT9ZxVdfcsRCCZet6Zg6krq3smbpCrkIX6El8QuFJMLL0G" # user
+        password: <encodePassword(@user2, "user")>
         email: user@test.com
         isActive: true
         isReg: true
