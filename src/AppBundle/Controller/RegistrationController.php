@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use AppBundle\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
@@ -63,5 +64,32 @@ class RegistrationController extends Controller
         }
 
         return new Response('Yes', 200);
+    }
+
+    /**
+     * @Route("/registration/check_hash/{hash}/{email}", name="register_check_hash")
+     * @Method("GET")
+     */
+    public function checkUserHash($hash, $email)
+    {
+         $em = $this->getDoctrine()->getManager();
+
+         $user = $em->getRepository('AppBundle:User')
+             ->findOneBy(array('email' => $email, 'hash' => $hash));
+
+         if ($user) {
+
+             $user->setIsReg(true);
+             $user->setHash(null);
+             $this->addFlash('notice', 'You have successfully passed registration confirmation');
+
+             $em->flush();
+
+             return $this->redirectToRoute('homepage');
+         }
+
+         $this->addFlash('notice', 'You haven\'t passed registration confirmation');
+
+         return $this->redirectToRoute('homepage');
     }
 }
