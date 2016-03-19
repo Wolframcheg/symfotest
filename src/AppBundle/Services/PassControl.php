@@ -44,11 +44,7 @@ class PassControl
 
 
         if($nextQuestionForPass === null) {
-          //  $passModule->setIsActive(false);
-          //  $passModule->setTimeFinish(new \DateTime());
-         //   $this->doctrine->getEntityManager()->flush();
-            $timeFinish = new \DateTime();
-            $this->deactivation->deactivation($passModule, $timeFinish);
+            $this->deactivation->deactivation($passModule, new \DateTime());
             return $this->generateOutput('redirect_to_result', 301, $data['idPassModule']);
         }
 

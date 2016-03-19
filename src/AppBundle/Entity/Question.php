@@ -62,9 +62,7 @@ class Question
      */
     private $passModules;
 
-    /**
-     *
-     */
+
     public function __construct()
     {
         $this->answers = new ArrayCollection();

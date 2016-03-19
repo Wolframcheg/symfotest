@@ -111,8 +111,6 @@ class QuestionController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $module = $em->getRepository('AppBundle:Module')->find($idModule);
-
         $question = $em->getRepository('AppBundle:Question')
             ->findByModuleWithSorting($idModule);
 

@@ -59,9 +59,9 @@ class CheckAnwers
             if ($question->getAllIncorrect() === $data['answer_all_incorrect'] && $question->getAllIncorrect() === true &&
                 $sumAllCorrect == $countOriginalAnswers
             )
-                return $result = 1;
+                return 1;
 
-            return $result = 0;
+            return 0;
         }
 
 

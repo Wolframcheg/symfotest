@@ -82,8 +82,6 @@ class PassManager
             ->modify("+{$pass->getTimePeriod()} minutes");
 
         if($nowDate > $dateEstimate){
-         //   $pass->setIsActive(false);
-        //    $this->doctrine->getEntityManager()->flush();
             $this->deactivation->deactivation($pass);
             return false;
         }

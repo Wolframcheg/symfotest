@@ -23,21 +23,6 @@ class AnswerType extends AbstractType
             ->add('correctly', CheckboxType::class,[
                 'required' => false
             ]);
-       //     ->add('question', HiddenType::class);
-            /*->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event) {
-                $data = $event->getData();
-                $form = $event->getForm();
-                if ($data == null) {
-                    $form->add('textAnswer', TextType::class, array(
-                        'data' => 'Нет правильного ответа',
-                        'attr' => [
-                            'class' => 'form-control',
-                        ]
-                    ));
-                }
-            });*/
-
-
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -52,10 +52,10 @@ class CheckAnwerV0
         if ($question->getAllIncorrect() || $data['answer_all_incorrect']) {
             if ($question->getAllIncorrect() === $data['answer_all_incorrect'] && $question->getAllIncorrect() === true && $sumTrueCorrect == 0) {
 
-                return $result = 1;
+                return 1;
             }
 
-            return $result = 0;
+            return 0;
         }
 
         // second type question
@@ -71,7 +71,6 @@ class CheckAnwerV0
             //third type question
         } else {
             if ($countAllTrueAnswers > 1) {
-                //   $result = $sumTrueCorrect != 0 ? ((1 / $countAllTrueAnswers) * $sumTrueCorrect) - ((1 / $countAllFalseAnswers) * $countFalseAnswers) : 0;
                 $result = $sumAllCorrect != 0 ? ((1 / $countOriginalAnswers) * $sumAllCorrect) : 0;
             } else {
                 $result =  0;

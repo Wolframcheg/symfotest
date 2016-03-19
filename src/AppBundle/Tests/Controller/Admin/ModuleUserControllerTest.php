@@ -19,7 +19,7 @@ class ModuleUserControllerTest extends TestBaseWeb
             'PHP_AUTH_USER' => 'admin@test.com',
             'PHP_AUTH_PW'   => 'user',
         ));
-        $crawler = $client->request('GET', '/admin/moduleUser/new/1');
+        $client->request('GET', '/admin/moduleUser/new/1');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
 
@@ -29,7 +29,7 @@ class ModuleUserControllerTest extends TestBaseWeb
             'PHP_AUTH_USER' => 'admin@test.com',
             'PHP_AUTH_PW'   => 'user',
         ));
-        $crawler = $client->request('DELETE', '/admin/moduleUser/remove/2/1');
+        $client->request('DELETE', '/admin/moduleUser/remove/2/1');
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
     }
 }

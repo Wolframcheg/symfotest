@@ -20,7 +20,7 @@ class PassingTestControllerTest extends TestBaseWeb
             'PHP_AUTH_PW'   => 'user',
         ));
 
-        $crawler = $client->request('GET', '/ident-pass/1');
+        $client->request('GET', '/ident-pass/1');
         $this->assertEquals(301, $client->getResponse()->getStatusCode());
     }
 
@@ -31,7 +31,7 @@ class PassingTestControllerTest extends TestBaseWeb
             'PHP_AUTH_PW'   => 'user',
         ));
 
-        $crawler = $client->request('GET', '/pass-module/1');
+        $client->request('GET', '/pass-module/1');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
 
@@ -42,7 +42,7 @@ class PassingTestControllerTest extends TestBaseWeb
             'PHP_AUTH_PW'   => 'user',
         ));
 
-        $crawler = $client->request('GET', '/pass-result/1');
+        $client->request('GET', '/pass-result/1');
         $this->assertEquals(403, $client->getResponse()->getStatusCode());
     }
 }

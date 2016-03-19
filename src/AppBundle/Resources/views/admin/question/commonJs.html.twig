@@ -44,12 +44,7 @@
                 $("#app_bundle_question_type_answers input:checkbox").attr('disabled', false);
             }
         }
-
         changeChecks();
-
-        incorrectCheck.click(function () {
-            changeChecks();
-        });
 
         function checkTrue() {
             var len = $('#app_bundle_question_type_answers input:checkbox:checked').length;
@@ -59,10 +54,15 @@
             else
                 $('#app_bundle_question_type_answers input:checkbox:not(:checked)').removeAttr('disabled');
         }
-
         checkTrue();
 
-        $('#app_bundle_question_type_answers').click(function() {
+        incorrectCheck.click(function () {
+            changeChecks();
+            checkTrue();
+        });
+
+        $('#app_bundle_question_type_answers input:checkbox').click(function() {
+            changeChecks();
             checkTrue();
         });
     });
