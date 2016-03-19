@@ -103,6 +103,11 @@ class User implements AdvancedUserInterface, \JsonSerializable
     protected $isReg;
 
     /**
+     * @ORM\Column(name="hash", type="string", nullable=true)
+     */
+    protected $hash;
+
+    /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\ModuleUser", mappedBy="user")
      */
     private $modulesUser;
@@ -465,6 +470,24 @@ class User implements AdvancedUserInterface, \JsonSerializable
     public function setIsReg($isReg)
     {
         $this->isReg = $isReg;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getHash()
+    {
+        return $this->hash;
+    }
+
+    /**
+     * @param mixed $hash
+     */
+    public function setHash($hash)
+    {
+        $this->hash = $hash;
 
         return $this;
     }
