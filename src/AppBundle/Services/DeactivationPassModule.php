@@ -41,10 +41,7 @@ class DeactivationPassModule
             $moduleUser->setRating($passModule->getRating());
         } else if ($moduleUser->getCountPassModules() >= $module->getAttempts()){
                 $moduleUser->setStatus(ModuleUser::STATUS_FAILED);
-                //$moduleUser->setRating($passModule->getRating());
         }
-
-
         $em->flush();
     }
 

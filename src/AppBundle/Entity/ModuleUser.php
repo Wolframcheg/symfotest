@@ -114,7 +114,6 @@ class ModuleUser implements \JsonSerializable
      */
     public function getAttempts()
     {
-      //  return $this->attempts;
         return count($this->getInactivePassModules());
     }
 

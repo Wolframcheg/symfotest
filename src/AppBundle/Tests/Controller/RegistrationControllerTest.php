@@ -17,7 +17,7 @@ class RegistrationControllerTest extends TestBaseWeb
     {
         $client = static::createClient();
 
-        $crawler = $client->request('GET', '/registration');
+        $client->request('GET', '/registration');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
 
@@ -25,7 +25,7 @@ class RegistrationControllerTest extends TestBaseWeb
     {
         $client = static::createClient();
 
-        $crawler = $client->request('GET', '/registrationNet');
+        $client->request('GET', '/registrationNet');
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
     }
 }

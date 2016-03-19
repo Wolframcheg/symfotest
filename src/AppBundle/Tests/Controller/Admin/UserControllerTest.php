@@ -19,7 +19,7 @@ class UserControllerTest extends TestBaseWeb
             'PHP_AUTH_USER' => 'admin@test.com',
             'PHP_AUTH_PW'   => 'user',
         ));
-        $crawler = $client->request('GET', '/admin/user');
+        $client->request('GET', '/admin/user');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
 
@@ -29,7 +29,7 @@ class UserControllerTest extends TestBaseWeb
             'PHP_AUTH_USER' => 'admin@test.com',
             'PHP_AUTH_PW'   => 'user',
         ));
-        $crawler = $client->request('GET', '/admin/user/2/edit');
+        $client->request('GET', '/admin/user/2/edit');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
 
@@ -39,7 +39,7 @@ class UserControllerTest extends TestBaseWeb
             'PHP_AUTH_USER' => 'admin@test.com',
             'PHP_AUTH_PW'   => 'user',
         ));
-        $crawler = $client->request('DELETE', '/admin/user/2');
+        $client->request('DELETE', '/admin/user/2');
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
     }
 }

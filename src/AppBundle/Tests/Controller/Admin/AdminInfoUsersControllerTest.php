@@ -19,7 +19,7 @@ class AdminInfoUsersControllerTest extends TestBaseWeb
             'PHP_AUTH_USER' => 'admin@test.com',
             'PHP_AUTH_PW'   => 'user',
         ));
-        $crawler = $client->request('GET', '/admin/account/1');
+        $client->request('GET', '/admin/account/1');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
 }

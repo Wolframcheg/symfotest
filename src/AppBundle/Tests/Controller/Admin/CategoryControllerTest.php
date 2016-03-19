@@ -19,7 +19,7 @@ class CategoryControllerTest extends TestBaseWeb
             'PHP_AUTH_USER' => 'admin@test.com',
             'PHP_AUTH_PW'   => 'user',
         ));
-        $crawler = $client->request('GET', '/admin/category/new');
+        $client->request('GET', '/admin/category/new');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
 
@@ -29,7 +29,7 @@ class CategoryControllerTest extends TestBaseWeb
             'PHP_AUTH_USER' => 'admin@test.com',
             'PHP_AUTH_PW'   => 'user',
         ));
-        $crawler = $client->request('GET', '/admin/category/edit/1');
+        $client->request('GET', '/admin/category/edit/1');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
 
@@ -39,7 +39,7 @@ class CategoryControllerTest extends TestBaseWeb
             'PHP_AUTH_USER' => 'admin@test.com',
             'PHP_AUTH_PW'   => 'user',
         ));
-        $crawler = $client->request('DELETE', '/admin/category/remove/1');
+        $client->request('DELETE', '/admin/category/remove/1');
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
     }
 
@@ -49,7 +49,7 @@ class CategoryControllerTest extends TestBaseWeb
             'PHP_AUTH_USER' => 'admin@test.com',
             'PHP_AUTH_PW'   => 'user',
         ));
-        $crawler = $client->request('GET', '/admin/category');
+        $client->request('GET', '/admin/category');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
 }

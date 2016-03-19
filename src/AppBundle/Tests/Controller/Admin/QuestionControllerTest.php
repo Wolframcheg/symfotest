@@ -19,7 +19,7 @@ class QuestionControllerTest extends TestBaseWeb
             'PHP_AUTH_USER' => 'admin@test.com',
             'PHP_AUTH_PW'   => 'user',
         ));
-        $crawler = $client->request('GET', '/admin/question/new/1');
+        $client->request('GET', '/admin/question/new/1');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
 
@@ -29,7 +29,7 @@ class QuestionControllerTest extends TestBaseWeb
             'PHP_AUTH_USER' => 'admin@test.com',
             'PHP_AUTH_PW'   => 'user',
         ));
-        $crawler = $client->request('GET', '/admin/question/edit/1/1');
+        $client->request('GET', '/admin/question/edit/1/1');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
 
@@ -39,7 +39,7 @@ class QuestionControllerTest extends TestBaseWeb
             'PHP_AUTH_USER' => 'admin@test.com',
             'PHP_AUTH_PW'   => 'user',
         ));
-        $crawler = $client->request('DELETE', '/admin/question/remove/1/1');
+        $client->request('DELETE', '/admin/question/remove/1/1');
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
     }
 
@@ -49,7 +49,7 @@ class QuestionControllerTest extends TestBaseWeb
             'PHP_AUTH_USER' => 'admin@test.com',
             'PHP_AUTH_PW'   => 'user',
         ));
-        $crawler = $client->request('GET', '/admin/question/show/1');
+       $client->request('GET', '/admin/question/show/1');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
 }

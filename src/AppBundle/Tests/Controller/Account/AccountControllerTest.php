@@ -19,8 +19,7 @@ class AccountControllerTest extends TestBaseWeb
             'PHP_AUTH_USER' => 'user@test.com',
             'PHP_AUTH_PW'   => 'user',
         ));
-        $crawler = $client->request('GET', '/account');
+        $client->request('GET', '/account');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-      //  $this->assertContains('Add', $crawler->filter('h4')->text());
     }
 }
