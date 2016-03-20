@@ -1,0 +1,59 @@
+{% extends '::adminbase.html.twig' %}
+
+{% block content %}
+    <section class="content-header">
+        <h1>{% block title %}"{{ user.firstName | capitalize }} {{ user.lastName | capitalize }}" account info{% endblock %}</h1>
+        <ol class="breadcrumb">
+            <li><a href="{{ url('admin') }}"><i class="fa fa-dashboard"></i> Home admin</a></li>
+            <li><a href="{{ url('user_show') }}">User list</a></li>
+            <li class="active">User account info</li>
+        </ol>
+    </section>
+
+    <section class="content">
+        <div class="box">
+            <table class="table table-border table-hover">
+                <th width="22%">Test name</th><th width="20%">Attempts</th>
+                <th width="15%">Rating</th><th width="15%">Results</th>
+                <th width="13%">Questions</th><th width="15%">Time for test, m</th>
+
+                {% for item in modules %}
+
+                    {% if item.status == 'success' %}
+                        {% set color = 'success' %}
+                    {% elseif item.status == 'failed' %}
+                        {% set color = 'danger' %}
+                    {% else %}
+                        {% set color = ''%}
+                    {% endif %}
+
+                    <tr class="{{ color }}">
+                        <td>{{ item.module.title }}</td>
+                        <td>
+                            {{ item.countPassModules }} / {{ item.module.attempts }}
+                        </td>
+                        {% if item.lastModule.absoluteResult is defined %}
+                            <td>{{ item.lastModule.absoluteResult | round(2, 'floor') }} / {{ item.module.rating }}</td>
+                        {% else %}
+                            <td>0 / {{ item.module.rating }}</td>
+                        {% endif %}
+                        <td><a href="#" data-idmodule="{{ item.id }}" class="show-result"><i class="glyphicon glyphicon-search"></i></a></td>
+                        <td>{{ item.module.getCountQuestions }}</td>
+                        <td>{{ item.module.time }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+            <div id="modalWindow"></div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% include '@App/common/commonAccountJs.html.twig' %}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% include '@App/common/commonAccountCss.html.twig' %}
+{% endblock %}

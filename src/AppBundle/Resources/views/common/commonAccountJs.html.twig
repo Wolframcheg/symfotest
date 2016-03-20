@@ -1,0 +1,37 @@
+    <script type="text/javascript" src="{{ asset('js/jquery.fancybox.pack.js') }}"></script>
+    <script>
+        $(".show-result").click(function(e) {
+            e.preventDefault();
+            var id = $(this).data('idmodule');
+            var modal = $('#modalWindow');
+            $.ajax({
+                type: 'POST',
+                data: {
+                    module : id
+                },
+                url: "{{ path('module_user_info') }}",
+                success: (function(response) {
+                    var obj = JSON.parse(response);
+                    var i = 1;
+                    if (obj.moduleAjax.length > 0) {
+                        var html = '<table>';
+                        $.each(obj.moduleAjax, function(key, value) {
+                            html += '<tr><td>Attempt #' + i++ + '</td></tr>';
+                            html += '<tr><td>Start ' + value.timeStart.date.toString() + '</td></tr>';
+                            html += '<tr><td>Finish ' + value.timeFinish.date.toString() + '</td></tr>';
+                            html += '<tr><td>Result</td>';
+                            html += '<td>' + value.result.toFixed(2) + '</td></tr>';
+                            html += '<tr><td>Percent</td>';
+                            html += '<td>' + value.percent.toFixed(2) + '</td></tr>';
+                        });
+                        html += '</table><hr>';
+
+                    } else {
+                        var html = '<p>not found result</p>';
+                    }
+                    modal.html(html);
+                    $.fancybox.open(modal);
+                })
+            })
+        });
+    </script>
