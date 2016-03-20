@@ -15,11 +15,13 @@ class MailerService
 {
     private $mailer;
     private $templating;
+    private $generator;
 
-    public function __construct(\Swift_Mailer $mailer, TwigEngine $template)
+    public function __construct(\Swift_Mailer $mailer, TwigEngine $template, RandomGenerator $randomGenerator)
     {
         $this->mailer = $mailer;
         $this->templating = $template;
+        $this->generator = $randomGenerator;
     }
 
     public function sendMail($mailTo)
@@ -40,5 +42,25 @@ class MailerService
         $this->mailer->send($message);
 
         return $hash;
+    }
+
+    public function sendMailRecovery($mailTo)
+    {
+        $password = $this->generator->generator();
+        $message = \Swift_Message::newInstance()
+            ->setSubject('Registration')
+            ->setFrom('cs210785gaa@gmail.com')
+            ->setTo($mailTo)
+            ->setBody(
+                $this->templating->render(
+                    '@App/Emails/recovery.html.twig',
+                    array('password' => $password)
+                ),
+                'text/html'
+            );
+
+        $this->mailer->send($message);
+
+        return $password;
     }
 }
