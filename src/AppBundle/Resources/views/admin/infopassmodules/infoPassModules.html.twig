@@ -1,0 +1,59 @@
+{% extends '::adminbase.html.twig' %}
+
+{% block content %}
+    <section class="content-header">
+        <h1>{% block title %}Info Pass Modules{% endblock %}</h1>
+        <ol class="breadcrumb">
+            <li><a href="{{ url('admin') }}"><i class="fa fa-dashboard"></i> Home admin</a></li>
+            <li class="active">Info Pass Modules</li>
+        </ol>
+    </section>
+    <section class="content">
+        <select class="form-control" id="selMod" style="width: 30%">
+            <option selected disabled>Choose module</option>
+           {% for item in modules %}
+               <option value="{{ item.id }}">{{ item.title }}</option>
+           {% endfor %}
+        </select>
+        <br/>
+        <div class="box" id="info"></div>
+    </section>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        var info = $('#info');
+            $('#selMod').change(function() {
+                $.ajax({
+                    type: 'POST',
+                    data: {
+                        mod : $('#selMod option:selected').val()
+                    },
+                    url: "{{ path('info_pass') }}"
+                })
+                .success(function(response) {
+                    var obj = JSON.parse(response);
+                    var i = 1;
+                    if (obj.modulesUser.length > 0) {
+                        var html = '<table width="100%" class="table table-border table-hover">';
+                        html += '<th>#</th><th>Email</th><th>Name</th><th>Rating</th><th>Percent</th>';
+                        $.each(obj.modulesUser, function(key, value) {
+                            html += '<tr>';
+                            html += '<td width="5%">' + i++ + '</td>';
+                            html += '<td width="25%">' + value.user.email + '</td>';
+                            html += '<td width="50%">' + value.user.firstName +' ' + value.user.lastName + '</td>';
+                            html += '<td width="10%">' + value.passModule.result.toFixed(2) + '</td>';
+                            html += '<td width="10%">' + value.passModule.percent.toFixed(2) + '</td>';
+                            html += '</tr>';
+                            });
+                        html += '</table>';
+                        } else {
+                            html = '<p>Not found users</p>';
+                        }
+                        info.html(html);
+                    })
+            });
+    </script>
+{% endblock %}

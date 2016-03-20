@@ -1,0 +1,45 @@
+{% extends '::adminbase.html.twig' %}
+
+{% block content %}
+    <section class="content-header">
+        <ol class="breadcrumb">
+            {#<li><a href="{{ url('admin_index') }}"><i class="fa fa-dashboard"></i> Home admin</a></li>#}
+            {#<li><a href="{{ url('admin_comment_index') }}">Comment list</a></li>#}
+            {#<li class="active">Edit Comment</li>#}
+        </ol>
+    </section>
+
+    <section class="content">
+        {% for flash_message in app.session.flashbag.get('notice') %}
+            <div class="alert alert-warning alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <strong>{{ flash_message }}</strong>
+            </div>
+        {% endfor %}
+        <p>
+            <a class="btn btn-success" href="{{ path('create_question', {'idModule' : idModule}) }}">Create a new Question</a>
+        </p>
+        <div class="box">
+            <table class="table table-border table-hover">
+                <th>Title</th>
+                <th>Sort</th>
+                <th>Count Answers</th>
+                <th width="70px">Edit</th>
+                <th width="70px">Remove</th>
+                {% for question in questions %}
+                    <tr>
+                        <td>{{ question.textQuestion }}</td>
+                        <td>{{ question.sort }}</td>
+                        <td>{{ question.countAnswers }}</td>
+                        <td><a href="{{ path('edit_question', {'id' : question.id,'idModule': question.module.id}) }}">
+                                <i class="glyphicon glyphicon-pencil btn-link"></i></a></td>
+                        <td>{{ form(form_remove[question.id]) }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+    </section>
+
+
+{% endblock %}

@@ -9,6 +9,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -17,8 +18,12 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="module_user")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ModuleUserRepository")
  */
-class ModuleUser
+class ModuleUser implements \JsonSerializable
 {
+    const STATUS_ACTIVE = 'active';
+    const STATUS_SUCCESS = 'success';
+    const STATUS_FAILED = 'failed';
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -26,18 +31,14 @@ class ModuleUser
      */
     private $id;
 
-    /**
-     * @ORM\Column(name="attempts", type="integer")
-     */
-    private $attempts;
 
     /**
-     * @ORM\Column(name="is_active", type="boolean")
+     * @ORM\Column(type="string")
      */
-    private $isActive;
+    private $status;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\PassModule", mappedBy="moduleUser")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\PassModule", mappedBy="moduleUser", cascade={"remove"})
      */
     private $passModules;
 
@@ -52,11 +53,25 @@ class ModuleUser
     private $module;
 
     /**
-     *
+     * @ORM\Column(type="float")
      */
+    private $rating;
+
+    public function jsonSerialize()
+    {
+        return [
+            'user' => $this->getUser(),
+            'module' => $this->getModule(),
+            'passModule' => $this->getPassModules()->last()
+        ];
+    }
+
+
     public function __construct()
     {
         $this->passModules = new ArrayCollection();
+        $this->status = self::STATUS_ACTIVE;
+        $this->rating = 0;
     }
 
     /**
@@ -99,15 +114,7 @@ class ModuleUser
      */
     public function getAttempts()
     {
-        return $this->attempts;
-    }
-
-    /**
-     * @param mixed $attempts
-     */
-    public function setAttempts($attempts)
-    {
-        $this->attempts = $attempts;
+        return count($this->getInactivePassModules());
     }
 
     /**
@@ -115,16 +122,9 @@ class ModuleUser
      */
     public function getIsActive()
     {
-        return $this->isActive;
+        return ($this->status == self::STATUS_ACTIVE);
     }
 
-    /**
-     * @param mixed $isActive
-     */
-    public function setIsActive($isActive)
-    {
-        $this->isActive = $isActive;
-    }
 
     /**
      * @return mixed
@@ -136,10 +136,13 @@ class ModuleUser
 
     /**
      * @param mixed $user
+     * @return $this
      */
     public function setUser(User $user = null)
     {
         $this->user = $user;
+
+        return $this;
     }
 
     /**
@@ -152,10 +155,68 @@ class ModuleUser
 
     /**
      * @param mixed $module
+     * @return $this
      */
     public function setModule(Module $module = null)
     {
         $this->module = $module;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRating()
+    {
+        return $this->rating;
+    }
+
+    /**
+     * @param $rating
+     * @return $this
+     */
+    public function setRating($rating)
+    {
+        $this->rating = $rating;
+        return $this;
+    }
+
+
+    public function getCountPassModules()
+    {
+        return count($this->passModules);
+    }
+
+    public function getInactivePassModules()
+    {
+        $criteria = Criteria::create();
+        $criteria->where(Criteria::expr()->eq('isActive', false));
+
+        return $this->passModules->matching($criteria);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param mixed $status
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getLastModule()
+    {
+        return $this->passModules->last();
     }
 
 }

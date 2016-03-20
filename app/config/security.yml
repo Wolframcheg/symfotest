@@ -13,7 +13,8 @@ security:
             entity:
                 class: AppBundle:User
                 property: email
-
+        oauth_provider:
+            id: oauth_test_provider
 
     firewalls:
         main:
@@ -22,18 +23,32 @@ security:
                 provider: user_db_provider
                 check_path: /login_check
                 login_path: /login
-                default_target_path: /test
+                default_target_path: /account
                 username_parameter: _username
                 password_parameter: _password
             logout:
                 path: /logout
                 target: /
             anonymous: true
+            switch_user: true
+
+            oauth:
+                resource_owners:
+                    facebook: "/login/check-facebook"
+                    google: "/login/check-google"
+                login_path: /
+                use_forward: false
+                default_target_path: /registrationNet
+                failure_path: /
+                oauth_user_provider:
+                    service: oauth_test_provider
 
 
     access_control:
         - { path: ^/admin, role: ROLE_ADMIN }
         - { path: ^/test, role: ROLE_USER }
+        - { path: ^/account, role: ROLE_USER }
+        - { path: ^/connect, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, role: IS_AUTHENTICATED_ANONYMOUSLY }
 
 

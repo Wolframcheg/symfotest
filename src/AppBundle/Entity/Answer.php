@@ -34,34 +34,35 @@ class Answer
     private $textAnswer;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\QuestionAnswer", mappedBy="answer")
+     * @ORM\Column(name="correctly", type="boolean")
      */
-    private $questionAnswers;
+    private $correctly;
 
-    public function __construct()
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Question", inversedBy="answers")
+     */
+    private $question;
+
+    /**
+     * @return mixed
+     */
+    public function getQuestion()
     {
-        $this->questionAnswers = new ArrayCollection();
+        return $this->question;
+    }
+
+    /**
+     * @param mixed $question
+     */
+    public function setQuestion(Question $question = null)
+    {
+        $this->question = $question;
     }
 
     /**
      * @return mixed
      */
-    public function getQuestionAnswers()
-    {
-        return $this->questionAnswers;
-    }
-
-    public function addQuestionAnswer(QuestionAnswer $questionAnswer)
-    {
-        $this->questionAnswers->add($questionAnswer);
-
-        return $this;
-    }
-
-    public function removeQuestionAnswer(QuestionAnswer $questionAnswer)
-    {
-        $this->questionAnswers->removeElement($questionAnswer);
-    }
 
     /**
      * @return mixed
@@ -87,5 +88,19 @@ class Answer
         $this->textAnswer = $textAnswer;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getCorrectly()
+    {
+        return $this->correctly;
+    }
 
+    /**
+     * @param mixed $correctly
+     */
+    public function setCorrectly($correctly)
+    {
+        $this->correctly = $correctly;
+    }
 }

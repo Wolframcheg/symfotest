@@ -17,3 +17,8 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
+
+    googleId: 111
+    googleToken: 111
+    facebookId: 111
+    facebookToken: 111

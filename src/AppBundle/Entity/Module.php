@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  * @ORM\Table(name="module")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ModuleRepository")
  */
-class Module
+class Module implements \JsonSerializable
 {
     /**
      * @ORM\Id
@@ -102,18 +102,27 @@ class Module
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Category", inversedBy="modules")
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     private $category;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Question", mappedBy="module")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Question", mappedBy="module", cascade={"persist", "remove"})
      */
     private $questions;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ModuleUser", mappedBy="module")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ModuleUser", mappedBy="module", cascade={"remove"})
      */
     private $modulesUser;
+
+    public function jsonSerialize()
+    {
+        return [
+            'titleModule' => $this->getTitle()
+        ];
+    }
+
 
     /**
      *
@@ -362,4 +371,10 @@ class Module
     {
         $this->pathImage = $pathImage;
     }
+
+    public function getCountQuestions()
+    {
+        return count($this->questions);
+    }
+
 }

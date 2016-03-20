@@ -9,7 +9,9 @@
 namespace AppBundle\Entity;
 
 
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * PassModule
@@ -17,8 +19,11 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="pass_module")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PassModuleRepository")
  */
-class PassModule
+class PassModule implements \JsonSerializable
 {
+    const STATE_PASSED = 'passed';
+    const STATE_FAILED = 'failed';
+    const STATE_EXPIRED = 'expired';
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -27,17 +32,18 @@ class PassModule
     private $id;
 
     /**
-     * @ORM\Column(name="rating", type="integer")
+     * @ORM\Column(name="rating", type="float")
      */
     private $rating;
 
     /**
      * @ORM\Column(name="time_start", type="datetime")
+     * @Gedmo\Timestampable(on="create")
      */
     private $timeStart;
 
     /**
-     * @ORM\Column(name="time_finish", type="datetime")
+     * @ORM\Column(name="time_finish", type="datetime", nullable=true)
      */
     private $timeFinish;
 
@@ -55,6 +61,37 @@ class PassModule
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ModuleUser", inversedBy="passModules")
      */
     private $moduleUser;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Question", inversedBy="passModules")
+     * @ORM\JoinColumn(onDelete="SET NULL")
+     */
+    private $currentQuestion;
+
+    /**
+     * @ORM\Column(type="array")
+     */
+    private $answeredQuestionIds;
+
+    public function jsonSerialize()
+    {
+        return [
+            'result' => $this->getAbsoluteResult(),
+            'percent' => $this->getPercentResult(),
+            'rating' => $this->getRating(),
+            'timeStart' => $this->getTimeStart(),
+            'timeFinish' => $this->getTimeFinish()
+        ];
+    }
+
+
+    public function __construct()
+    {
+        $this->isActive = true;
+        $this->rating = 0;
+        $this->answeredQuestionIds = [];
+    }
+
 
     /**
      * @return mixed
@@ -78,6 +115,14 @@ class PassModule
     public function setRating($rating)
     {
         $this->rating = $rating;
+    }
+
+    /**
+     * @param mixed $rating
+     */
+    public function addRating($rating)
+    {
+        $this->rating += $rating;
     }
 
     /**
@@ -158,6 +203,69 @@ class PassModule
     public function setModuleUser(ModuleUser $moduleUser = null)
     {
         $this->moduleUser = $moduleUser;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCurrentQuestion()
+    {
+        return $this->currentQuestion;
+    }
+
+    /**
+     * @param mixed $question
+     */
+    public function setCurrentQuestion(Question $question = null)
+    {
+        $this->currentQuestion = $question;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAnsweredQuestionIds()
+    {
+        return $this->answeredQuestionIds;
+    }
+
+    /**
+     * @param $questionId
+     * @return $this
+     * @internal param Question $question
+     */
+    public function addAnsweredQuestionId($questionId)
+    {
+        $this->answeredQuestionIds[] = $questionId;
+
+        return $this;
+    }
+
+    public function getCountPassedQuestions()
+    {
+        return count($this->answeredQuestionIds);
+    }
+
+    public function getAbsoluteResult()
+    {
+        $countQuestions = $this->getModuleUser()->getModule()->getCountQuestions();
+        $maxResult = $this->getModuleUser()->getModule()->getRating();
+        return $this->rating * $maxResult / $countQuestions ;
+    }
+
+    public function getPercentResult()
+    {
+        $countQuestions = $this->getModuleUser()->getModule()->getCountQuestions();
+        return $this->rating * 100 / $countQuestions ;
+    }
+
+    public function getStateResult()
+    {
+        if($this->timeFinish === null)
+                return self::STATE_EXPIRED;
+
+        return $this->getPercentResult() >= $this->getModuleUser()->getModule()->getPersentSuccess() ?
+                self::STATE_PASSED : self::STATE_FAILED;
     }
 
 }

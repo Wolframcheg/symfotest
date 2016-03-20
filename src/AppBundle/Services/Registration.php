@@ -12,9 +12,11 @@ namespace AppBundle\Services;
 use AppBundle\Entity\User;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use AppBundle\Form\UserType;
+use AppBundle\Form\UpdateUserSocialNetType;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -46,6 +48,11 @@ class Registration
      */
     protected $passwordEncoder;
 
+    protected $template;
+
+    protected $mailer;
+    protected $session;
+
     /**
      * @param RegistryInterface $doctrine
      * @param FormFactoryInterface $formFactory
@@ -57,7 +64,9 @@ class Registration
                                 FormFactoryInterface $formFactory,
                                 RouterInterface $router,
                                 ValidatorInterface $validator,
-                                UserPasswordEncoder $passwordEncoder
+                                UserPasswordEncoder $passwordEncoder,
+                                MailerService $mailerService,
+                                Session $sessionService
                             )
     {
         $this->doctrine = $doctrine;
@@ -65,6 +74,8 @@ class Registration
         $this->router = $router;
         $this->validator = $validator;
         $this->passwordEncoder = $passwordEncoder;
+        $this->mailer = $mailerService;
+        $this->session = $sessionService;
     }
 
     /**
@@ -75,7 +86,6 @@ class Registration
     {
         $em = $this->doctrine->getManager();
 
-        $role = User::ROLE_USER;
         $user = new User();
         $form = $this->formFactory->create(UserType::class, $user);
 
@@ -86,9 +96,36 @@ class Registration
             $password = $this->passwordEncoder
                 ->encodePassword($user, $user->getPlainPassword());
             $user->setPassword($password);
-            $user->setRole($role);
+
+            $hash = $this->mailer->sendMail($user->getEmail());
+            //$user->setIsReg(true);
+            $user->setHash($hash);
 
             $em->persist($user);
+            $em->flush();
+            $this->session->getFlashBag()->add('notice',
+                'Confirm your email!!!');
+
+            return new RedirectResponse($this->router->generate('homepage'));
+        }
+
+        return ['form' => $form->createView()];
+    }
+
+    public function updateRegistrationUser(Request $request, User $user)
+    {
+        $em = $this->doctrine->getManager();
+        $form = $this->formFactory->create(UpdateUserSocialNetType::class, $user);
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $password = $this->passwordEncoder
+                ->encodePassword($user, $user->getPlainPassword());
+            $user->setPassword($password);
+            $user->setIsActive(false);
+            $user->setIsReg(true);
+
             $em->flush();
 
             return new RedirectResponse($this->router->generate('homepage'));

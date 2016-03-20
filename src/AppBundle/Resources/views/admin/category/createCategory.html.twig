@@ -2,10 +2,11 @@
 
 {% block content %}
     <section class="content-header">
+        <h1>{% block title %}Create Category{% endblock %}</h1>
         <ol class="breadcrumb">
-            {#<li><a href="{{ url('admin_index') }}"><i class="fa fa-dashboard"></i> Home admin</a></li>#}
-            {#<li><a href="{{ url('admin_comment_index') }}">Comment list</a></li>#}
-            {#<li class="active">Edit Comment</li>#}
+            <li><a href="{{ url('admin') }}"><i class="fa fa-dashboard"></i> Home admin</a></li>
+            <li><a href="{{ url('show_category') }}">Category list</a></li>
+            <li class="active">Create Category</li>
         </ol>
     </section>
 

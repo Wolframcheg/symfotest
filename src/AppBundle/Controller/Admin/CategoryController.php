@@ -4,6 +4,7 @@ namespace AppBundle\Controller\Admin;
 
 use AppBundle\Entity\Category;
 use AppBundle\Form\CategoryType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -41,7 +42,7 @@ class CategoryController extends Controller
 
     /**
      * @Route("/admin/category/edit/{id}", name="edit_category")
-     * @Template("@App/admin/category/createCategory.html.twig")
+     * @Template("@App/admin/category/editCategory.html.twig")
      */
     public function editCategoryAction(Request $request, $id)
     {
@@ -64,6 +65,7 @@ class CategoryController extends Controller
 
     /**
      * @Route("/admin/category/remove/{id}", name="remove_category")
+     * @Method("DELETE")
      */
     public function removeCategoryAction($id)
     {
@@ -80,7 +82,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * @Route("/admin/category/show", name="show_category")
+     * @Route("/admin/category", name="show_category")
      * @Template("@App/admin/category/showCategory.html.twig")
      */
     public function showCategoryAction()
@@ -90,37 +92,17 @@ class CategoryController extends Controller
         $category = $em->getRepository('AppBundle:Category')
             ->findBy([], ['title' => 'ASC']);
 
-        $form_edit = [];
         $form_delete = [];
 
         foreach ($category as $item) {
-            $form_edit[$item->getId()] = $this->createFormEdit($item->getId())->createView();
             $form_delete[$item->getId()] = $this->createFormDelete($item->getId())->createView();
         }
 
         return [
             'categories' => $category,
-            'form_edit' => $form_edit,
             'form_remove' => $form_delete
         ];
 
-    }
-
-    /**
-     * @return \Symfony\Component\Form\Form
-     */
-    private function createFormEdit($id)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('edit_category', ['id' => $id]))
-            ->setMethod('PUT')
-            ->add('submit', SubmitType::class, [
-                'label' => ' ',
-                'attr' => [
-                    'class' => 'glyphicon glyphicon-pencil btn-link'
-                ]
-            ])
-            ->getForm();
     }
 
     /**

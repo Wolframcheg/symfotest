@@ -1,0 +1,12 @@
+AppBundle\Entity\Category:
+    category1:
+        title: 'Mathematics'
+#        modules: 1x @module1
+
+
+
+
+
+
+
+

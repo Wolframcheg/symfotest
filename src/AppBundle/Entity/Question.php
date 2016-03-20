@@ -40,48 +40,59 @@ class Question
     private $textQuestion;
 
     /**
+     * @ORM\Column(name="all_incorrect", type="boolean", nullable=true)
+     */
+    private $allIncorrect;
+    /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Module", inversedBy="questions")
      */
     private $module;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\QuestionAnswer", mappedBy="question")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Answer", mappedBy="question", cascade={"persist", "remove"})
+     * @Assert\Count(
+     *      min = "2",
+     *      minMessage = "You must specify at least two answers"
+     * )
      */
-    private $questionAnswers;
+    private $answers;
 
     /**
-     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\PassModule", mappedBy="currentQuestion")
      */
+    private $passModules;
+
+
     public function __construct()
     {
-        $this->questionAnswers = new ArrayCollection();
+        $this->answers = new ArrayCollection();
     }
 
     /**
      * @return mixed
      */
-    public function getQuestionAnswers()
+    public function getAnswers()
     {
-        return $this->questionAnswers;
+        return $this->answers;
     }
 
     /**
-     * @param QuestionAnswer $questionAnswer
+     * @param Answer $answer
      * @return $this
      */
-    public function addQuestionAnswer(QuestionAnswer $questionAnswer)
+    public function addAnswer(Answer $answer)
     {
-        $this->questionAnswers->add($questionAnswer);
+        $this->answers->add($answer);
 
         return $this;
     }
 
     /**
-     * @param QuestionAnswer $questionAnswer
+     * @param Answer $answer
      */
-    public function removeQuestionAnswer(QuestionAnswer $questionAnswer)
+    public function removeAnswer(Answer $answer)
     {
-        $this->questionAnswers->removeElement($questionAnswer);
+        $this->answers->removeElement($answer);
     }
 
     /**
@@ -135,11 +146,30 @@ class Question
     /**
      * @param mixed $module
      */
-    public function setModule(ModuleUser $module = null)
+    public function setModule(Module $module = null)
     {
         $this->module = $module;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getAllIncorrect()
+    {
+        return $this->allIncorrect;
+    }
 
+    /**
+     * @param mixed $allIncorrect
+     */
+    public function setAllIncorrect($allIncorrect)
+    {
+        $this->allIncorrect = $allIncorrect;
+    }
+
+    public function getCountAnswers()
+    {
+        return count($this->answers);
+    }
 
 }

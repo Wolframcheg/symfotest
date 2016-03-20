@@ -8,6 +8,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ModuleType extends AbstractType
@@ -53,12 +55,19 @@ class ModuleType extends AbstractType
                 },
                 'label' => 'Category',
                 'property' => 'title',
-                'attr' => ['class' => 'form-control'],
+                'attr' => ['class' => 'chosen-select'],
                 'required'  => true
             ])
             ->add('module_image', FileType::class, [
                 'required' => false
-            ]);
+            ])
+            ->addEventListener(FormEvents::POST_SUBMIT, function(FormEvent $event)  {
+                $data = $event->getData();
+
+
+
+                $event->setData($data);
+            });
     }
 
     public function configureOptions(OptionsResolver $resolver)
@@ -68,7 +77,7 @@ class ModuleType extends AbstractType
         ));
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'app_bundle_module_type';
     }

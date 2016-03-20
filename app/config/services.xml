@@ -17,6 +17,8 @@
             <argument type="service" id="router"/>
             <argument type="service" id="validator"/>
             <argument type="service" id="security.password_encoder" />
+            <argument type="service" id="app.custom.mailer" />
+            <argument type="service" id="session" />
         </service>
 
         <service id="app.image.manager" class="AppBundle\Services\ImageManagerServices"/>
@@ -24,6 +26,51 @@
         <service id="app.image.subscriber" class="AppBundle\EventListener\ModuleSubscriber">
             <argument type="service" id="app.image.manager"/>
             <tag name="doctrine.event_subscriber" connection="default" />
+        </service>
+
+        <service id="app.incorrect.question" class="AppBundle\Services\IncorrectQuestion">
+            <argument type="service" id="doctrine" />
+        </service>
+
+        <service id="app.checkCount.answer" class="AppBundle\Services\CheckCountAnswers">
+            <argument type="service" id="router" />
+            <argument type="service" id="session" />
+        </service>
+
+        <service id="app.pass_manager"
+                 class="AppBundle\Services\PassManager">
+            <argument key="doctrine" type="service" id="doctrine"/>
+            <argument key="formFactory" type="service" id="form.factory"/>
+            <argument key="tokenStorage" type="service" id="security.token_storage"/>
+            <argument type="service" id="app.deactivation.passModule" />
+        </service>
+
+        <service id="oauth_test_provider" class="AppBundle\OAuthProvider\LoginUserProvider">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+
+        <service id="app.check.answers" class="AppBundle\Services\CheckAnwers">
+            <argument type="service" id="doctrine" />
+        </service>
+
+        <service id="app.pass_control" class="AppBundle\Services\PassControl">
+            <argument type="service" id="doctrine" />
+            <argument type="service" id="app.check.answers" />
+            <argument type="service" id="app.deactivation.passModule" />
+        </service>
+
+        <service id="app.deactivation.passModule" class="AppBundle\Services\DeactivationPassModule">
+            <argument type="service" id="doctrine" />
+        </service>
+
+        <service id="app.twig.extension" class="AppBundle\Twig\Extension\AppExtension">
+            <argument type="service" id="doctrine" />
+            <tag name="twig.extension" />
+        </service>
+
+        <service id="app.custom.mailer" class="AppBundle\Services\MailerService">
+            <argument type="service" id="mailer" />
+            <argument type="service" id="templating" />
         </service>
 
     </services>
