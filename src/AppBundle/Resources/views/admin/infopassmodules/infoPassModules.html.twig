@@ -1,11 +1,14 @@
-{% extends '::base.html.twig' %}
+{% extends '::adminbase.html.twig' %}
 
 {% block content %}
+    <section class="content-header">
+        <h1>{% block title %}Info Pass Modules{% endblock %}</h1>
+        <ol class="breadcrumb">
+            <li><a href="{{ url('admin') }}"><i class="fa fa-dashboard"></i> Home admin</a></li>
+            <li class="active">Info Pass Modules</li>
+        </ol>
+    </section>
     <section class="content">
-        <p>
-            <a href="{{ path('admin') }}" class="btn btn-primary btn-md">Admin</a>
-        </p>
-        <br/>
         <select class="form-control" id="selMod" style="width: 30%">
             <option selected disabled>Choose module</option>
            {% for item in modules %}
@@ -13,7 +16,7 @@
            {% endfor %}
         </select>
         <br/>
-        <div class="info"></div>
+        <div class="box" id="info"></div>
     </section>
 {% endblock %}
 
@@ -21,9 +24,7 @@
     {{ parent() }}
 
     <script>
-        var info = $('.info');
-
-        $(function() {
+        var info = $('#info');
             $('#selMod').change(function() {
                 $.ajax({
                     type: 'POST',
@@ -36,7 +37,7 @@
                     var obj = JSON.parse(response);
                     var i = 1;
                     if (obj.modulesUser.length > 0) {
-                        var html = '<table width="100%" class="table-hover">';
+                        var html = '<table width="100%" class="table table-border table-hover">';
                         html += '<th>#</th><th>Email</th><th>Name</th><th>Rating</th><th>Percent</th>';
                         $.each(obj.modulesUser, function(key, value) {
                             html += '<tr>';
@@ -48,12 +49,11 @@
                             html += '</tr>';
                             });
                         html += '</table>';
-                        info.html(html);
                         } else {
-                            info.html('<p>Not found users</p>');
+                            html = '<p>Not found users</p>';
                         }
+                        info.html(html);
                     })
             });
-        })
     </script>
 {% endblock %}

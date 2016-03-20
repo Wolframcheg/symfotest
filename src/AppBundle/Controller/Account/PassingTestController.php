@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace AppBundle\Controller\Account;
 
 use AppBundle\Entity\PassModule;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -9,7 +9,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-
+/**
+ * Passing test controller.
+ *
+ * @Route("/account")
+ */
 class PassingTestController extends Controller
 {
     public function indexAction($name)

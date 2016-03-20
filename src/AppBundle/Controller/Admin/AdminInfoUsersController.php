@@ -14,7 +14,7 @@ class AdminInfoUsersController extends Controller
 {
     /**
      * @Route("/admin/account/{id}", name="admin_account")
-     * @Template("@App/account/showAccount.html.twig")
+     * @Template("@App/admin/AdminInfoUsers/showAccount.html.twig")
      */
     public function showAccountAction(Request $request, User $id = null)
     {

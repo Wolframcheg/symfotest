@@ -36,9 +36,13 @@ gulp.task('admin-fonts', function () {
 
 gulp.task('admin-img', function () {
     return gulp.src(['bower_components/chosen/chosen-sprite.png',
-        'bower_components/chosen/chosen-sprite@2x.png'])
+        'bower_components/chosen/chosen-sprite@2x.png',
+            'bower_components/fancybox/source/*.gif',
+            'bower_components/fancybox/source/*.png'
+    ])
         .pipe(gulp.dest('web/admin/css/'))
 });
+
 
 gulp.task('front-less', function() {
     return gulp.src(['web-src/front/less/*.less'])
@@ -58,9 +62,18 @@ gulp.task('front-js', function() {
 
 gulp.task('front-plugins-js', function() {
     return gulp.src([
-            'bower_components/jquery.countdown/dist/jquery.countdown.min.js'
+            'bower_components/jquery.countdown/dist/jquery.countdown.min.js',
+            'bower_components/fancybox/source/jquery.fancybox.pack.js'
         ])
         .pipe(gulp.dest('web/js/'))
+});
+
+gulp.task('front-plugins-css', function() {
+    return gulp.src([
+            'bower_components/fancybox/source/jquery.fancybox.css'
+        ])
+        .pipe(less({compress: true}))
+        .pipe(gulp.dest('web/css/'))
 });
 
 gulp.task('front-fonts', function () {
@@ -69,8 +82,16 @@ gulp.task('front-fonts', function () {
         .pipe(gulp.dest('web/fonts/'))
 });
 
+gulp.task('front-img', function () {
+    return gulp.src(['bower_components/fancybox/source/*.gif',
+            'bower_components/fancybox/source/*.png'
+        ])
+        .pipe(gulp.dest('web/css/'))
+});
+
 gulp.task('default', ['clean'], function () {
-    var tasks = ['admin-less','admin-js', 'admin-fonts', 'admin-img', 'front-less', 'front-js', 'front-fonts', 'front-plugins-js'];
+    var tasks = ['admin-less','admin-js', 'admin-fonts', 'admin-img','front-less', 'front-js',
+                'front-fonts', 'front-plugins-js', 'front-plugins-css', 'front-img'];
     tasks.forEach(function (val) {
         gulp.start(val);
     });
