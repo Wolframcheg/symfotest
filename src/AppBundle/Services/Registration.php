@@ -98,7 +98,7 @@ class Registration
             $user->setPassword($password);
 
             $hash = $this->mailer->sendMail($user->getEmail());
-            //$user->setIsReg(true);
+            $user->setIsReg(true);
             $user->setHash($hash);
 
             $em->persist($user);
