@@ -92,4 +92,42 @@ class RegistrationController extends Controller
 
          return $this->redirectToRoute('homepage');
     }
+
+    /**
+     * @Route("/registration/recovery-password", name="recovery_password")
+     * @Template("@App/registration/recoveryPassword.html.twig")
+     */
+    public function recoveryPassword(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $email = trim($request->get('email'));
+
+        $user = $em->getRepository('AppBundle:User')
+            ->findOneBy(['email' => $email]);
+
+        if ($user && $user->getIsReg() == true) {
+            $password = $this->get('app.custom.mailer')->sendMailRecovery($email);
+            $newPassword = $this->get('security.password_encoder')
+                ->encodePassword($user, $password);
+            $user->setPassword($newPassword);
+
+            $em->flush();
+            $this->addFlash('notice', 'The new password is sent to your email');
+
+            return $this->redirectToRoute('homepage');
+        } elseif ($email && !$user) {
+
+            $this->addFlash('notice', 'Email is incorrectly specified');
+
+            return $this->redirectToRoute('homepage');
+        } elseif ($user && $user->getIsReg() == false) {
+            $this->addFlash('notice', 'You aren\'t registered');
+
+            return $this->redirectToRoute('homepage');
+        } else {
+
+            return [];
+        }
+    }
 }

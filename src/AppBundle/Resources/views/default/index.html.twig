@@ -1,26 +1,33 @@
-{% extends '::base.html.twig' %}
+{% extends '::indexbase.html.twig' %}
 
 {% block content %}
-    <div class="col-md-12">
         {% for flash_message in app.session.flashbag.get('notice') %}
             <div class="alert alert-warning alert-dismissable">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                 <strong>{{ flash_message }}</strong>
             </div>
         {% endfor %}
-        <div class="col-md-8 col-lg-offset-2">
-            <br/><br/><br/>
+
+    <div class="col-md-6 center col-md-offset-3">
+        {% if is_granted('ROLE_ADMIN') %}
+            <div class="btn-group btn-group-justified">
+                <a href="{{ path('admin') }}"class="btn btn-primary btn-lg">Go to admin Panel</a>
+                <a href="{{ path('logout') }}" class="btn btn-primary btn-lg">LOGOUT</a>
+            </div>
+        {% elseif is_granted('ROLE_USER')  %}
+            <div class="btn-group btn-group-justified">
+                <a href="{{ path('account') }}"class="btn btn-primary btn-lg">Go to Account</a>
+                <a href="{{ path('logout') }}" class="btn btn-primary btn-lg">LOGOUT</a>
+            </div>
+        {% else %}
             <div class="btn-group btn-group-justified">
                 <a href="{{ path('login_route') }}" class="btn btn-primary btn-lg">Login</a>
                 <a href="{{ path('user_registration') }}" class="btn btn-primary btn-lg">Register</a>
             </div>
-            <br/><br/>
             <div class="btn-group btn-group-justified">
                 <a href="{{ path('facebook_login') }}" class="btn btn-primary btn-lg">Login via Facebook</a>
                 <a href="{{ path('google_login') }}" class="btn btn-primary btn-lg">Login via Google</a>
             </div>
-        </div>
+        {% endif %}
     </div>
 {% endblock %}
-
-
