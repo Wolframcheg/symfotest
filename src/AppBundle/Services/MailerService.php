@@ -16,12 +16,14 @@ class MailerService
     private $mailer;
     private $templating;
     private $generator;
+    private $mailerFrom;
 
-    public function __construct(\Swift_Mailer $mailer, TwigEngine $template, RandomGenerator $randomGenerator)
+    public function __construct(\Swift_Mailer $mailer, TwigEngine $template, RandomGenerator $randomGenerator, $mailerFrom)
     {
         $this->mailer = $mailer;
         $this->templating = $template;
         $this->generator = $randomGenerator;
+        $this->mailerFrom = $mailerFrom;
     }
 
     public function sendMail($mailTo)
@@ -29,7 +31,7 @@ class MailerService
         $hash = md5(uniqid());
         $message = \Swift_Message::newInstance()
             ->setSubject('Registration')
-            ->setFrom('cs210785gaa@gmail.com')
+            ->setFrom($this->mailerFrom)
             ->setTo($mailTo)
             ->setBody(
                 $this->templating->render(
@@ -49,7 +51,7 @@ class MailerService
         $password = $this->generator->generator();
         $message = \Swift_Message::newInstance()
             ->setSubject('Registration')
-            ->setFrom('cs210785gaa@gmail.com')
+            ->setFrom($this->mailerFrom)
             ->setTo($mailTo)
             ->setBody(
                 $this->templating->render(

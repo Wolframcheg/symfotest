@@ -72,6 +72,7 @@
             <argument type="service" id="mailer" />
             <argument type="service" id="templating" />
             <argument type="service" id="app.random.generator" />
+            <argument>%mailer_from%</argument>
         </service>
 
         <service id="app.random.generator" class="AppBundle\Services\RandomGenerator" />
