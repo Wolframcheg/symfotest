@@ -96,8 +96,8 @@ class PassManager
         $passModule->setModuleUser($moduleUser);
         $passModule->setTimePeriod($moduleUser->getModule()->getTime());
 
-        $this->doctrine->getEntityManager()->persist($passModule);
-        $this->doctrine->getEntityManager()->flush();
+        $this->doctrine->getManager()->persist($passModule);
+        $this->doctrine->getManager()->flush();
         return $passModule;
     }
 
@@ -139,7 +139,7 @@ class PassManager
                 return $this->generateOutput('error', 500, 'This module does not have any questions ;(');
 
             $passModule->setCurrentQuestion($firstQuestionForPass);
-            $this->doctrine->getEntityManager()->flush();
+            $this->doctrine->getManager()->flush();
         }
 
         if(!($passModule->getIsActive())){

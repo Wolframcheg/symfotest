@@ -50,7 +50,7 @@ class MailerService
     {
         $password = $this->generator->generator();
         $message = \Swift_Message::newInstance()
-            ->setSubject('Registration')
+            ->setSubject('Recovery')
             ->setFrom($this->mailerFrom)
             ->setTo($mailTo)
             ->setBody(

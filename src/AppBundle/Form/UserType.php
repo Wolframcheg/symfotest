@@ -18,19 +18,16 @@ class UserType extends AbstractType
             ->add('email', EmailType::class, [
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'enter email'
                 ]
             ])
             ->add('firstName', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'enter first name'
                 ]
             ])
             ->add('lastName', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'enter last name'
                 ]
             ])
             ->add('plain_password', RepeatedType::class, [
@@ -39,9 +36,10 @@ class UserType extends AbstractType
                     'options' => [
                         'attr' => [
                             'class' => 'form-control',
-                            'placeholder' => 'enter password'
                         ]
-                    ]
+                    ],
+                    'first_options'  => ['label' => 'Password'],
+                    'second_options' => ['label' => 'Repeat Password'],
                 ]
             );
     }
