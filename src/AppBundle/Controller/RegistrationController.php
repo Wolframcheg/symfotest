@@ -27,7 +27,7 @@ class RegistrationController extends Controller
     }
 
     /**
-     * @Route("/registrationNet", name="net_registration")
+     * @Route("/account/update-profile", name="update_profile")
      * @Template("@App/registration/updateRegistration.html.twig")
      */
     public function registerSocialNetAction(Request $request)

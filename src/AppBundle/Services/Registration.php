@@ -115,13 +115,18 @@ class Registration
     {
         $em = $this->doctrine->getManager();
         $form = $this->formFactory->create(UpdateUserSocialNetType::class, $user);
-
+        $originalPassword = $user->getPassword();
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $password = $this->passwordEncoder
-                ->encodePassword($user, $user->getPlainPassword());
-            $user->setPassword($password);
+            if (!empty($plainPassword)) {
+                $password = $this->passwordEncoder
+                    ->encodePassword($user, $user->getPlainPassword());
+                $user->setPassword($password);
+            } else {
+                $user->setPassword($originalPassword);
+            }
+
             $user->setIsActive(true);
 
             $em->flush();
