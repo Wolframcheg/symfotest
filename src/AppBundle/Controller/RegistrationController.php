@@ -27,7 +27,7 @@ class RegistrationController extends Controller
     }
 
     /**
-     * @Route("/registrationNet", name="net_registration")
+     * @Route("/account/update-profile", name="update_profile")
      * @Template("@App/registration/updateRegistration.html.twig")
      */
     public function registerSocialNetAction(Request $request)
@@ -35,7 +35,7 @@ class RegistrationController extends Controller
         $user = $this->getUser();
 
         if ($user) {
-            if ($user->getIsReg() === false) {
+            if (!$user->getPassword()) {
                 return $this->get('app.registration.user')
                     ->updateRegistrationUser($request, $user);
             }
@@ -78,8 +78,7 @@ class RegistrationController extends Controller
              ->findOneBy(array('email' => $email, 'hash' => $hash));
 
          if ($user) {
-
-             $user->setIsReg(true);
+             $user->setIsActive(true);
              $user->setHash(null);
              $this->addFlash('notice', 'You have successfully passed registration confirmation');
 
@@ -106,11 +105,12 @@ class RegistrationController extends Controller
         $user = $em->getRepository('AppBundle:User')
             ->findOneBy(['email' => $email]);
 
-        if ($user && $user->getIsReg() == true) {
+        if ($user && $user->isAccountNonLocked() == true) {
             $password = $this->get('app.custom.mailer')->sendMailRecovery($email);
             $newPassword = $this->get('security.password_encoder')
                 ->encodePassword($user, $password);
             $user->setPassword($newPassword);
+            $user->setIsActive(true);
 
             $em->flush();
             $this->addFlash('notice', 'The new password is sent to your email');
@@ -121,8 +121,8 @@ class RegistrationController extends Controller
             $this->addFlash('notice', 'Email is incorrectly specified');
 
             return $this->redirectToRoute('homepage');
-        } elseif ($user && $user->getIsReg() == false) {
-            $this->addFlash('notice', 'You aren\'t registered');
+        } elseif ($user && $user->isAccountNonLocked() == false) {
+            $this->addFlash('notice', 'You are blocked');
 
             return $this->redirectToRoute('homepage');
         } else {

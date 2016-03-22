@@ -25,7 +25,7 @@ class RegistrationControllerTest extends TestBaseWeb
     {
         $client = static::createClient();
 
-        $client->request('GET', '/registrationNet');
+        $client->request('GET', '/account/update-profile');
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
     }
 }

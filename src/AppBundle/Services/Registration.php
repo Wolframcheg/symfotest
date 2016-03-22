@@ -98,7 +98,6 @@ class Registration
             $user->setPassword($password);
 
             $hash = $this->mailer->sendMail($user->getEmail());
-            $user->setIsReg(true);
             $user->setHash($hash);
 
             $em->persist($user);
@@ -116,15 +115,19 @@ class Registration
     {
         $em = $this->doctrine->getManager();
         $form = $this->formFactory->create(UpdateUserSocialNetType::class, $user);
-
+        $originalPassword = $user->getPassword();
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $password = $this->passwordEncoder
-                ->encodePassword($user, $user->getPlainPassword());
-            $user->setPassword($password);
-            $user->setIsActive(false);
-            $user->setIsReg(true);
+            if (!empty($plainPassword)) {
+                $password = $this->passwordEncoder
+                    ->encodePassword($user, $user->getPlainPassword());
+                $user->setPassword($password);
+            } else {
+                $user->setPassword($originalPassword);
+            }
+
+            $user->setIsActive(true);
 
             $em->flush();
 
