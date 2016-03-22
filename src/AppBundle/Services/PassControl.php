@@ -49,7 +49,7 @@ class PassControl
         }
 
         $passModule->setCurrentQuestion($nextQuestionForPass);
-        $this->doctrine->getEntityManager()->flush();
+        $this->doctrine->getManager()->flush();
 
         return $this->generateOutput('redirect_to_pass', 301, $data['idPassModule']);
     }

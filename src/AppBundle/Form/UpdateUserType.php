@@ -35,8 +35,8 @@ class UpdateUserType extends AbstractType
                     'placeholder' => 'enter last name'
                 ]
             ])
-            ->add('is_active', CheckboxType::class, [
-                'label'    => 'Active',
+            ->add('is_locked', CheckboxType::class, [
+                'label'    => 'Locked',
                 'required' => false
             ]);
     }

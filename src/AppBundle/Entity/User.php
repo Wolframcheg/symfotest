@@ -98,9 +98,9 @@ class User implements AdvancedUserInterface, \JsonSerializable
     protected $type;
 
     /**
-     * @ORM\Column(name="is_reg", type="boolean")
+     * @ORM\Column(name="is_locked", type="boolean")
      */
-    protected $isReg;
+    protected $isLocked;
 
     /**
      * @ORM\Column(name="hash", type="string", nullable=true)
@@ -121,14 +121,10 @@ class User implements AdvancedUserInterface, \JsonSerializable
         ];
     }
 
-
-    /**
-     *
-     */
     public function __construct()
     {
         $this->isActive = false;
-        $this->isReg = false;
+        $this->isLocked = false;
         $this->modulesUser = new ArrayCollection();
         $this->role = self::ROLE_USER;
     }
@@ -324,7 +320,7 @@ class User implements AdvancedUserInterface, \JsonSerializable
      */
     public function isAccountNonLocked()
     {
-        return true;
+        return $this->isLocked ? false : true ;
     }
 
     /**
@@ -361,6 +357,23 @@ class User implements AdvancedUserInterface, \JsonSerializable
     }
 
     /**
+     * @return bool
+     */
+    public function getIsLocked()
+    {
+        return $this->isLocked;
+    }
+
+    /**
+     * @param $isLocked
+     * @return mixed
+     */
+    public function setIsLocked($isLocked)
+    {
+        return $this->isLocked = $isLocked;
+    }
+
+    /**
      * @return string
      */
     public function getFacebookToken()
@@ -370,6 +383,7 @@ class User implements AdvancedUserInterface, \JsonSerializable
 
     /**
      * @param string $facebookToken
+     * @return $this
      */
     public function setFacebookToken($facebookToken)
     {
@@ -388,6 +402,7 @@ class User implements AdvancedUserInterface, \JsonSerializable
 
     /**
      * @param string $facebookId
+     * @return $this
      */
     public function setFacebookId($facebookId)
     {
@@ -406,6 +421,7 @@ class User implements AdvancedUserInterface, \JsonSerializable
 
     /**
      * @param string $googleToken
+     * @return $this
      */
     public function setGoogleToken($googleToken)
     {
@@ -424,6 +440,7 @@ class User implements AdvancedUserInterface, \JsonSerializable
 
     /**
      * @param string $googleId
+     * @return $this
      */
     public function setGoogleId($googleId)
     {
@@ -459,24 +476,6 @@ class User implements AdvancedUserInterface, \JsonSerializable
     /**
      * @return mixed
      */
-    public function getIsReg()
-    {
-        return $this->isReg;
-    }
-
-    /**
-     * @param mixed $isReg
-     */
-    public function setIsReg($isReg)
-    {
-        $this->isReg = $isReg;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getHash()
     {
         return $this->hash;
@@ -484,6 +483,7 @@ class User implements AdvancedUserInterface, \JsonSerializable
 
     /**
      * @param mixed $hash
+     * @return $this
      */
     public function setHash($hash)
     {

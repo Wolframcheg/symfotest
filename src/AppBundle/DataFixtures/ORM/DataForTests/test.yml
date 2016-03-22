@@ -3,18 +3,18 @@ AppBundle\Entity\User:
         password: <encodePassword(@user1, "user")>
         email: admin@test.com
         isActive: true
-        isReg: true
         role: "ROLE_ADMIN"
         firstName: "Admin"
         lastName: "Admin"
+        isActive: true
     user2:
         password: <encodePassword(@user2, "user")>
         email: user@test.com
         isActive: true
-        isReg: true
         role: "ROLE_USER"
         firstName: "User"
         lastName: "User"
+        isActive: true
 
 AppBundle\Entity\Category:
     category1:

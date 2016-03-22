@@ -36,6 +36,7 @@ class UpdateUserSocialNetType extends AbstractType
             ])
             ->add('plain_password', RepeatedType::class, [
                     'type' => PasswordType::class,
+                    'required' => false,
                     'invalid_message' => 'The password fields must match.',
                     'options' => [
                         'attr' => [
