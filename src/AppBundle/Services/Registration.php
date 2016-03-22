@@ -98,7 +98,6 @@ class Registration
             $user->setPassword($password);
 
             $hash = $this->mailer->sendMail($user->getEmail());
-            $user->setIsReg(true);
             $user->setHash($hash);
 
             $em->persist($user);
@@ -123,8 +122,7 @@ class Registration
             $password = $this->passwordEncoder
                 ->encodePassword($user, $user->getPlainPassword());
             $user->setPassword($password);
-            $user->setIsActive(false);
-            $user->setIsReg(true);
+            $user->setIsActive(true);
 
             $em->flush();
 

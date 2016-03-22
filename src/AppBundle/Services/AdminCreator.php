@@ -53,7 +53,6 @@ class AdminCreator
         $user->setPassword($pass);
         $user->setRole($role);
         $user->setIsActive(true);
-        $user->setIsReg(true);
         $em->persist($user);
         $em->flush();
     }
