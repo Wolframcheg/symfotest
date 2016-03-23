@@ -119,7 +119,7 @@ class Registration
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            if (!empty($plainPassword)) {
+            if (!empty($user->getPlainPassword())) {
                 $password = $this->passwordEncoder
                     ->encodePassword($user, $user->getPlainPassword());
                 $user->setPassword($password);
