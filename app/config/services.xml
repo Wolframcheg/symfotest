@@ -25,6 +25,7 @@
 
         <service id="app.image.subscriber" class="AppBundle\EventListener\ModuleSubscriber">
             <argument type="service" id="app.image.manager"/>
+            <argument type="service" id="liip_imagine.cache.manager" />
             <tag name="doctrine.event_subscriber" connection="default" />
         </service>
 

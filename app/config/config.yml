@@ -97,3 +97,14 @@ hwi_oauth:
             scope:               "email, public_profile"
             infos_url:           "https://graph.facebook.com/me?fields=id,name,location,birthday,email,hometown,picture,relationship_status,gender"
 
+liip_imagine:
+    resolvers:
+       default:
+          web_path: ~
+
+    filter_sets:
+        cache: ~
+        page_choice:
+            quality: 85
+            filters:
+                relative_resize: { widen: 150 }

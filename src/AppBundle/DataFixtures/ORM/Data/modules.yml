@@ -6,6 +6,8 @@ AppBundle\Entity\Module:
         persentSuccess: 65
         time: 10
         attempts: 2
+        nameImage: 'Algebra_wordle'
+        pathImage: 'img/Algebra_wordle.png'
 #	    questions: [@question1, @question2, @question3, @question4, @question5, @question6, @question7, @question8]
 
 

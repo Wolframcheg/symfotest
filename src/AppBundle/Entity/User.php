@@ -106,9 +106,15 @@ class User implements AdvancedUserInterface, \JsonSerializable
      */
     private $modulesUser;
 
+    /**
+     * @ORM\Column(name="chosen_module", type="array")
+     */
+    private $chosenModule;
+
     public function jsonSerialize()
     {
         return [
+            'id' => $this->getId(),
             'firstName' => $this->getFirstName(),
             'lastName' => $this->getLastName(),
             'email' => $this->getEmail()
@@ -458,6 +464,24 @@ class User implements AdvancedUserInterface, \JsonSerializable
     public function setHash($hash)
     {
         $this->hash = $hash;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getChosenModule()
+    {
+        return $this->chosenModule;
+    }
+
+    /**
+     * @param mixed $chosenModule
+     */
+    public function setChosenModule($chosenModule)
+    {
+        $this->chosenModule[] = $chosenModule;
 
         return $this;
     }

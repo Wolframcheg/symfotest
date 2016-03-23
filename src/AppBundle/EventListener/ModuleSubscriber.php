@@ -13,6 +13,7 @@ use AppBundle\Entity\Module;
 use AppBundle\Services\ImageManagerServices;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
+use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 
 class ModuleSubscriber implements EventSubscriber
 {
@@ -21,12 +22,17 @@ class ModuleSubscriber implements EventSubscriber
      */
     protected $service;
 
+    protected $cache;
+
+
     /**
      * @param ImageManagerServices $container
      */
-    public function __construct(ImageManagerServices $service)
+    public function __construct(ImageManagerServices $service, CacheManager $cacheManager)
     {
         $this->service = $service;
+        $this->cache = $cacheManager;
+
     }
 
     /**
@@ -55,6 +61,7 @@ class ModuleSubscriber implements EventSubscriber
             }
             if (file_exists($module->getPathImage())) {
                 unlink($module->getPathImage());
+                $this->cache->remove($module->getPathImage());
             }
 
             $this->service->upload($module);
@@ -86,6 +93,7 @@ class ModuleSubscriber implements EventSubscriber
 
         if ($module instanceof Module && $module->getPathImage() !== null && file_exists($module->getPathImage())) {
             unlink($module->getPathImage());
+            $this->cache->remove($module->getPathImage());
         }
 
     }

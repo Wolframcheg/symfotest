@@ -59,7 +59,7 @@ class ModuleType extends AbstractType
                 'required'  => true
             ])
             ->add('module_image', FileType::class, [
-                'required' => false
+                'required' => true
             ])
             ->addEventListener(FormEvents::POST_SUBMIT, function(FormEvent $event)  {
                 $data = $event->getData();

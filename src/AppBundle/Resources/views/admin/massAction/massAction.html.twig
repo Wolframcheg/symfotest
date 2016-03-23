@@ -1,0 +1,62 @@
+{% extends '::adminbase.html.twig' %}
+
+{% block content %}
+    <section class="content-header">
+        <h1>{% block title %}Mass Action{% endblock %}</h1>
+        <ol class="breadcrumb">
+            <li><a href="{{ url('admin') }}"><i class="fa fa-dashboard"></i> Home admin</a></li>
+            <li class="active">Mass Action</li>
+        </ol>
+    </section>
+    <section class="content">
+        <select class="form-control" id="selMod" style="width: 30%">
+            <option selected disabled>Choose module</option>
+            {% for item in modules %}
+                <option value="{{ item.id }}">{{ item.title }}</option>
+            {% endfor %}
+        </select>
+        <br/>
+        <form class="form col-md-12 center-block" method="post" action="{{ path('mass_action') }}">
+            <button class="btn btn-primary btn-lg">Save</button>
+            <div class="box" id="info"></div>
+        </form>
+    </section>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        var info = $('#info');
+        $('#selMod').change(function() {
+            $.ajax({
+                type: 'POST',
+                data: {
+                    module : $('#selMod option:selected').val()
+                },
+                url: "{{ path('mass_action') }}"
+            })
+                    .success(function(response) {
+                        var obj = JSON.parse(response);
+                        var i = 1;
+                        if (obj.users.length > 0) {
+                            var html = '<table width="100%" class="table table-border table-hover">';
+                            html += '<th>#</th><th>Check</th><th>Email</th><th>Name</th>';
+                            $.each(obj.users, function(key, value) {
+                                html += '<tr>';
+                                html += '<td width="5%">' + i++ + '</td>';
+                                html += '<td width="10%"><input type="checkbox" name="users_choice[]" value=' + value.id +' checked></td>';
+                                html += '<td width="35%">' + value.email + '</td>';
+                                html += '<td width="50%">' + value.firstName +' ' + value.lastName + '</td>';
+                                html += '</tr>';
+                            });
+                            html += '</table>';
+                            html += '<input type="hidden" name="moduleHidden" value=' + $('#selMod option:selected').val() + '>';
+                        } else {
+                            html = '<p>Not found users</p>';
+                        }
+                        info.html(html);
+                    })
+        });
+    </script>
+{% endblock %}
