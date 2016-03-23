@@ -90,12 +90,6 @@ class User implements AdvancedUserInterface, \JsonSerializable
      * @ORM\Column(name="g_id", type="string", nullable=true)
      */
     protected $googleId;
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="type", type="string", nullable=true)
-     */
-    protected $type;
 
     /**
      * @ORM\Column(name="is_locked", type="boolean")
@@ -447,30 +441,6 @@ class User implements AdvancedUserInterface, \JsonSerializable
         $this->googleId = $googleId;
 
         return $this;
-    }
-
-
-    /**
-     * Set type
-     *
-     * @param string $type
-     * @return User
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    /**
-     * Get type
-     *
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->type;
     }
 
     /**
