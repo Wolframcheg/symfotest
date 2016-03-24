@@ -3,10 +3,14 @@
 {% block content %}
     <div class="col-md-12">
         <br/><br/><br/>
-            <form class="form col-md-12 center-block" method="post" action="{{ path('choice_modules', {'email' : email}) }}">
+            <form class="form col-md-12 center-block" method="post" action="{{ path('choice_modules') }}">
                 {% for item in modules %}
                     <div class="pull-left" style="margin: 20px">
-                        <input type="checkbox" name="choice_module[]" value="{{ item.id }}">
+                        <input type="checkbox" name="choice_module[]" value="{{ item.id }}"
+                            {% if item.id in user.chosenModule %}
+                                checked
+                            {% endif %}
+                        >
                         <figure>
                             <img src="{{ item.pathImage | imagine_filter('page_choice') }}" alt="{{ item.nameImage }}" class="img-thumbnail">
                             <figcaption class="text-center">{{ item.title | capitalize }}</figcaption>

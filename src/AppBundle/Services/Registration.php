@@ -105,7 +105,7 @@ class Registration
             $this->session->getFlashBag()->add('notice',
                 'Confirm your email!!!');
 
-            return new RedirectResponse($this->router->generate('choice_modules', ['email' => $user->getEmail()]));
+            return new RedirectResponse($this->router->generate('choice_modules'));
         }
 
         return ['form' => $form->createView()];
@@ -131,7 +131,7 @@ class Registration
 
             $em->flush();
 
-            return new RedirectResponse($this->router->generate('choice_modules', ['email' => $user->getEmail()]));
+            return new RedirectResponse($this->router->generate('choice_modules'));
         }
 
         return ['form' => $form->createView()];

@@ -17,29 +17,27 @@ use Symfony\Component\HttpFoundation\Request;
 class ChoiceModulesController extends Controller
 {
     /**
-     * @Route("/choice-modules/{email}", name="choice_modules")
+     * @Route("/account/choice-modules", name="choice_modules")
      * @Template("@App/choiceModules/choiceModules.html.twig")
      */
-    public function showAccountAction(Request $request, $email)
+    public function showAccountAction(Request $request)
     {
+        $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
-
-        $user = $em->getRepository('AppBundle:User')
-            ->findOneBy(['email' => $email]);
-
         $modules = $em->getRepository('AppBundle:Module')
-            ->findAll();
-        if ($choice = $request->get('choice_module')) {
-            $user->setChosenModule($choice);
+            ->getFreeModulesForUser($user);
 
+        if ($request->getMethod() == 'POST') {
+            $choice = $request->get('choice_module');
+            $user->setChosenModule($choice);
             $em->flush();
 
             return $this->redirectToRoute('homepage');
         }
 
         return [
-            'email' => $email,
             'modules' => $modules,
+            'user'=>$user
 
         ];
     }

@@ -102,7 +102,7 @@ class User implements AdvancedUserInterface, \JsonSerializable
     protected $hash;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ModuleUser", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ModuleUser", mappedBy="user", cascade={"remove"})
      */
     private $modulesUser;
 
@@ -478,10 +478,11 @@ class User implements AdvancedUserInterface, \JsonSerializable
 
     /**
      * @param mixed $chosenModule
+     * @return $this
      */
     public function setChosenModule($chosenModule)
     {
-        $this->chosenModule[] = $chosenModule;
+        $this->chosenModule = $chosenModule;
 
         return $this;
     }
