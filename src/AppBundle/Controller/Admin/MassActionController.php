@@ -15,7 +15,7 @@ class MassActionController extends Controller
      * @Route("/admin/mass-action", name="mass_action")
      * @Template("@App/admin/massAction/massAction.html.twig")
      */
-    public function showAccountAction(Request $request)
+    public function massAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -40,11 +40,17 @@ class MassActionController extends Controller
                 $moduleUser->setUser($user);
 
                 $em->persist($moduleUser);
+                $chosenModule = $user->getChosenModule();
+                $key = array_search($request->get('moduleHidden'), $chosenModule);
+                if ($key !== false && isset($chosenModule[$key])) {
+                    unset($chosenModule[$key]);
+                    $user->setChosenModule($chosenModule);
+                }
             }
 
             $em->flush();
 
-            return $this->redirectToRoute('admin');
+            return $this->redirectToRoute('mass_action');
         }
 
         return [

@@ -5,22 +5,47 @@
         <br/><br/><br/>
             <form class="form col-md-12 center-block" method="post" action="{{ path('choice_modules') }}">
                 {% for item in modules %}
-                    <div class="pull-left" style="margin: 20px">
-                        <input type="checkbox" name="choice_module[]" value="{{ item.id }}"
-                            {% if item.id in user.chosenModule %}
-                                checked
-                            {% endif %}
-                        >
-                        <figure>
-                            <img src="{{ item.pathImage | imagine_filter('page_choice') }}" alt="{{ item.nameImage }}" class="img-thumbnail">
-                            <figcaption class="text-center">{{ item.title | capitalize }}</figcaption>
-                        </figure>
-                    </div>
+                    {% if item.id not in user.chosenModule %}
+                        <div class="pull-left" style="margin: 20px">
+                            <input type="checkbox" name="choice_module[]" value="{{ item.id }}" id="myCheck">
+                            <figure>
+                                <img src="{{ item.pathImage | imagine_filter('page_choice') }}" alt="{{ item.nameImage }}" class="img-thumbnail">
+                                <figcaption class="text-center">{{ item.title | capitalize }}</figcaption>
+                            </figure>
+                        </div>
+                    {% endif %}
                 {% endfor %}
-
+                <div class="info"></div>
                 <div class="form-group">
-                    <button class="btn btn-primary btn-lg btn-block">Save</button>
+                    <button class="btn btn-primary btn-lg btn-block" id="submit">Save</button>
                 </div>
             </form>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+    <script>
+        $(function() {
+            var len = $('#myCheck').length;
+            if (len == 0) {
+                $('#submit').hide();
+                $('.info').html('<h4>There are no available modules</h4><br/>');
+                $('.info').append('<a href="{{ path('account') }}" class="btn btn-primary btn-lg">Account</a><br/><br/>');
+            } else {
+                $('submit').show();
+            }
+        })
+    </script>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        #myCheck {
+            position: absolute;
+            margin-left: 5px;
+            margin-top: 5px;
+        }
+    </style>
 {% endblock %}

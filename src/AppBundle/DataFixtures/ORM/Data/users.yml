@@ -6,6 +6,7 @@ AppBundle\Entity\User:
         password: <encodePassword(@user1, "userpass")>
         role: ROLE_USER
         isActive: true
+        chosenModule: ["1"]
     user2:
         firstName: <name()>
         lastName: <lastName()>
@@ -13,6 +14,7 @@ AppBundle\Entity\User:
         password: <encodePassword(@user2, "userpass")>
         role: ROLE_USER
         isActive: true
+        chosenModule: ["1"]
     user3:
         firstName: <name()>
         lastName: <lastName()>
@@ -20,3 +22,4 @@ AppBundle\Entity\User:
         password: <encodePassword(@user3, "userpass")>
         role: ROLE_USER
         isActive: true
+        chosenModule: ["1"]
