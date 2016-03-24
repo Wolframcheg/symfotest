@@ -26,10 +26,14 @@ class ChoiceModulesController extends Controller
         $em = $this->getDoctrine()->getManager();
         $modules = $em->getRepository('AppBundle:Module')
             ->getFreeModulesForUser($user);
+        $arr = $user->getChosenModule() ? $user->getChosenModule() : [];
 
         if ($request->getMethod() == 'POST') {
             $choice = $request->get('choice_module');
-            $user->setChosenModule($choice);
+            foreach ($choice as $item) {
+                array_push($arr, $item);
+            }
+            $user->setChosenModule($arr);
             $em->flush();
 
             return $this->redirectToRoute('homepage');
