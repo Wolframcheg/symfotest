@@ -102,13 +102,19 @@ class User implements AdvancedUserInterface, \JsonSerializable
     protected $hash;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ModuleUser", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ModuleUser", mappedBy="user", cascade={"remove"})
      */
     private $modulesUser;
+
+    /**
+     * @ORM\Column(name="chosen_module", type="array")
+     */
+    private $chosenModule;
 
     public function jsonSerialize()
     {
         return [
+            'id' => $this->getId(),
             'firstName' => $this->getFirstName(),
             'lastName' => $this->getLastName(),
             'email' => $this->getEmail()
@@ -121,6 +127,7 @@ class User implements AdvancedUserInterface, \JsonSerializable
         $this->isLocked = false;
         $this->modulesUser = new ArrayCollection();
         $this->role = self::ROLE_USER;
+        $this->chosenModule = [];
     }
 
     /**
@@ -458,6 +465,35 @@ class User implements AdvancedUserInterface, \JsonSerializable
     public function setHash($hash)
     {
         $this->hash = $hash;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getChosenModule()
+    {
+        return $this->chosenModule;
+    }
+
+    /**
+     * @param mixed $chosenModule
+     * @return $this
+     */
+    public function setChosenModule($chosenModule)
+    {
+        $this->chosenModule = $chosenModule;
+
+        return $this;
+    }
+
+
+    public function removeChosenModule($chosenModule)
+    {
+        if(($key = array_search($chosenModule, $this->chosenModule)) !== false) {
+            unset($this->chosenModule[$key]);
+        }
 
         return $this;
     }

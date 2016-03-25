@@ -65,12 +65,17 @@ class ModuleController extends Controller
      * @Route("/admin/module/remove/{id}", name="remove_module")
      * @Method("DELETE")
      */
-    public function removeCategoryAction($id)
+    public function removeModuleAction($id)
     {
         $em = $this->getDoctrine()->getManager();
 
         $module = $em->getRepository('AppBundle:Module')
             ->find($id);
+        $users = $em->getRepository('AppBundle:User')
+            ->findChoiceModules($module->getId());
+        foreach ($users as $item) {
+                $item->removeChosenModule($module->getId());
+        }
 
         $em->remove($module);
         $em->flush();
