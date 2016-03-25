@@ -127,6 +127,7 @@ class User implements AdvancedUserInterface, \JsonSerializable
         $this->isLocked = false;
         $this->modulesUser = new ArrayCollection();
         $this->role = self::ROLE_USER;
+        $this->chosenModule = [];
     }
 
     /**

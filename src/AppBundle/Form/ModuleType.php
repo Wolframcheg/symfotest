@@ -59,7 +59,7 @@ class ModuleType extends AbstractType
                 'required'  => true
             ])
             ->add('module_image', FileType::class, [
-                'required' => true
+                'required' => false
             ])
             ->addEventListener(FormEvents::POST_SUBMIT, function(FormEvent $event)  {
                 $data = $event->getData();
@@ -73,7 +73,7 @@ class ModuleType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Module'
+            'data_class' => 'AppBundle\Entity\Module',
         ));
     }
 

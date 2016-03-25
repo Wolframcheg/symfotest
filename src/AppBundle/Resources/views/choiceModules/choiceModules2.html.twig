@@ -6,7 +6,7 @@
             <form class="form col-md-12 center-block" method="post" action="{{ path('choice_modules') }}">
                     {% for item in modules %}
                         <div class="pull-left" style="margin: 20px">
-                            <input type="checkbox" name="choice_module[]" value="{{ item.id }}"
+                            <input type="checkbox" name="choice_module[]" value="{{ item.id }}" id="myCheck"
                                     {% if item.id in user.chosenModule %}
                                         checked
                                     {% endif %}
@@ -28,4 +28,14 @@
             </div>
         {% endif %}
     </div>
+{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+    <style>
+        #myCheck {
+            position: absolute;
+            margin: 5px 0 0 5px;
+        }
+    </style>
 {% endblock %}
