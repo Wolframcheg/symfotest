@@ -72,7 +72,7 @@ class ModuleController extends Controller
         $module = $em->getRepository('AppBundle:Module')
             ->find($id);
         $users = $em->getRepository('AppBundle:User')
-            ->findAll();
+            ->findChoiceModules($module->getId());
         foreach ($users as $item) {
                 $item->removeChosenModule($module->getId());
         }
