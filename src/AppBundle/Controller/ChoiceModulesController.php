@@ -18,7 +18,7 @@ class ChoiceModulesController extends Controller
 {
     /**
      * @Route("/account/choice-modules", name="choice_modules")
-     * @Template("@App/choiceModules/choiceModules.html.twig")
+     * @Template("@App/choiceModules/choiceModules2.html.twig")
      */
     public function showAccountAction(Request $request)
     {
@@ -26,14 +26,15 @@ class ChoiceModulesController extends Controller
         $em = $this->getDoctrine()->getManager();
         $modules = $em->getRepository('AppBundle:Module')
             ->getFreeModulesForUser($user);
-        $arr = $user->getChosenModule() ? $user->getChosenModule() : [];
+      //  $arr = $user->getChosenModule() ? $user->getChosenModule() : [];
 
         if ($request->getMethod() == 'POST') {
             $choice = $request->get('choice_module');
-            foreach ($choice as $item) {
-                array_push($arr, $item);
-            }
-            $user->setChosenModule($arr);
+//            foreach ($choice as $item) {
+//                array_push($arr, $item);
+//            }
+//            $user->setChosenModule($arr);
+            $user->setChosenModule($choice);
             $em->flush();
 
             return $this->redirectToRoute('homepage');

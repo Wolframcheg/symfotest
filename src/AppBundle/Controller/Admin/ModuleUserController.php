@@ -37,6 +37,7 @@ class ModuleUserController extends Controller
         if ($form->isValid()) {
             $user->setIsActive(true);
             $moduleUser->setUser($user);
+            $user->removeChosenModule($moduleUser->getModule()->getId());
             $em->persist($moduleUser);
             $em->flush();
 

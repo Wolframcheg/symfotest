@@ -487,6 +487,16 @@ class User implements AdvancedUserInterface, \JsonSerializable
         return $this;
     }
 
+
+    public function removeChosenModule($chosenModule)
+    {
+        if(($key = array_search($chosenModule, $this->chosenModule)) !== false) {
+            unset($this->chosenModule[$key]);
+        }
+
+        return $this;
+    }
+
     public function getCountModules()
     {
         return count($this->modulesUser);

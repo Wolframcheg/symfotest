@@ -30,22 +30,18 @@ class MassActionController extends Controller
         }
 
         if ($choice = $request->get('users_choice')) {
+            $hiddenModule = $request->get('moduleHidden');
             $moduleHidden = $em->getRepository('AppBundle:Module')
-                ->find($request->get('moduleHidden'));
+                ->find($hiddenModule);
+
             for ($i = 0; $i < count($choice); $i++) {
                 $moduleUser = new ModuleUser();
                 $moduleUser->setModule($moduleHidden);
                 $user = $em->getRepository('AppBundle:User')
                     ->find($choice[$i]);
                 $moduleUser->setUser($user);
-
+                $user->removeChosenModule($hiddenModule);
                 $em->persist($moduleUser);
-                $chosenModule = $user->getChosenModule();
-                $key = array_search($request->get('moduleHidden'), $chosenModule);
-                if ($key !== false && isset($chosenModule[$key])) {
-                    unset($chosenModule[$key]);
-                    $user->setChosenModule($chosenModule);
-                }
             }
 
             $em->flush();
