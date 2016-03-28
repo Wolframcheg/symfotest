@@ -42,7 +42,7 @@ AppBundle\Entity\Question:
         module: "@module1"
 #		answers: [@answer17, @answer18, @answer19]
     question8:
-        textQuestion: 'Result: 5>X<10 :'
+        textQuestion: 'Result: 5<X<10 :'
         sort: 8
         allIncorrect: false
         module: "@module1"

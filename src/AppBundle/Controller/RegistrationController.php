@@ -30,21 +30,25 @@ class RegistrationController extends Controller
      * @Route("/account/update-profile", name="update_profile")
      * @Template("@App/registration/updateRegistration.html.twig")
      */
-    public function registerSocialNetAction(Request $request)
+    public function updateProfileAction(Request $request)
     {
         $user = $this->getUser();
-
-        if ($user) {
-            if (!$user->getPassword()) {
-                return $this->get('app.registration.user')
-                    ->updateRegistrationUser($request, $user);
-            }
-
-            return $this->redirectToRoute('account');
-        }
-
-        return $this->redirectToRoute('homepage');
+        return $this->get('app.registration.user')
+            ->updateRegistrationUser($request, $user);
     }
+
+    /**
+     * @Route("/account/after-soc-login", name="after_soc_login")
+     */
+    public function afterSocLogin()
+    {
+        $user = $this->getUser();
+        if (!$user->getPassword())
+            return $this->redirectToRoute('update_profile');
+
+        return $this->redirectToRoute('account');
+    }
+
 
     /**
      * @Route("/register/check_useremail", name="register_check_email")
@@ -72,24 +76,24 @@ class RegistrationController extends Controller
      */
     public function checkUserHash($hash, $email)
     {
-         $em = $this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
 
-         $user = $em->getRepository('AppBundle:User')
-             ->findOneBy(array('email' => $email, 'hash' => $hash));
+        $user = $em->getRepository('AppBundle:User')
+            ->findOneBy(array('email' => $email, 'hash' => $hash));
 
-         if ($user) {
-             $user->setIsActive(true);
-             $user->setHash(null);
-             $this->addFlash('notice', 'You have successfully passed registration confirmation');
+        if ($user) {
+            $user->setIsActive(true);
+            $user->setHash(null);
+            $this->addFlash('notice', 'You have successfully passed registration confirmation');
 
-             $em->flush();
+            $em->flush();
 
-             return $this->redirectToRoute('homepage');
-         }
+            return $this->redirectToRoute('homepage');
+        }
 
-         $this->addFlash('notice', 'You haven\'t passed registration confirmation');
+        $this->addFlash('notice', 'You haven\'t passed registration confirmation');
 
-         return $this->redirectToRoute('homepage');
+        return $this->redirectToRoute('homepage');
     }
 
     /**

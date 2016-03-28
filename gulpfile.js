@@ -2,7 +2,8 @@ var gulp = require('gulp'),
     less = require('gulp-less'),
     clean = require('gulp-rimraf'),
     concatJs = require('gulp-concat'),
-    minifyJs = require('gulp-uglify');
+    minifyJs = require('gulp-uglify'),
+    sourcemaps = require('gulp-sourcemaps');
 
 
 gulp.task('clean', function () {
@@ -45,8 +46,10 @@ gulp.task('admin-img', function () {
 
 
 gulp.task('front-less', function() {
-    return gulp.src(['web-src/front/less/*.less'])
+    return gulp.src(['web-src/front/less/app.less'])
+        .pipe(sourcemaps.init())
         .pipe(less({compress: true}))
+        .pipe(sourcemaps.write())
         .pipe(gulp.dest('web/css/'));
 });
 
@@ -101,7 +104,6 @@ gulp.task('default', ['clean'], function () {
 
 
 
-//gulp.task('watch', function () {
-//    var less = gulp.watch('web-src/less/*.less', ['less']),
-//        js = gulp.watch('web-src/js/*.js', ['pages-js']);
-//});
+gulp.task('watch:less', ['front-less'], function () {
+    gulp.watch('web-src/front/less/**/*.less', ['front-less']);
+});

@@ -41,9 +41,10 @@ class UpdateUserSocialNetType extends AbstractType
                     'options' => [
                         'attr' => [
                             'class' => 'form-control',
-                            'placeholder' => 'enter password'
                         ]
-                    ]
+                    ],
+                    'first_options'  => ['label' => 'Password'],
+                    'second_options' => ['label' => 'Repeat Password'],
                 ]
             );
     }

@@ -1,16 +1,15 @@
 {% extends '::base.html.twig' %}
 
 {% block content %}
-    <section class="content">
-        <p>
-            <a href="{{ path('account') }}" class="btn btn-primary btn-lg">TEST</a>
-        </p>
+    <section class="col-xs-12">
         <h1>
             Result for "{{ passModule.moduleUser.module.title }}"
         </h1>
 
-        Your result is <strong>{{ passModule.absoluteResult | number_format(2) }}</strong> /
-                <strong>{{ passModule.moduleUser.module.rating  }}</strong> points<br>
-        Test is <strong>{{ passModule.stateResult }}</strong>
+        <p>Your result is <strong>{{ passModule.absoluteResult | number_format(2) }}</strong> /
+            <strong>{{ passModule.moduleUser.module.rating  }}</strong> points</p>
+        <p>Test is <strong>{{ passModule.stateResult }}</strong></p>
+
+        <a href="{{ path('account') }}" class="btn btn-primary">Back to account</a>
     </section>
 {% endblock %}
