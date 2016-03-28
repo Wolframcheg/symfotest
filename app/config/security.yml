@@ -38,7 +38,7 @@ security:
                     google: "/login/check-google"
                 login_path: /
                 use_forward: false
-                default_target_path: /account/update-profile
+                default_target_path: /account/after-soc-login
                 failure_path: /
                 oauth_user_provider:
                     service: oauth_test_provider

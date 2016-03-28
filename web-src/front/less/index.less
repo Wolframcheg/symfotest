@@ -1,0 +1,137 @@
+html,
+body {
+  min-height: 100%;
+  height: 100%;
+}
+
+.main-bg {
+  background-image: url('background.jpg');
+}
+.wrapper {
+  min-height: 100%;
+  background: rgba(255, 255, 255, 0.95);
+}
+.vertical-center {
+  min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
+  min-height: 100vh; /* These two lines are counted as one :-)       */
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.index-page {
+  min-width: 80%;
+  background: rgba(255, 255, 255, 0.8);
+
+  & > * {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .btn {
+    margin: 5px 0;
+  }
+}
+
+.section-title {
+  font-variant: small-caps;
+}
+
+.btn-google,
+.btn-facebook {
+  font-size: 4em;
+}
+.btn-google {
+  color: #db4437;
+
+  &:hover{
+    color: darken(#db4437,10%);
+  }
+}
+.btn-facebook{
+  color: #3a5795;
+
+  &:hover{
+    color: darken(#3a5795,10%);
+  }
+}
+
+//.form-wr - wrapper for forms
+.form-wr {
+  background: #fff;
+  border: 1px solid #e3e3e3;
+  margin: 10px;
+}
+
+
+.test-list {
+  display: flex;
+  justify-content: flex-start;
+  align-content: flex-start;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+
+  .item {
+    width: 160px;
+    padding: 5px;
+    text-align: center;
+    position: relative;
+
+    input[type=checkbox]{
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      margin: 0;
+    }
+  }
+}
+
+
+.statistic-table {
+
+  & > tbody > tr > th {
+    text-align: center;
+  }
+  & > tbody > tr > td {
+    vertical-align: middle;
+    text-align: center;
+    box-shadow: -11px 0 0 -10px #ddd;
+
+    &:first-child {
+      box-shadow: none;
+    }
+  }
+
+  td a{
+    margin-left: 10px;
+  }
+
+  .fa {
+    font-size: 2em;
+  }
+}
+
+
+.question-bl {
+  header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+
+    .pagination {
+      span {
+        cursor: default;
+      }
+
+    }
+
+    .time_residue {
+      font-size: 3em;
+      margin: 0 15px;
+      color: @brand-primary;
+    }
+  }
+
+}

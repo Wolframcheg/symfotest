@@ -23,5 +23,8 @@
     "less": "~2.5.3",
     "gulp-less": "~3.0.5",
     "bower": "~1.7.2"
+  },
+  "devDependencies": {
+    "gulp-sourcemaps": "~1.6.0"
   }
 }

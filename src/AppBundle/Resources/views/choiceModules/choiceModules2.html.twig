@@ -1,11 +1,11 @@
 {% extends '::base.html.twig' %}
 {% block content %}
     <div class="col-md-12">
-        <br/><br/><br/>
         {% if modules %}
-            <form class="form col-md-12 center-block" method="post" action="{{ path('choice_modules') }}">
+            <form class="form" method="post" action="{{ path('choice_modules') }}">
+                <div class="test-list">
                     {% for item in modules %}
-                        <div class="pull-left" style="margin: 20px">
+                        <div class="item">
                             <input type="checkbox" name="choice_module[]" value="{{ item.id }}" id="myCheck"
                                     {% if item.id in user.chosenModule %}
                                         checked
@@ -17,25 +17,13 @@
                             </figure>
                         </div>
                     {% endfor %}
-                    <div class="form-group">
-                        <button class="btn btn-primary btn-lg btn-block">Save</button>
-                    </div>
+                </div>
+                <button class="btn btn-primary btn-lg">Save</button>
             </form>
         {% else %}
             <div class="info">
-                <h4>There are no available modules</h4><br/>
-                <a href="{{ path('account') }}" class="btn btn-primary btn-lg">Account</a><br/><br/>
+                <h4>There are no available modules</h4>
             </div>
         {% endif %}
     </div>
-{% endblock %}
-
-{% block stylesheets %}
-{{ parent() }}
-    <style>
-        #myCheck {
-            position: absolute;
-            margin: 5px 0 0 5px;
-        }
-    </style>
 {% endblock %}

@@ -1,15 +1,15 @@
 {% extends '::base.html.twig' %}
 
 {% block content %}
-    <div class="col-md-12">
-        <br/>
-        <div class="col-md-6 col-md-offset-3 well" style="background-color: white">
-            {{ form_start(form) }}
+    <div class="col-md-6 col-md-offset-3">
+        {{ form_start(form) }}
+        <div class="form-group">
             {{ form_widget(form) }}
             {{ form_rest(form) }}
-            <br/>
-            <input type="submit" VALUE="Update Profile" class="btn btn-large btn-primary" id="submit">
-            {{ form_end(form) }}
         </div>
+        <div>
+            <input type="submit" VALUE="Update Profile" class="btn btn-large btn-primary" id="submit">
+        </div>
+        {{ form_end(form) }}
     </div>
 {% endblock %}

@@ -87,7 +87,7 @@ class PassManager
         }
         $interval = date_diff($nowDate, $dateEstimate, true);
 
-        return $interval->format('%I:%S');
+        return $interval->format('%H:%I:%S');
     }
 
     private function createPassModule(ModuleUser $moduleUser)

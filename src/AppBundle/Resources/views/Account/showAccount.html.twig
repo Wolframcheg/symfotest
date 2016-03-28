@@ -9,14 +9,10 @@
         <p>
             Name:<em> {{ user.firstName | capitalize }} {{ user.lastName | capitalize }}</em>
         </p>
-        <p>
-            {#<a href="{{ path('admin') }}" class="btn btn-primary btn-lg">ADMIN</a>#}
-            <a href="{{ path('choice_modules') }}" class="btn btn-primary btn-lg">Choice modules</a>
-            <a href="{{ path('logout') }}" class="btn btn-primary btn-lg">LOGOUT</a>
-        </p>
+
 
         <div class="box">
-            <table class="table table-border table-hover">
+            <table class="table table-border table-hover statistic-table">
                 <th width="22%">Test name</th><th width="20%">Attempts</th>
                 <th width="15%">Rating</th><th width="15%">Results</th>
                 <th width="13%">Questions</th><th width="15%">Time for test, m</th>
@@ -44,7 +40,7 @@
                         {% else %}
                             <td>0 / {{ item.module.rating }}</td>
                         {% endif %}
-                        <td><a href="#" data-idmodule="{{ item.id }}" class="show-result"><i class="glyphicon glyphicon-search"></i></a></td>
+                        <td><a href="#" data-idmodule="{{ item.id }}" class="show-result"><i class="fa fa-pie-chart"></i></a></td>
                         <td>{{ item.module.getCountQuestions }}</td>
                         <td>{{ item.module.time }}</td>
                     </tr>

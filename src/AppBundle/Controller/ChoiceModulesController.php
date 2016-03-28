@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 class ChoiceModulesController extends Controller
 {
     /**
-     * @Route("/account/choice-modules", name="choice_modules")
+     * @Route("/account/wish-modules", name="choice_modules")
      * @Template("@App/choiceModules/choiceModules2.html.twig")
      */
     public function showAccountAction(Request $request)
@@ -32,7 +32,7 @@ class ChoiceModulesController extends Controller
             $user->setChosenModule($choice);
             $em->flush();
 
-            return $this->redirectToRoute('homepage');
+            return $this->redirectToRoute('account');
         }
 
         return [

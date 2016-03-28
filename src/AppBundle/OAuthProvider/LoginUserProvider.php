@@ -47,7 +47,7 @@ class LoginUserProvider implements UserProviderInterface, OAuthAwareUserProvider
             $user = new User();
             $user->setEmail($response->getEmail())
                 ->setFirstName($response->getFirstName() ?: $response->getUsername())
-                ->setLastName($response->getLastName())
+                ->setLastName($response->getLasstName() ?: $response->getRealname())
                 ->setIsActive(true);
             $em->persist($user);
             $em->flush();
