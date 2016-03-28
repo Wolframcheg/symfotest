@@ -119,7 +119,8 @@ class Module implements \JsonSerializable
     public function jsonSerialize()
     {
         return [
-            'titleModule' => $this->getTitle()
+            'titleModule' => $this->getTitle(),
+            'percentSuccess' => $this->getPersentSuccess()
         ];
     }
 
