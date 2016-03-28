@@ -40,7 +40,12 @@
                         var html = '<table width="100%" class="table table-border table-hover">';
                         html += '<th>#</th><th>Email</th><th>Name</th><th>Rating</th><th>Percent</th>';
                         $.each(obj.modulesUser, function(key, value) {
-                            html += '<tr>';
+                            if (value.module.percentSuccess > value.passModule.percent) {
+                                var classTr = 'danger';
+                            } else {
+                                classTr = 'success';
+                            }
+                            html += '<tr class=' + classTr + '>';
                             html += '<td width="5%">' + i++ + '</td>';
                             html += '<td width="25%">' + value.user.email + '</td>';
                             html += '<td width="50%">' + value.user.firstName +' ' + value.user.lastName + '</td>';
@@ -57,3 +62,4 @@
             });
     </script>
 {% endblock %}
+

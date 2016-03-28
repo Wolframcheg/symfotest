@@ -1,18 +1,24 @@
 {% extends '::base.html.twig' %}
 
 {% block content %}
-    <section class="content">
+    <section class="col-xs-12 question-bl">
+        <header>
+            <div class="time_residue" id="clock"></div>
+            <ul class="pagination">
+                {% for i in 1..data.count_questions %}
+                    <li class="{{ i == data.current_number_question ? 'active' }} {{ i < data.current_number_question ? 'disabled' }}">
+                        <span>{{ i }}</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        </header>
+
         <h1>
             {{ data.question.textQuestion }}
         </h1>
-        <ul class="list-inline question-list">
-            {% for i in 1..data.count_questions %}
-                <li class="{{ i == data.current_number_question ? 'active' }}">{{ i }}</li>
-            {% endfor %}
-        </ul>
+        {% form_theme data.form 'bootstrap_3_layout.html.twig' %}
         {{ form(data.form) }}
-        <div class="time_residue" id="clock">
-        </div>
+
     </section>
 {% endblock %}
 
@@ -21,7 +27,7 @@
     <script type="text/javascript" src="{{ asset('js/jquery.countdown.min.js') }}"></script>
     <script>
         var time = '{{ data.time_residue }}'.split(':');
-        var date = new Date(new Date().valueOf() +(time[0]*60 + +time[1]) * 1000);
+        var date = new Date(new Date().valueOf() +(time[0]*60*60 + time[1]*60 + +time[2]) * 1000);
         $('#clock').countdown(date, function(event) {
             $(this).html(event.strftime('%H:%M:%S'));
         })
@@ -44,3 +50,4 @@
             });
     </script>
 {% endblock %}
+

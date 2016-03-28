@@ -105,7 +105,7 @@ class Registration
             $this->session->getFlashBag()->add('notice',
                 'Confirm your email!!!');
 
-            return new RedirectResponse($this->router->generate('homepage'));
+            return new RedirectResponse($this->router->generate('choice_modules'));
         }
 
         return ['form' => $form->createView()];
@@ -119,7 +119,7 @@ class Registration
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            if (!empty($plainPassword)) {
+            if (!empty($user->getPlainPassword())) {
                 $password = $this->passwordEncoder
                     ->encodePassword($user, $user->getPlainPassword());
                 $user->setPassword($password);
@@ -131,7 +131,7 @@ class Registration
 
             $em->flush();
 
-            return new RedirectResponse($this->router->generate('homepage'));
+            return new RedirectResponse($this->router->generate('choice_modules'));
         }
 
         return ['form' => $form->createView()];

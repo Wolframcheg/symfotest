@@ -1,0 +1,29 @@
+{% extends '::base.html.twig' %}
+{% block content %}
+    <div class="col-md-12">
+        {% if modules %}
+            <form class="form" method="post" action="{{ path('choice_modules') }}">
+                <div class="test-list">
+                    {% for item in modules %}
+                        <div class="item">
+                            <input type="checkbox" name="choice_module[]" value="{{ item.id }}" id="myCheck"
+                                    {% if item.id in user.chosenModule %}
+                                        checked
+                                    {% endif %}
+                            >
+                            <figure>
+                                <img src="{{ item.pathImage | imagine_filter('page_choice') }}" alt="{{ item.nameImage }}" class="img-thumbnail">
+                                <figcaption class="text-center">{{ item.title | capitalize }}</figcaption>
+                            </figure>
+                        </div>
+                    {% endfor %}
+                </div>
+                <button class="btn btn-primary btn-lg">Save</button>
+            </form>
+        {% else %}
+            <div class="info">
+                <h4>There are no available modules</h4>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

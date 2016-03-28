@@ -41,32 +41,25 @@ class LoginUserProvider implements UserProviderInterface, OAuthAwareUserProvider
     {
         $em = $this->em;
         $type = $response->getResourceOwner()->getName();
+
         $user = $em->getRepository('AppBundle:User')->findOneBy(['email' => $response->getEmail()]);
         if ($user === null) {
             $user = new User();
             $user->setEmail($response->getEmail())
-                ->setFirstName($response->getUsername())
-                ->setLastName($response->getRealName())
-                ->setType($type)
+                ->setFirstName($response->getFirstName() ?: $response->getUsername())
+                ->setLastName($response->getLasstName() ?: $response->getRealname())
                 ->setIsActive(true);
             $em->persist($user);
             $em->flush();
 
         }
         if ($type === 'facebook') {
-
             $user->setFacebookToken($response->getAccessToken())
-                ->setFacebookId($response->getUsername())
-                ->setType($type)
-                ->setGoogleId(null)
-                ->setGoogleToken(null);
+                ->setFacebookId($response->getUsername());
         }
         if ($type === 'google') {
             $user->setGoogleToken($response->getAccessToken())
-                ->setGoogleId($response->getUsername())
-                ->setType($type)
-                ->setFacebookId(null)
-                ->setFacebookToken(null);
+                ->setGoogleId($response->getUsername());
         }
         $em->flush();
 

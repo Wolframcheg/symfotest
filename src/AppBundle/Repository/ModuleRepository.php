@@ -24,4 +24,11 @@ class ModuleRepository extends EntityRepository
             ->orderBy('module.title', 'ASC');
     }
 
+    public function getFreeModulesForUser(UserInterface $user)
+    {
+        return $this->getFreeModulesForUserQuery($user)
+            ->getQuery()
+            ->getResult();
+    }
+
 }

@@ -19,4 +19,13 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
             ->getResult()
             ;
     }
+
+    public function findChoiceModules($module)
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.chosenModule LIKE :module')
+            ->setParameter('module', '%"'.$module.'"%')
+            ->getQuery()
+            ->getResult();
+    }
 }
