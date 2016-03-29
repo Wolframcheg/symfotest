@@ -4,6 +4,7 @@ namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -16,7 +17,16 @@ class QuestionType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $newSort = $options['new_sort'];
+        $sortAttrs = [
+            'attr' => [
+                'class' => 'form-control',
+            ],
+            'choices' => [1=>1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],
+            'choices_as_values' => true,
+        ];
 
+        if($newSort)$sortAttrs['data'] = $newSort;
 
         $builder
             ->add('textQuestion', TextType::class, [
@@ -25,14 +35,7 @@ class QuestionType extends AbstractType
                     'placeholder' => 'enter question'
                 ]
             ])
-            ->add('sort', IntegerType::class, [
-                'attr' => [
-                    'min' => 0,
-                    'max' => 10,
-                    'class' => 'form-control',
-                    'placeholder' => 'enter sort'
-                ]
-            ])
+            ->add('sort', ChoiceType::class, $sortAttrs)
             ->add('allIncorrect', CheckboxType::class, [
                 'required' => false,
                 'label' => 'Choose it if the question has no correct answers '
@@ -63,7 +66,8 @@ class QuestionType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Question'
+            'data_class' => 'AppBundle\Entity\Question',
+            'new_sort' => ''
         ));
     }
 
