@@ -88,7 +88,7 @@ gulp.task('front-fonts', function () {
 gulp.task('front-img', function () {
     return gulp.src(['bower_components/fancybox/source/*.gif',
             'bower_components/fancybox/source/*.png',
-            'web-src/front/css/*.jpg'
+            'web-src/front/img/*.jpg'
         ])
         .pipe(gulp.dest('web/css/'))
 });
