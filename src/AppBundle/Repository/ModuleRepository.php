@@ -39,4 +39,12 @@ class ModuleRepository extends EntityRepository
             ->getOneOrNullResult();
     }
 
+    public function findAllModules()
+    {
+        return $this->createQueryBuilder('m')
+            ->select('m')
+            ->orderBy('m.createdAt', 'DESC')
+            ->getQuery();
+    }
+
 }

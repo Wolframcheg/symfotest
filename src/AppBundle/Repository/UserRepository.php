@@ -17,7 +17,7 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
             ->andWhere('user.role <> :role')
             ->setParameter('role', $role)
             ->getQuery()
-            ->getResult()
+         //   ->getResult()
             ;
     }
 

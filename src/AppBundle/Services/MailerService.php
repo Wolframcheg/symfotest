@@ -65,4 +65,24 @@ class MailerService
 
         return $password;
     }
+
+    public function sendMailCheckRecovery($mailTo)
+    {
+        $hash = md5(uniqid());
+        $message = \Swift_Message::newInstance()
+            ->setSubject('Recovery password')
+            ->setFrom($this->mailerFrom)
+            ->setTo($mailTo)
+            ->setBody(
+                $this->templating->render(
+                    '@App/Emails/checkRecovery.html.twig',
+                    array('hash' => $hash, 'email' => $mailTo)
+                ),
+                'text/html'
+            );
+
+        $this->mailer->send($message);
+
+        return $hash;
+    }
 }

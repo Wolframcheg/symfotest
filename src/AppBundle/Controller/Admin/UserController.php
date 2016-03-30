@@ -28,7 +28,13 @@ class UserController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $users = $em->getRepository('AppBundle:User')->findUsersWithoutRole(User::ROLE_ADMIN);
+        $sql = $em->getRepository('AppBundle:User')->findUsersWithoutRole(User::ROLE_ADMIN);
+        $paginator = $this->get('knp_paginator');
+        $users = $paginator->paginate(
+            $sql,
+            $this->get('request')->query->get('page', 1),
+            $this->container->getParameter('knp_paginator.page_range')
+        );
 
         $form_delete = [];
 

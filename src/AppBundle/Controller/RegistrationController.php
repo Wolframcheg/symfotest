@@ -108,16 +108,13 @@ class RegistrationController extends Controller
 
         $user = $em->getRepository('AppBundle:User')
             ->findOneBy(['email' => $email]);
-
         if ($user && $user->isAccountNonLocked() == true) {
-            $password = $this->get('app.custom.mailer')->sendMailRecovery($email);
-            $newPassword = $this->get('security.password_encoder')
-                ->encodePassword($user, $password);
-            $user->setPassword($newPassword);
-            $user->setIsActive(true);
+            $hash = $this->get('app.custom.mailer')->sendMailCheckRecovery($email);
+            $user->setHash($hash);
 
             $em->flush();
-            $this->addFlash('notice', 'The new password is sent to your email');
+
+            $this->addFlash('notice', 'Confirm your email');
 
             return $this->redirectToRoute('homepage');
         } elseif ($email && !$user) {
@@ -133,5 +130,35 @@ class RegistrationController extends Controller
 
             return [];
         }
+
+    }
+
+    /**
+     * @Route("/registration/recovery/check_hash/{hash}/{email}", name="recovery_check_hash")
+     * @Method("GET")
+     */
+    public function checkUserHashRecovery($hash, $email)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $user = $em->getRepository('AppBundle:User')
+            ->findOneBy(array('email' => $email, 'hash' => $hash));
+
+        if ($user) {
+            $password = $this->get('app.custom.mailer')->sendMailRecovery($email);
+            $newPassword = $this->get('security.password_encoder')
+                ->encodePassword($user, $password);
+            $user->setPassword($newPassword);
+            $user->setHash(null);
+
+            $em->flush();
+            $this->addFlash('notice', 'The new password is sent to your email');
+
+            return $this->redirectToRoute('homepage');
+        }
+
+        $this->addFlash('notice', 'You haven\'t passed recovery password confirmation');
+
+        return $this->redirectToRoute('homepage');
     }
 }
