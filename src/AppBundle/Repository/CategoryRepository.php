@@ -13,5 +13,11 @@ use Doctrine\ORM\EntityRepository;
 
 class CategoryRepository extends EntityRepository
 {
-
+    public function findCountCategories()
+    {
+        return $this->createQueryBuilder('category')
+            ->select('COUNT(category.id) as count_c')
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

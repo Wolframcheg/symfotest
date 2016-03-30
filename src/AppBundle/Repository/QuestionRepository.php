@@ -70,4 +70,11 @@ class QuestionRepository extends EntityRepository
             ;
     }
 
+    public function findCountQuestions()
+    {
+        return $this->createQueryBuilder('question')
+            ->select('COUNT(question.id) as count_q')
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

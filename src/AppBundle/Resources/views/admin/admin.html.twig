@@ -2,33 +2,70 @@
 
 {% block content %}
     <section class="content-header">
-        <h1>{% block title %}Title{% endblock %}</h1>
-        <ol class="breadcrumb">
-            {#<li><a href="{{ url('admin_index') }}"><i class="fa fa-dashboard"></i> Home admin</a></li>#}
-            {#<li><a href="{{ url('admin_comment_index') }}">Comment list</a></li>#}
-            {#<li class="active">Edit Comment</li>#}
-        </ol>
+        <h1>{% block title %}Admin zone{% endblock %}</h1>
     </section>
     <section class="content">
-        <div id="status">
-            <p>
+        <div class="row">
+            <div class="col-lg-3 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-aqua">
+                    <div class="inner">
+                        <h3>{{ count_questions }}</h3>
 
+                        <p>Questions</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-question-circle"></i>
+                    </div>
+                    <div class="small-box-footer">&nbsp;</div>
+                </div>
+            </div>
 
-                Your application is ready to start working on it at:
-            </p>
-        </div>
+            <div class="col-lg-3 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-red">
+                    <div class="inner">
+                        <h3>{{ count_categories }}</h3>
 
-        <div id="next">
-            <h2>What's next?</h2>
+                        <p>Categories</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-tag"></i>
+                    </div>
+                    <a href="{{ path('show_category') }}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
 
-            <p>
+            <div class="col-lg-3 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-green">
+                    <div class="inner">
+                        <h3>{{ count_modules }}</h3>
 
+                        <p>Modules</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-mortar-board"></i>
+                    </div>
+                    <a href="{{ path('show_module') }}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
 
-                Read Symfony documentation to learn
-                <a href="http://symfony.com/doc/{{ constant('Symfony\\Component\\HttpKernel\\Kernel::VERSION')[:3] }}/book/page_creation.html">
-                    How to create your first page in Symfony
-                </a>
-            </p>
+            <div class="col-lg-3 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-yellow">
+                    <div class="inner">
+                        <h3>{{ count_users }}</h3>
+
+                        <p>Users</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-users"></i>
+                    </div>
+                    <a href="{{ path('user_show') }}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+
         </div>
 
     </section>
