@@ -4,12 +4,6 @@
     <div class="error-page">
         <h1>{% block title %}403{% endblock %}</h1>
         <h2>{{ exception.message }} </h2>
-        {% if is_granted('ROLE_ADMIN')  %}
-            <a class="btn btn-primary btn-lg" href="{{ path('admin') }}">Return to the admin panel</a>
-        {% elseif is_granted('ROLE_USER')  %}
-            <a class="btn btn-primary btn-lg" href="{{ path('account') }}">Return to the account</a>
-        {% else %}
-            <a class="btn btn-primary btn-lg" href="{{ path('homepage') }}">Return to the homepage</a>
-        {% endif %}
+        <a class="btn btn-primary btn-lg" href="{{ path('homepage') }}">Return to the homepage</a>
     </div>
 {% endblock %}

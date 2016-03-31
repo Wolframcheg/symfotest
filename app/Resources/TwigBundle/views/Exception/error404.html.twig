@@ -3,13 +3,7 @@
 {% block content %}
 <div class="error-page">
     <h1>{% block title %}404{% endblock %}</h1>
-    <h2>The page you are looking for cannot be found.</h2>
-    {% if is_granted('ROLE_ADMIN')  %}
-        <a class="btn btn-primary btn-lg" href="{{ path('admin') }}">Return to the admin panel</a>
-    {% elseif is_granted('ROLE_USER')  %}
-        <a class="btn btn-primary btn-lg" href="{{ path('account') }}">Return to the account</a>
-    {% else %}
-        <a class="btn btn-primary btn-lg" href="{{ path('homepage') }}">Return to the homepage</a>
-    {% endif %}
+    <h2>Page not found.</h2>
+    <a class="btn btn-primary btn-lg" href="{{ path('homepage') }}">Return to the homepage</a>
 </div>
 {% endblock %}
