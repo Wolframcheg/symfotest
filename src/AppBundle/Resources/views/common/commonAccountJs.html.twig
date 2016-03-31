@@ -18,7 +18,8 @@
                         $.each(obj.moduleAjax, function(key, value) {
                             html += '<tr><td>Attempt #' + i++ + '</td></tr>';
                             html += '<tr><td>Start ' + value.timeStart.date.toString() + '</td></tr>';
-                            html += '<tr><td>Finish ' + value.timeFinish.date.toString() + '</td></tr>';
+                            if(value.timeFinish)
+                                html += '<tr><td>Finish ' + value.timeFinish.date.toString() + '</td></tr>';
                             html += '<tr><td>Result</td>';
                             html += '<td>' + value.result.toFixed(2) + '</td></tr>';
                             html += '<tr><td>Percent</td>';

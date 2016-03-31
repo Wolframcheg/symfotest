@@ -80,14 +80,15 @@ class PassingTestController extends Controller
             case 'error':
                 throw new HttpException($result['code'], $result['content']);
             case 'ok':
-                list($form, $question, $time_residue, $countQuestions, $currentNumberQuestion) = $result['content'];
+                list($form, $question, $time_residue, $countQuestions, $currentNumberQuestion, $module) = $result['content'];
                 return [
                     'data' => [
                         'form' => $form->createView(),
                         'question' => $question,
                         'time_residue' => $time_residue,
                         'count_questions' => $countQuestions,
-                        'current_number_question' => $currentNumberQuestion
+                        'current_number_question' => $currentNumberQuestion,
+                        'module' => $module
                     ]
                 ];
             default:
