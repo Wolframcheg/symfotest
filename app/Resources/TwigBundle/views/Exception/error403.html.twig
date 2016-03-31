@@ -1,27 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset=UTF-8">
-    <title>403 Forbidden or No Permission to Access</title>
+{% extends '::indexbase.html.twig' %}
 
-    <style>
-        body {background: #f9fee8;margin: 0; padding: 20px; text-align:center; font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#666666;}
-        .error_page {width: 600px; padding: 50px; margin: auto;}
-        .error_page h1 {margin: 20px 0 0;}
-        .error_page p {margin: 10px 0; padding: 0;}
-        a {color: #9caa6d; text-decoration:none;}
-        a:hover {color: #9caa6d; text-decoration:underline;}
-    </style>
-
-</head>
-
-<body class="login">
-<div class="error_page">
-    <img src="{{ asset('img/oopsimg.png') }}">
-    <h1>Forbidden or No Permission to Access</h1>
-    <p>A 403 Forbidden error means that you do not have permission to view the requested file or resource</p>
-    <p><a href="{{ path('homepage') }}">Return to the homepage</a></p>
-</div>
-
-</body>
-</html>
+{% block content %}
+    <div class="error-page">
+        <h1>{% block title %}403{% endblock %}</h1>
+        <h2>{{ exception.message }} </h2>
+        <a class="btn btn-primary btn-lg" href="{{ path('homepage') }}">Return to the homepage</a>
+    </div>
+{% endblock %}
