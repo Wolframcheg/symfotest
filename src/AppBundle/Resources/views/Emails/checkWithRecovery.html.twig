@@ -1,0 +1,9 @@
+<h3>Recovery password!</h3>
+
+Your new password: <strong>{{ password }}</strong></br>
+
+{# example, assuming you have a route named "login" #}
+For completion of recovery password follow the link:
+<a href="{{ url('recovery_check_hash', {'hash' : hash}) }}">Confirm change</a>.
+
+Thanks!

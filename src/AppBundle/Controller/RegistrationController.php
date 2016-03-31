@@ -108,13 +108,18 @@ class RegistrationController extends Controller
 
         $user = $em->getRepository('AppBundle:User')
             ->findOneBy(['email' => $email]);
+
         if ($user && $user->isAccountNonLocked() == true) {
-            $hash = $this->get('app.custom.mailer')->sendMailCheckRecovery($email);
+            list($password, $hash) = $this->get('app.custom.mailer')->sendMailCheckWithRecovery($user->getEmail());
+
             $user->setHash($hash);
+            $tmpPassword = $this->get('security.password_encoder')
+                ->encodePassword($user, $password);
+            $user->setTmpPassword($tmpPassword);
 
             $em->flush();
 
-            $this->addFlash('notice', 'Confirm your email');
+            $this->addFlash('notice', 'We send new pass for you, please confirm on e-mail');
 
             return $this->redirectToRoute('homepage');
         } elseif ($email && !$user) {
@@ -134,25 +139,24 @@ class RegistrationController extends Controller
     }
 
     /**
-     * @Route("/registration/recovery/check_hash/{hash}/{email}", name="recovery_check_hash")
+     * @Route("/registration/recovery/check_hash/{hash}", name="recovery_check_hash")
      * @Method("GET")
      */
-    public function checkUserHashRecovery($hash, $email)
+    public function checkUserHashRecovery($hash)
     {
         $em = $this->getDoctrine()->getManager();
 
         $user = $em->getRepository('AppBundle:User')
-            ->findOneBy(array('email' => $email, 'hash' => $hash));
+            ->findOneBy(['hash' => $hash]);
 
         if ($user) {
-            $password = $this->get('app.custom.mailer')->sendMailRecovery($email);
-            $newPassword = $this->get('security.password_encoder')
-                ->encodePassword($user, $password);
-            $user->setPassword($newPassword);
+            $user->setPassword($user->getTmpPassword());
+            $user->setIsActive(true);
             $user->setHash(null);
+            $user->setTmpPassword(null);
 
             $em->flush();
-            $this->addFlash('notice', 'The new password is sent to your email');
+            $this->addFlash('notice', 'The new password is activate');
 
             return $this->redirectToRoute('homepage');
         }

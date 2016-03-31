@@ -46,7 +46,7 @@ class MailerService
         return $hash;
     }
 
-    public function sendMailRecovery($mailTo)
+    /*public function sendMailRecovery($mailTo)
     {
         $password = $this->generator->generator();
         $message = \Swift_Message::newInstance()
@@ -76,7 +76,7 @@ class MailerService
             ->setBody(
                 $this->templating->render(
                     '@App/Emails/checkRecovery.html.twig',
-                    array('hash' => $hash, 'email' => $mailTo)
+                    ['hash' => $hash]
                 ),
                 'text/html'
             );
@@ -84,5 +84,29 @@ class MailerService
         $this->mailer->send($message);
 
         return $hash;
+    }*/
+
+
+    public function sendMailCheckWithRecovery($mailTo)
+    {
+        $hash = md5(uniqid());
+        $password = $this->generator->generator();
+        $message = \Swift_Message::newInstance()
+            ->setSubject('Recovery password')
+            ->setFrom($this->mailerFrom)
+            ->setTo($mailTo)
+            ->setBody(
+                $this->templating->render(
+                    '@App/Emails/checkWithRecovery.html.twig',
+                    ['hash' => $hash, 'password' => $password]
+                ),
+                'text/html'
+            );
+
+        $this->mailer->send($message);
+
+        return [$password, $hash];
     }
+
+
 }
