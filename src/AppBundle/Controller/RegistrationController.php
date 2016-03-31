@@ -110,14 +110,16 @@ class RegistrationController extends Controller
             ->findOneBy(['email' => $email]);
 
         if ($user && $user->isAccountNonLocked() == true) {
-            $password = $this->get('app.custom.mailer')->sendMailRecovery($email);
-            $newPassword = $this->get('security.password_encoder')
+            list($password, $hash) = $this->get('app.custom.mailer')->sendMailCheckWithRecovery($user->getEmail());
+
+            $user->setHash($hash);
+            $tmpPassword = $this->get('security.password_encoder')
                 ->encodePassword($user, $password);
-            $user->setPassword($newPassword);
-            $user->setIsActive(true);
+            $user->setTmpPassword($tmpPassword);
 
             $em->flush();
-            $this->addFlash('notice', 'The new password is sent to your email');
+
+            $this->addFlash('notice', 'We send new pass for you, please confirm on e-mail');
 
             return $this->redirectToRoute('homepage');
         } elseif ($email && !$user) {
@@ -133,5 +135,34 @@ class RegistrationController extends Controller
 
             return [];
         }
+
+    }
+
+    /**
+     * @Route("/registration/recovery/check_hash/{hash}", name="recovery_check_hash")
+     * @Method("GET")
+     */
+    public function checkUserHashRecovery($hash)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $user = $em->getRepository('AppBundle:User')
+            ->findOneBy(['hash' => $hash]);
+
+        if ($user) {
+            $user->setPassword($user->getTmpPassword());
+            $user->setIsActive(true);
+            $user->setHash(null);
+            $user->setTmpPassword(null);
+
+            $em->flush();
+            $this->addFlash('notice', 'The new password is activate');
+
+            return $this->redirectToRoute('homepage');
+        }
+
+        $this->addFlash('notice', 'You haven\'t passed recovery password confirmation');
+
+        return $this->redirectToRoute('homepage');
     }
 }

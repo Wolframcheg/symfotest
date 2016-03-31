@@ -92,8 +92,14 @@ class ModuleController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $module = $em->getRepository('AppBundle:Module')
-            ->findBy([],['createdAt' => 'DESC']);
+        $sql = $em->getRepository('AppBundle:Module')
+            ->findAllModules();
+        $paginator = $this->get('knp_paginator');
+        $module = $paginator->paginate(
+            $sql,
+            $this->get('request')->query->get('page', 1),
+            $this->container->getParameter('knp_paginator.page_range')
+        );
 
         $form_delete = [];
 

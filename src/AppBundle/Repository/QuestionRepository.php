@@ -58,4 +58,23 @@ class QuestionRepository extends EntityRepository
             ;
     }
 
+    public function findMaxSortByModuleId($moduleId)
+    {
+        return $this->createQueryBuilder('question')
+            ->select('MAX(question.sort) AS max_sort')
+            ->andWhere('question.module = :module')
+            ->setParameter('module', $moduleId)
+            ->orderBy('max_sort', 'DESC')
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
+
+    public function findCountQuestions()
+    {
+        return $this->createQueryBuilder('question')
+            ->select('COUNT(question.id) as count_q')
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

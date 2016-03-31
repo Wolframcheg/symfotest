@@ -27,7 +27,9 @@ class QuestionController extends Controller
         $module = $em->getRepository('AppBundle:Module')->find($idModule);
         $question = new Question();
 
-        $form = $this->createForm(QuestionType::class, $question);
+        $maxSort =  $em->getRepository('AppBundle:Question')->findMaxSortByModuleId($idModule);
+
+        $form = $this->createForm(QuestionType::class, $question, ['new_sort'=> ++$maxSort['max_sort']]);
 
         $form->handleRequest($request);
 

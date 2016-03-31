@@ -31,4 +31,20 @@ class ModuleRepository extends EntityRepository
             ->getResult();
     }
 
+    public function findCountModules()
+    {
+        return $this->createQueryBuilder('module')
+            ->select('COUNT(module.id) as count_m')
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    public function findAllModules()
+    {
+        return $this->createQueryBuilder('m')
+            ->select('m')
+            ->orderBy('m.createdAt', 'DESC')
+            ->getQuery();
+    }
+
 }

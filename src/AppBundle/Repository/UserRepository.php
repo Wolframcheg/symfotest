@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Repository;
+use AppBundle\Entity\User;
 
 /**
  * UserRepository
@@ -16,7 +17,7 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
             ->andWhere('user.role <> :role')
             ->setParameter('role', $role)
             ->getQuery()
-            ->getResult()
+         //   ->getResult()
             ;
     }
 
@@ -27,5 +28,15 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
             ->setParameter('module', '%"'.$module.'"%')
             ->getQuery()
             ->getResult();
+    }
+
+    public function findCountUsers()
+    {
+        return $this->createQueryBuilder('u')
+            ->select('COUNT(u.id) as count_u')
+            ->andWhere('u.role = :role')
+            ->setParameter('role', User::ROLE_USER)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 }

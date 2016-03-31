@@ -18,8 +18,8 @@
 
             $('#app_bundle_question_type_answers').append(prototype);
 
-            checkTrue();
-            changeChecks();
+            callbackAnswerAction();
+            controlAnswers()
         }
 
         function deleteLinkClick(e) {
@@ -37,33 +37,26 @@
 
         var incorrectCheck = $('#app_bundle_question_type_allIncorrect');
 
-        function changeChecks() {
+
+        function controlAnswers(){
             if (incorrectCheck.prop('checked')) {
                 $("#app_bundle_question_type_answers input:checkbox").attr('disabled', true).attr('checked', false);
-            } else {
-                $("#app_bundle_question_type_answers input:checkbox").attr('disabled', false);
-            }
-        }
-        changeChecks();
-
-        function checkTrue() {
-            var len = $('#app_bundle_question_type_answers input:checkbox:checked').length;
-
-            if (len == 3)
+            } else if($('#app_bundle_question_type_answers input:checkbox:checked').length == 3){
                 $('#app_bundle_question_type_answers input:checkbox:not(:checked)').attr('disabled','disabled');
-            else
+            } else {
                 $('#app_bundle_question_type_answers input:checkbox:not(:checked)').removeAttr('disabled');
-        }
-        checkTrue();
+            }
+        }controlAnswers();
 
-        incorrectCheck.click(function () {
-            changeChecks();
-            checkTrue();
+        incorrectCheck.change(function () {
+            controlAnswers()
         });
 
-        $('#app_bundle_question_type_answers input:checkbox').click(function() {
-            changeChecks();
-            checkTrue();
-        });
+        function callbackAnswerAction(){
+            $('#app_bundle_question_type_answers input:checkbox').change(function() {
+                controlAnswers()
+            });
+        }callbackAnswerAction();
+
     });
 </script>

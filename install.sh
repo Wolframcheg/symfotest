@@ -24,10 +24,6 @@ case "$Keypress" in
     composer install
     ./node_modules/.bin/bower install
     ./node_modules/.bin/gulp
-    #php app/console doctrine:database:drop --force
-    #php app/console doctrine:database:create
-    #php app/console doctrine:schema:update --force
-    app/console app:admin_create admin@admin.net admin Admin Admin
 ;;
 3) echo "create/update database start..."
     php app/console doctrine:database:drop --force

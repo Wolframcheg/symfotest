@@ -52,6 +52,11 @@ class User implements AdvancedUserInterface, \JsonSerializable
     private $password;
 
     /**
+     * @ORM\Column(type="string", length=64, nullable=true)
+     */
+    private $tmpPassword;
+
+    /**
      * @Assert\Length(max=4096)
      */
     private $plainPassword;
@@ -501,6 +506,24 @@ class User implements AdvancedUserInterface, \JsonSerializable
     public function getCountModules()
     {
         return count($this->modulesUser);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTmpPassword()
+    {
+        return $this->tmpPassword;
+    }
+
+    /**
+     * @param mixed $tmpPassword
+     * @return $this
+     */
+    public function setTmpPassword($tmpPassword)
+    {
+        $this->tmpPassword = $tmpPassword;
+        return $this;
     }
 
 }

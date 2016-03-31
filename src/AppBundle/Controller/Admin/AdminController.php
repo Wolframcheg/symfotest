@@ -18,6 +18,18 @@ class AdminController extends Controller
      */
     public function adminAction()
     {
-        return [];
+        $em = $this->getDoctrine()->getManager();
+
+        $countUsers = $em->getRepository('AppBundle:User')->findCountUsers();
+        $countModules = $em->getRepository('AppBundle:Module')->findCountModules();
+        $countCategories = $em->getRepository('AppBundle:Category')->findCountCategories();
+        $countQuestions = $em->getRepository('AppBundle:Question')->findCountQuestions();
+
+        return [
+            'count_users' => $countUsers['count_u'],
+            'count_modules' => $countModules['count_m'],
+            'count_categories' => $countCategories['count_c'],
+            'count_questions' => $countQuestions['count_q']
+        ];
     }
 }
