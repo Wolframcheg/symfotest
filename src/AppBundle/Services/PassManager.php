@@ -168,7 +168,8 @@ class PassManager
             $currentQuestion,
             $time_residue,
             $passModule->getModuleUser()->getModule()->getCountQuestions(),
-            $currentNumberQuestion
+            $currentNumberQuestion,
+            $passModule->getModuleUser()->getModule()
         ]);
     }
 

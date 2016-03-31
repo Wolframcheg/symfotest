@@ -2,6 +2,10 @@
 
 {% block content %}
     <section class="col-xs-12 question-bl">
+        <h1>
+            {% block title %}{{ data.module.title }}{% endblock %}
+        </h1>
+
         <header>
             <div class="time_residue" id="clock"></div>
             <ul class="pagination">
@@ -12,10 +16,10 @@
                 {% endfor %}
             </ul>
         </header>
-
-        <h1>
+        <h2>
             {{ data.question.textQuestion }}
-        </h1>
+        </h2>
+
         {% form_theme data.form 'bootstrap_3_layout.html.twig' %}
         {{ form(data.form) }}
 
