@@ -15,14 +15,14 @@
         </p>
         <div class="box">
         <table class="table table-border table-hover">
-            <th>Title</th>
+            <th>{{ knp_pagination_sortable(modules, 'Title', 'm.title') }}</th>
             <th>Category</th>
             <th>Rating</th>
             <th>Persent</th>
             <th>Time</th>
             <th>Attempts</th>
-            <th>Created</th>
-            <th>Updated</th>
+            <th>{{ knp_pagination_sortable(modules, 'Created', 'm.createdAt') }}</th>
+            <th>{{ knp_pagination_sortable(modules, 'Updated', 'm.updatedAt') }}</th>
             <th width="100px">Question list</th>
             <th width="70px">Edit</th>
             <th width="70px">Remove</th>
@@ -43,7 +43,13 @@
                     <td>{{ form(form_remove[module.id]) }}</td>
                 </tr>
             {% endfor %}
-        </table></div>
+        </table>
+            {% if modules.getTotalItemCount > page_range %}
+                <div class="text-center">
+                    {{ knp_pagination_render(modules) }}
+                </div>
+            {% endif %}
+        </div>
 
     </section>
 
